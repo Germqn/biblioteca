@@ -1,0 +1,78 @@
+# Archivo .gitignore para proyecto fullstack (Node.js + React)
+
+### Backend (Node.js) ###
+# Dependencias
+node_modules/
+.npm
+.pnpm
+.yarn-integrity
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache
+.cache
+
+# IDE/Editor
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+### Frontend (React) ###
+# Dependencias
+/client/node_modules
+
+# Build
+/client/build
+/client/.next
+/client/out
+/client/dist
+
+# Testing
+/client/coverage
+
+# Production
+/client/.env.production.local
+
+# Misc
+/client/.DS_Store
+/client/.env.local
+/client/.env.development.local
+/client/.env.test.local
+
+### Database ###
+*.db
+*.sqlite
+*.sqlite3
+
+### Archivos generados ###
+*.pid
+*.seed
+*.pid.lock
+
+### Configuraciones ###
+*.config.js
+*.conf
+
+### Archivos temporales ###
+*.tmp
+*.temp

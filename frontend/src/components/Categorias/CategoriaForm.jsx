@@ -1,0 +1,98 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './CategoriaForm.css';
+
+const CategoriaForm = ({ categoriaEdit, onSave, onCancel, onUpdateSuccess }) => {
+  const [nombre, setNombre] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (categoriaEdit) {
+      setNombre(categoriaEdit.nombre_categoria);
+    } else {
+      setNombre('');
+    }
+  }, [categoriaEdit]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!nombre.trim() || isSubmitting) return;
+
+    setIsSubmitting(true);
+    
+    try {
+      if (categoriaEdit) {
+        // Editar
+        const response = await axios.put(
+          `http://localhost:3001/api/categorias/${categoriaEdit.id_categoria}`, 
+          { nombre_categoria: nombre }
+        );
+        onUpdateSuccess(response.data); // Pasar los datos actualizados
+      } else {
+        // Crear
+        const response = await axios.post('http://localhost:3001/api/categorias', {
+          nombre_categoria: nombre,
+        });
+        onSave(response.data); // Pasar la nueva categoría
+      }
+      setNombre('');
+    } catch (error) {
+      console.error('Error al guardar la categoría:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="categoria-form-container">
+      <h3 className="categoria-form-title">
+        {categoriaEdit ? 'Editar Categoría' : 'Nueva Categoría'}
+      </h3>
+      
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label className="form-label">Nombre de la categoría</label>
+          <input
+            type="text"
+            className="form-input"
+            placeholder="Ej: Ciencia Ficción"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            required
+            disabled={isSubmitting}
+          />
+        </div>
+        
+        <div className="form-actions">
+          <button 
+            type="submit" 
+            className="btn btn-primary"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <>
+                <span className="loading-spinner"></span>
+                Procesando...
+              </>
+            ) : (
+              categoriaEdit ? 'Actualizar' : 'Crear'
+            )}
+          </button>
+          
+          {categoriaEdit && (
+            <button 
+              type="button" 
+              className="btn btn-secondary"
+              onClick={onCancel}
+              disabled={isSubmitting}
+            >
+              Cancelar
+            </button>
+          )}
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default CategoriaForm;

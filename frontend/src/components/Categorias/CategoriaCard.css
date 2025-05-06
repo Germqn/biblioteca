@@ -1,0 +1,32 @@
+/* src/components/Categorias/CategoriaCard.css */
+.categoria-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .categoria-card h3 {
+    margin-top: 0;
+  }
+  
+  .categoria-card button {
+    margin-right: 10px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .categoria-card button:first-of-type {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .categoria-card button:last-of-type {
+    background-color: #dc3545;
+    color: white;
+  }
+  

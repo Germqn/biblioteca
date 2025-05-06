@@ -1,0 +1,202 @@
+/* LibrosCarrusel.css - Versión final sin warnings */
+.libros-carrusel-container {
+  margin: 3rem 0;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.libros-carrusel-title {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  position: relative;
+}
+
+.libros-carrusel-title:after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: #3498db;
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
+.libro-slide {
+  padding: 0 15px;
+  transition: transform 0.3s ease;
+}
+
+.libro-slide:hover {
+  transform: translateY(-5px);
+}
+
+.libro-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.libro-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.libro-portada-container {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-bottom: 1px solid #eee;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.libro-portada {
+  max-height: 280px;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+  object-fit: contain;
+}
+
+.libro-card:hover .libro-portada {
+  transform: scale(1.03);
+}
+
+.libro-info {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.libro-titulo {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  /* Versión moderna con prefijos para compatibilidad */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  display: flex;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 3em;
+  line-height: 1.4;
+  max-height: 2.8em; /* Alternativa a line-clamp */
+  line-clamp: 2; /* Standard property */
+}
+
+.libro-autor {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin-bottom: 0.5rem;
+  /* Versión moderna con prefijos para compatibilidad */
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  display: flex;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Alternativa para una línea */
+  line-clamp: 1; /* Standard property */
+}
+
+.libro-detalles {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #95a5a6;
+  margin-top: 0.5rem;
+}
+
+/* Estilos para navegación del carrusel */
+.slick-prev, 
+.slick-next {
+  width: 40px;
+  height: 40px;
+  z-index: 1;
+}
+
+.slick-prev:before, 
+.slick-next:before {
+  color: #3498db;
+  font-size: 28px;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.slick-prev:hover:before,
+.slick-next:hover:before {
+  opacity: 1;
+}
+
+.slick-prev {
+  left: -15px;
+}
+
+.slick-next {
+  right: -15px;
+}
+
+.slick-dots {
+  bottom: -30px;
+}
+
+.slick-dots li button:before {
+  font-size: 10px;
+  color: #bdc3c7;
+}
+
+.slick-dots li.slick-active button:before {
+  color: #3498db;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .libros-carrusel-container {
+    padding: 1rem;
+    margin: 2rem 0;
+  }
+  
+  .libro-portada {
+    max-height: 200px;
+  }
+  
+  .slick-prev {
+    left: -5px;
+  }
+  
+  .slick-next {
+    right: -5px;
+  }
+  
+  .libro-info {
+    padding: 1rem;
+  }
+}
+
+/* Mejoras para el track y slides */
+.slick-track {
+  display: flex;
+  align-items: stretch;
+}
+
+.slick-slide {
+  height: auto;
+}
+
+.slick-slide > div {
+  height: 100%;
+}

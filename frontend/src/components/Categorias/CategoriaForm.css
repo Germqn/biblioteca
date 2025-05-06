@@ -1,0 +1,180 @@
+/* Contenedor principal del formulario */
+.categoria-form-container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+    border: 1px solid #eaeaea;
+    transition: all 0.3s ease;
+  }
+  
+  .categoria-form-container:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  }
+  
+  /* Título del formulario */
+  .categoria-form-title {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    position: relative;
+    padding-bottom: 0.5rem;
+  }
+  
+  .categoria-form-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: #3498db;
+    border-radius: 3px;
+  }
+  
+  /* Grupo de campos del formulario */
+  .form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  
+  /* Etiquetas */
+  .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #34495e;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+  
+  /* Campos de entrada */
+  .form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    transition: all 0.3s;
+    background-color: #f9f9f9;
+  }
+  
+  .form-input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    background-color: #fff;
+  }
+  
+  /* Contenedor de botones */
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  /* Botones base */
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  /* Botón primario (Guardar/Actualizar) */
+  .btn-primary {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background-color:  #007bff;
+    transform: translateY(-1px);
+  }
+  
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+  
+  .btn-primary:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  /* Botón secundario (Cancelar) */
+  .btn-secondary {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #c0392b;
+  }
+  
+  /* Iconos en botones */
+  .btn-icon {
+    font-size: 1.1rem;
+  }
+  
+  /* Mensajes de estado */
+  .form-message {
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .form-message.error {
+    background-color: #fdecea;
+    color: #d32f2f;
+    border-left: 4px solid #d32f2f;
+  }
+  
+  .form-message.success {
+    background-color: #edf7ed;
+    color: #2e7d32;
+    border-left: 4px solid #2e7d32;
+  }
+  
+  /* Animación de carga */
+  .loading-spinner {
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    display: inline-block;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Versión móvil */
+  @media (max-width: 768px) {
+    .categoria-form-container {
+      padding: 1.5rem;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .btn {
+      width: 100%;
+      padding: 0.85rem 1.5rem;
+    }
+  }
