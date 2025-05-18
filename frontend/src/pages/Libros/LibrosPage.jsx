@@ -4,6 +4,10 @@ import axios from 'axios';
 import LibroCard from '../../components/Libros/LibroCard';
 import LibroForm from '../../components/Libros/LibroForm';
 import LibrosCarrusel from '../../components/Libros/LibrosCarrusel';
+import './LibrosPage.css';
+import '../../components/Libros/LibroCard.css';
+import '../../components/Libros/LibroForm.css';
+import { FaSun, FaMoon } from 'react-icons/fa'; // Importa los iconos de react-icons
 
 export default function LibrosPage() {
   const [libros, setLibros] = useState([]);
@@ -11,8 +15,23 @@ export default function LibrosPage() {
   const [libroEdit, setLibroEdit] = useState(null);
   const [autores, setAutores] = useState([]);
   const [categorias, setCategorias] = useState([]);
-  const [carruselKey, setCarruselKey] = useState(0); // Añadido para forzar recarga
+  const [carruselKey, setCarruselKey] = useState(0);
+  const [darkMode, setDarkMode] = useState(() => {
+    // Comprobar preferencia guardada o preferencia del sistema
+    const savedMode = localStorage.getItem('darkMode');
+    return savedMode ? JSON.parse(savedMode) : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
   const navigate = useNavigate();
+
+  // Aplicar/remover dark mode al body y guardar preferencia
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+  }, [darkMode]);
 
   const cargarDatos = async () => {
     try {
@@ -21,91 +40,84 @@ export default function LibrosPage() {
         axios.get('http://localhost:3001/api/autores'),
         axios.get('http://localhost:3001/api/categorias')
       ]);
-      
-      setLibros(librosRes.data);
+
+      const librosProcesados = librosRes.data.map(libro => ({
+        ...libro,
+        id_autor: libro.id_autor ? Number(libro.id_autor) : null,
+        id_categoria: libro.id_categoria ? Number(libro.id_categoria) : null,
+        anio_publicacion: Number(libro.anio_publicacion),
+        cantidad_disponible: Number(libro.cantidad_disponible)
+      }));
+
+      setLibros(librosProcesados);
       setAutores(autoresRes.data);
       setCategorias(categoriasRes.data);
     } catch (error) {
       console.error('Error cargando datos:', error);
-      alert('Error al cargar los datos');
+      alert('Error al cargar los datos: ' + (error.response?.data?.message || error.message));
     }
   };
 
+  const handleEditarLibro = (libro) => {
+    setLibroEdit({
+      id_libro: libro.id_libro,
+      titulo: libro.titulo || '',
+      id_autor: libro.id_autor !== null && libro.id_autor !== undefined ? String(libro.id_autor) : '',
+      id_categoria: libro.id_categoria !== null && libro.id_categoria !== undefined ? String(libro.id_categoria) : '',
+      anio_publicacion: libro.anio_publicacion || new Date().getFullYear(),
+      cantidad_disponible: libro.cantidad_disponible || 1
+    });
+    setMostrarFormulario(true);
+  };
 
   const handleGuardar = async (formData) => {
     try {
-      if (!formData.titulo) {
+      if (!formData.titulo.trim()) {
         alert('El título es requerido');
         return;
       }
-  
 
       const libroData = {
         titulo: formData.titulo,
-        id_autor: formData.id_autor || null,
-        id_categoria: formData.id_categoria || null,
-        anio_publicacion: formData.anio_publicacion || new Date().getFullYear(),
-        cantidad_disponible: formData.cantidad_disponible ?? 1, 
-        portada_url: formData.portada_url || null
+        id_autor: formData.id_autor ? Number(formData.id_autor) : null,
+        id_categoria: formData.id_categoria ? Number(formData.id_categoria) : null,
+        anio_publicacion: Number(formData.anio_publicacion),
+        cantidad_disponible: Number(formData.cantidad_disponible)
       };
-  
-      console.log('Sending data:', libroData);
-  
-      let response;
-      if (libroEdit) {
-        response = await axios.put(`http://localhost:3001/api/libros/${libroEdit.id_libro}`, libroData, {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          validateStatus: (status) => status < 500
-        });
-        console.log('Update response:', response.data);
-      } else {
-        response = await axios.post('http://localhost:3001/api/libros', libroData, {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          validateStatus: (status) => status < 500
-        });
-        console.log('Create response:', response.data);
-      }
-  
-      if (response.status >= 400) {
 
-        throw new Error(response.data?.message || 'Error al guardar el libro');
+      if (libroEdit) {
+        await axios.put(
+          `http://localhost:3001/api/libros/${libroEdit.id_libro}`,
+          libroData
+        );
+      } else {
+        await axios.post(
+          'http://localhost:3001/api/libros',
+          libroData
+        );
       }
-  
+
       setMostrarFormulario(false);
       setLibroEdit(null);
       await cargarDatos();
       setCarruselKey(prev => prev + 1);
-      
-
       alert(libroEdit ? 'Libro actualizado correctamente' : 'Libro creado correctamente');
     } catch (error) {
-      console.error('Detailed error:', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status,
-        config: error.config
-      });
-      
-      const errorMessage = error.response?.data?.message || 
-                          error.response?.data?.errors?.join('\n') || 
-                          error.message;
-      
-      alert(`Error: ${errorMessage}`);
+      console.error('Error:', error);
+      alert(`Error: ${error.response?.data?.message || error.message}`);
     }
   };
+
   const handleEliminar = async (id) => {
-    if (window.confirm('¿Seguro que deseas eliminar este libro?')) {
+    if (window.confirm('¿Estás seguro de que deseas eliminar este libro?')) {
       try {
         await axios.delete(`http://localhost:3001/api/libros/${id}`);
         await cargarDatos();
-        setCarruselKey(prev => prev + 1); // Forzar recarga del carrusel
+        setCarruselKey(prev => prev + 1);
+        alert('Libro eliminado correctamente');
       } catch (error) {
-        console.error('Error eliminando libro:', error);
-        alert('Error al eliminar el libro');
+        console.error('Error al eliminar libro:', error);
+        alert('Error al eliminar el libro: ' + (error.response?.data?.message || error.message));
       }
     }
   };
@@ -114,44 +126,64 @@ export default function LibrosPage() {
     cargarDatos();
   }, []);
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
   return (
-    <div className="container mt-4">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <div>
-          <button 
+    <div className={`libros-container ${darkMode ? 'dark-mode' : ''}`}>
+      <div className="libros-header">
+        <div className="header-title-container"> {/* Nuevo contenedor para alinear */}
+          <button
             onClick={() => navigate('/dashboard')}
-            className="btn btn-outline-secondary me-2"
+            className="btn-back-visible"
           >
             <i className="bi bi-arrow-left"></i> Regresar
-          </button>
-          <h2 className="d-inline-block ms-2">Libros</h2>
-        </div>
-        <button 
-          className="btn btn-primary"
-          onClick={() => {
-            setLibroEdit(null);
-            setMostrarFormulario(true);
-          }}
-        >
-          <i className="bi bi-plus-lg"></i> Agregar Libro
         </button>
+          <h2>Gestión de Libros</h2>
+        </div>
+        <div className="header-actions">
+          <button
+            className="theme-toggle"
+            onClick={toggleDarkMode}
+            aria-label={darkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+          >
+            {darkMode ? (
+              <>
+                <FaSun className="theme-icon" />
+                <span>Modo Claro</span>
+              </>
+            ) : (
+              <>
+                <FaMoon className="theme-icon" />
+                <span>Modo Oscuro</span>
+              </>
+            )}
+          </button>
+          <button
+            className={`btn ${darkMode ? 'btn-dark-mode' : 'btn-light-mode'}`}
+            onClick={() => {
+              setLibroEdit(null);
+              setMostrarFormulario(true);
+            }}
+          >
+            <i className="bi bi-plus-lg"></i> Nuevo Libro
+          </button>
+        </div>
       </div>
 
-      {/* Carrusel con key única que cambia al actualizar */}
-      <LibrosCarrusel 
+      <LibrosCarrusel
         key={`carrusel-${carruselKey}`}
         libros={libros}
-        onEdit={(libro) => {
-          setLibroEdit(libro);
-          setMostrarFormulario(true);
-        }}
+        onEdit={handleEditarLibro}
         onDelete={handleEliminar}
+        darkMode={darkMode}
       />
 
       {mostrarFormulario && (
-        <div className="card mb-4">
-          <div className="card-body">
-            <LibroForm 
+        <div className="libro-form-overlay">
+          <div className="libro-form-container">
+            <LibroForm
               initialLibro={libroEdit || {}}
               autores={autores}
               categorias={categorias}
@@ -160,28 +192,27 @@ export default function LibrosPage() {
                 setMostrarFormulario(false);
                 setLibroEdit(null);
               }}
+              darkMode={darkMode}
             />
           </div>
         </div>
       )}
 
-      <div className="row">
+      <div className="libros-grid">
         {libros.length > 0 ? (
           libros.map(libro => (
-            <div key={libro.id_libro} className="col-md-6 col-lg-4 mb-4">
+            <div key={libro.id_libro} className="libro-item">
               <LibroCard
                 libro={libro}
-                onEdit={(libro) => {
-                  setLibroEdit(libro);
-                  setMostrarFormulario(true);
-                }}
+                onEdit={handleEditarLibro}
                 onDelete={handleEliminar}
+                darkMode={darkMode}
               />
             </div>
           ))
         ) : (
-          <div className="col-12">
-            <div className="alert alert-info">No hay libros registrados</div>
+          <div className="no-libros">
+            <div className="alert alert-info">No se encontraron libros registrados</div>
           </div>
         )}
       </div>

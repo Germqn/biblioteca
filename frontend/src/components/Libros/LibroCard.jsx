@@ -17,7 +17,7 @@ const LibroCard = ({ libro, onEdit, onDelete }) => {
             `https://openlibrary.org/search.json?title=${encodeURIComponent(libro.titulo)}&limit=1`
           );
           const openLibData = await openLibResponse.json();
-          
+
           if (openLibData.docs?.length > 0) {
             const coverId = openLibData.docs[0].cover_i;
             if (coverId) {
@@ -25,21 +25,21 @@ const LibroCard = ({ libro, onEdit, onDelete }) => {
               return;
             }
           }
-          
+
           // Si no hay en OpenLibrary, probamos con Google Books
           if (libro.isbn) {
             const googleResponse = await fetch(
               `https://www.googleapis.com/books/v1/volumes?q=isbn:${libro.isbn}`
             );
             const googleData = await googleResponse.json();
-            
+
             const thumbnail = googleData.items?.[0]?.volumeInfo?.imageLinks?.thumbnail;
             if (thumbnail) {
               setImageUrl(thumbnail);
               return;
             }
           }
-          
+
           setImageUrl('https://via.placeholder.com/150x200?text=No+Portada');
         } catch (error) {
           console.error("Error buscando portada:", error);
@@ -85,30 +85,30 @@ const LibroCard = ({ libro, onEdit, onDelete }) => {
           />
         )}
       </div>
-      
+
       <div className="libro-info">
         <h3 className="libro-titulo">{libro.titulo}</h3>
-        
+
         {libro.autor && (
           <p className="libro-autor">
             {libro.autor.nombre} {libro.autor.apellido}
           </p>
         )}
-        
+
         {libro.categoria && (
           <p className="libro-categoria">{libro.categoria.nombre_categoria}</p>
         )}
-        
+
         <div className="libro-detalles">
           <span>Año: {libro.anio_publicacion || 'Desconocido'}</span>
           <span>Disponibles: {libro.cantidad_disponible}</span>
         </div>
       </div>
-      
+
       <div className="libro-actions">
         {onEdit && (
-          <button 
-            className="btn-edit" 
+          <button
+            className="btn-edit"
             onClick={() => onEdit(libro)}
             aria-label="Editar libro"
           >
@@ -116,8 +116,8 @@ const LibroCard = ({ libro, onEdit, onDelete }) => {
           </button>
         )}
         {onDelete && (
-          <button 
-            className="btn-delete" 
+          <button
+            className="btn-delete"
             onClick={handleDelete}
             aria-label="Eliminar libro"
           >

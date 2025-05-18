@@ -7,6 +7,11 @@
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
+body.dark-mode .libros-carrusel-container {
+  background: linear-gradient(135deg, #333 0%, #444 100%);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
 .libros-carrusel-title {
   text-align: center;
   font-size: 1.8rem;
@@ -14,6 +19,10 @@
   margin-bottom: 2rem;
   font-weight: 600;
   position: relative;
+}
+
+body.dark-mode .libros-carrusel-title {
+  color: #eee;
 }
 
 .libros-carrusel-title:after {
@@ -24,6 +33,10 @@
   background: #3498db;
   margin: 0.5rem auto 0;
   border-radius: 2px;
+}
+
+body.dark-mode .libros-carrusel-title:after {
+  background: #a7303d; /* Vinotinto */
 }
 
 .libro-slide {
@@ -47,8 +60,17 @@
   cursor: pointer;
 }
 
+body.dark-mode .libro-card {
+  background: #2c2c2c; /* Gris oscuro */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+}
+
 .libro-card:hover {
   box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+body.dark-mode .libro-card:hover {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
 .libro-portada-container {
@@ -59,6 +81,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+body.dark-mode .libro-portada-container {
+  background: #333;
+  border-bottom: 1px solid #444;
 }
 
 .libro-portada {
@@ -98,6 +125,10 @@
   line-clamp: 2; /* Standard property */
 }
 
+body.dark-mode .libro-titulo {
+  color: #eee;
+}
+
 .libro-autor {
   font-size: 0.9rem;
   color: #7f8c8d;
@@ -113,6 +144,10 @@
   line-clamp: 1; /* Standard property */
 }
 
+body.dark-mode .libro-autor {
+  color: #ccc;
+}
+
 .libro-detalles {
   display: flex;
   justify-content: space-between;
@@ -121,20 +156,29 @@
   margin-top: 0.5rem;
 }
 
+body.dark-mode .libro-detalles {
+  color: #bbb;
+}
+
 /* Estilos para navegación del carrusel */
-.slick-prev, 
+.slick-prev,
 .slick-next {
   width: 40px;
   height: 40px;
   z-index: 1;
 }
 
-.slick-prev:before, 
+.slick-prev:before,
 .slick-next:before {
   color: #3498db;
   font-size: 28px;
   opacity: 0.8;
   transition: opacity 0.3s;
+}
+
+body.dark-mode .slick-prev:before,
+body.dark-mode .slick-next:before {
+  color: #a7303d; /* Vinotinto */
 }
 
 .slick-prev:hover:before,
@@ -159,8 +203,16 @@
   color: #bdc3c7;
 }
 
+body.dark-mode .slick-dots li button:before {
+  color: #777;
+}
+
 .slick-dots li.slick-active button:before {
   color: #3498db;
+}
+
+body.dark-mode .slick-dots li.slick-active button:before {
+  color: #a7303d; /* Vinotinto */
 }
 
 /* Responsive design */
@@ -169,19 +221,19 @@
     padding: 1rem;
     margin: 2rem 0;
   }
-  
+
   .libro-portada {
     max-height: 200px;
   }
-  
+
   .slick-prev {
     left: -5px;
   }
-  
+
   .slick-next {
     right: -5px;
   }
-  
+
   .libro-info {
     padding: 1rem;
   }

@@ -45,7 +45,7 @@ const LibrosCarrusel = ({ libros, onEdit, onDelete }) => {
         <Slider {...settings}>
           {libros.map(libro => (
             <div key={libro.id_libro} className="libro-slide">
-              <LibroCard 
+              <LibroCard
                 libro={libro}
                 onEdit={onEdit}
                 onDelete={onDelete}

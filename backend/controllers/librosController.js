@@ -149,104 +149,82 @@ exports.createLibro = async (req, res) => {
 // Actualizar un libro existente
 
 exports.updateLibro = async (req, res) => {
-  const transaction = await sequelize.transaction(); // Add transaction support
-  
   try {
-    console.log('Incoming update data:', req.body); // Log incoming data
-    console.log('Updating book ID:', req.params.id);
+    console.log('Datos recibidos para actualizar:', req.body);
 
-    const libro = await Libro.findByPk(req.params.id, { transaction });
-    if (!libro) {
-      await transaction.rollback();
-      return res.status(404).json({ message: 'Libro no encontrado' });
-    }
-
-    // Validate required fields
     if (!req.body.titulo) {
-      await transaction.rollback();
       return res.status(400).json({ message: 'El título es requerido' });
     }
 
-    // Prepare updates
+    const libro = await Libro.findByPk(req.params.id);
+    if (!libro) {
+      return res.status(404).json({ message: 'Libro no encontrado' });
+    }
+
     const updates = {
       titulo: req.body.titulo,
-      id_autor: req.body.id_autor || null,
-      id_categoria: req.body.id_categoria || null,
-      anio_publicacion: req.body.anio_publicacion || libro.anio_publicacion,
-      cantidad_disponible: req.body.cantidad_disponible ?? libro.cantidad_disponible,
-      portada_url: req.body.portada_url || libro.portada_url
+      id_autor: req.body.id_autor ? Number(req.body.id_autor) : null,
+      id_categoria: req.body.id_categoria ? Number(req.body.id_categoria) : null,
+      anio_publicacion: req.body.anio_publicacion ? Number(req.body.anio_publicacion) : null,
+      cantidad_disponible: req.body.cantidad_disponible ? Number(req.body.cantidad_disponible) : 0,
+      portada_url: req.body.portada_url || null
     };
 
-    console.log('Updates to apply:', updates); // Log the updates
-
-    await libro.update(updates, { transaction });
-
-    // Verify foreign key constraints
-    if (updates.id_autor) {
-      const autorExists = await Autor.findByPk(updates.id_autor, { transaction });
+    if (updates.id_autor !== null) {
+      const autorExists = await Autor.findByPk(updates.id_autor);
       if (!autorExists) {
-        await transaction.rollback();
         return res.status(400).json({ message: 'El autor especificado no existe' });
       }
     }
 
-    if (updates.id_categoria) {
-      const categoriaExists = await Categoria.findByPk(updates.id_categoria, { transaction });
+    if (updates.id_categoria !== null) {
+      const categoriaExists = await Categoria.findByPk(updates.id_categoria);
       if (!categoriaExists) {
-        await transaction.rollback();
         return res.status(400).json({ message: 'La categoría especificada no existe' });
       }
     }
 
-    await transaction.commit();
+    await libro.update(updates);
 
-    // Return the updated book with relations
-    const updatedLibro = await Libro.findByPk(req.params.id, {
-      include: [
-        { model: Autor, as: 'autor' },
-        { model: Categoria, as: 'categoria' }
-      ],
-      transaction
-    });
+    try {
+      const updatedLibro = await Libro.findByPk(req.params.id, {
+        include: [
+          { model: Autor, as: 'autor' },
+          { model: Categoria, as: 'categoria' }
+        ]
+      });
+      return res.json(updatedLibro);
+    } catch (errorObtenerLibro) {
+      console.error('Error al obtener el libro actualizado con relaciones:', errorObtenerLibro);
+      return res.status(500).json({
+        message: 'Error al obtener el libro actualizado',
+        error: process.env.NODE_ENV === 'development' ? errorObtenerLibro.message : undefined
+      });
+    }
 
-    res.json(updatedLibro);
   } catch (error) {
-    await transaction.rollback();
-    console.error('Update error:', error);
-    
-    // Handle specific error types
+    console.error('Error en updateLibro:', error);
+
     if (error.name === 'SequelizeValidationError') {
       return res.status(400).json({
         message: 'Error de validación',
         errors: error.errors.map(e => e.message)
       });
     }
-    
+
     if (error.name === 'SequelizeForeignKeyConstraintError') {
       return res.status(400).json({
         message: 'Error de referencia',
-        detail: 'El autor o categoría seleccionado no existe'
+        detail: 'El autor o categoría no existe'
       });
     }
 
-    if (error.name === 'SequelizeDatabaseError') {
-      return res.status(400).json({
-        message: 'Error de base de datos',
-        detail: error.message
-      });
-    }
-
-    res.status(500).json({
+    return res.status(500).json({
       message: 'Error al actualizar el libro',
-      error: process.env.NODE_ENV === 'development' ? {
-        name: error.name,
-        message: error.message,
-        stack: error.stack
-      } : undefined
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
-  };
-
+};
 // Eliminar un libro
 exports.deleteLibro = async (req, res) => {
   try {

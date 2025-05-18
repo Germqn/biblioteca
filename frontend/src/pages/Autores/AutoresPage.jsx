@@ -4,12 +4,26 @@ import { useNavigate } from 'react-router-dom';
 import AutorCard from '../../components/Autores/AutorCard';
 import AutorForm from '../../components/Autores/AutorForm';
 import './AutoresPage.css';
+import { FaSun, FaMoon } from 'react-icons/fa'; // Importa los iconos
 
 export default function AutoresPage() {
   const [autores, setAutores] = useState([]);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [autorEdit, setAutorEdit] = useState(null);
   const navigate = useNavigate();
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem('darkMode');
+    return savedMode ? JSON.parse(savedMode) : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+  }, [darkMode]);
 
   const cargarAutores = async () => {
     try {
@@ -56,33 +70,56 @@ export default function AutoresPage() {
     cargarAutores();
   }, []);
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
   return (
-    <div className="container mt-4">
+    <div className={`container mt-4 ${darkMode ? 'dark-mode' : ''}`}>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <button 
+          <button
             onClick={() => navigate('/dashboard')}
             className="btn btn-outline-secondary me-2"
           >
-          <i className="bi bi-arrow-left"></i> Regresar 
+            <i className="bi bi-arrow-left"></i> Regresar
           </button>
           <h2 className="d-inline-block ms-2">Autores</h2>
         </div>
-        <button 
-          className="btn btn-primary"
-          onClick={() => {
-            setAutorEdit(null);
-            setMostrarFormulario(true);
-          }}
-        >
-          <i className="bi bi-plus-lg"></i> Agregar Autor
-        </button>
+        <div>
+          <button
+            className="theme-toggle me-2"
+            onClick={toggleDarkMode}
+            aria-label={darkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+          >
+            {darkMode ? (
+              <>
+                <FaSun className="theme-icon" />
+                <span>Modo Claro</span>
+              </>
+            ) : (
+              <>
+                <FaMoon className="theme-icon" />
+                <span>Modo Oscuro</span>
+              </>
+            )}
+          </button>
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              setAutorEdit(null);
+              setMostrarFormulario(true);
+            }}
+          >
+            <i className="bi bi-plus-lg"></i> Agregar Autor
+          </button>
+        </div>
       </div>
 
       {mostrarFormulario && (
         <div className="card mb-4">
           <div className="card-body">
-            <AutorForm 
+            <AutorForm
               initialAutor={autorEdit || {}}
               onSave={handleGuardar}
               onCancel={() => {
