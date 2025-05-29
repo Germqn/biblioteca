@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "http://localhost:3000/api/prestamos";
+const API = "http://localhost:3001/api/prestamos";
 
 export const getPrestamos = async () => (await axios.get(API)).data;
 export const getPrestamo = async (id) => (await axios.get(`${API}/${id}`)).data;

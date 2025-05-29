@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "http://localhost:3000/api/usuarios";
+const API = "http://localhost:3001/api/usuarios";
 
 export const getUsuarios = async () => (await axios.get(API)).data;
 export const getUsuario = async (id) => (await axios.get(`${API}/${id}`)).data;

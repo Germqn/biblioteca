@@ -3,21 +3,21 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 
-export default function Login() {
+export default function Redbook() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [darkMode, setDarkMode] = useState(false);
-  const [buttonColor, setButtonColor] = useState("#33ccff"); // 🔵 Color botón por defecto
+  const [buttonColor] = useState("#862630"); // 🔵 Color botón por defecto
 
   
-  const { login } = useAuth();
+  const { Redbook } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
+      await Redbook(email, password);
       navigate("/dashboard");
     } catch (err) {
       setError("Credenciales incorrectas");
@@ -26,9 +26,9 @@ export default function Login() {
 
   const colors = {
     light: {
-      background: "#f8f9fa",
+      background: "#f5f7fa",
       cardBg: "#ffffff",
-      text: "#212529",
+      text: "#2c3e50",
       inputBg: "#fff",
       inputBorder: "#ced4da",
       buttonText: "#fff",
@@ -37,9 +37,9 @@ export default function Login() {
       errorText: "#842029",
     },
     dark: {
-      background: "#121212",
+      background: "#1a1a2e",
       cardBg: "#1e1e1e",
-      text: "#f1f1f1",
+      text: "#e6e6e6",
       inputBg: "#2c2c2c",
       inputBorder: "#555",
       buttonText: "#fff",
@@ -99,13 +99,12 @@ export default function Login() {
             transition: "background-color 0.3s ease, color 0.3s ease",
           }}
         >
-          {darkMode ? "Light Mode" : "Dark Mode"}
+          {darkMode ? "Modo Claro" : "Modo Oscuro"}
         </button>
 
         <h2 className="text-center mb-4" style={{ color: currentColors.text }}>
-          Login
+          Redbook
         </h2>
-
         {error && (
           <div
             style={{
@@ -186,7 +185,7 @@ export default function Login() {
               e.currentTarget.style.backgroundColor = buttonColor;
             }}
           >
-            Login
+            Redbook
           </button>
         </form>
 

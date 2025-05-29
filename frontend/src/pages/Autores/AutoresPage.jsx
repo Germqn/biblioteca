@@ -80,7 +80,7 @@ export default function AutoresPage() {
         <div>
           <button
             onClick={() => navigate('/dashboard')}
-            className="btn btn-outline-secondary me-2"
+            className="btn btn-outline-secondary" // Mantiene la clase de Bootstrap y debería heredar tus estilos
           >
             <i className="bi bi-arrow-left"></i> Regresar
           </button>
@@ -88,7 +88,7 @@ export default function AutoresPage() {
         </div>
         <div>
           <button
-            className="theme-toggle me-2"
+            className="theme-toggle me-2" // Usa tu clase personalizada para el toggle de tema
             onClick={toggleDarkMode}
             aria-label={darkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
           >
@@ -105,7 +105,7 @@ export default function AutoresPage() {
             )}
           </button>
           <button
-            className="btn btn-primary"
+            className="btn btn-primary" // Mantiene la clase de Bootstrap y debería heredar tus estilos
             onClick={() => {
               setAutorEdit(null);
               setMostrarFormulario(true);

@@ -26,7 +26,7 @@ app.get('/api', (req, res) => {
 });
 
 // Rutas API
-app.use('/api/login', require('./routes/auth'));
+app.use('/api/Redbook', require('./routes/auth'));
 app.use('/api/libros', librosRoutes);
 app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/autores', autorRoutes);

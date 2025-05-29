@@ -61,6 +61,7 @@ body {
 
 .header-content {
   flex: 1;
+  flex-shrink: 0; /* Evita que el contenido se encoja demasiado */
 }
 
 .header-controls {
@@ -88,22 +89,9 @@ body {
   text-decoration: none;
 }
 
-.btn-back {
-  background: transparent;
-  color: var(--vinotinto);
-  margin-bottom: 1rem;
-  display: inline-flex;
-}
-
-.btn-back:hover {
-  background-color: var(--vinotinto);
-  color: white;
-}
-
 .btn-back::before,
 .theme-toggle::before,
 .logout-btn::before {
-  content: '';
   position: absolute;
   top: 0;
   left: -100%;
@@ -113,36 +101,32 @@ body {
   transition: all 0.5s ease;
 }
 
-.btn-back:hover::before,
-.theme-toggle:hover::before,
-.logout-btn:hover::before {
-  left: 100%;
-}
-
 .theme-toggle {
   background: var(--theme-toggle-bg);
   color: var(--theme-toggle-text);
 }
 
 .theme-toggle:hover {
-  transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(134, 38, 48, 0.2);
+  background-color: var(--vinotinto);
+  color:var(--vinotinto-light);
+  background: linear-gradient(90deg, transparent, rgba(134, 38, 48, 0.3), transparent);
 }
 
 .logout-btn {
-  background: transparent;
-  color: var(--vinotinto);
+  background: var(--theme-toggle-bg);
+  color: var(--theme-toggle-text);
 }
 
 .logout-btn:hover {
   background-color: var(--vinotinto);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(134, 38, 48, 0.3);
+  color: var(--vinotinto-light);
+  box-shadow: 0 4px 8px rgba(134, 38, 48, 0.2);
+  background: linear-gradient(90deg, transparent, rgba(134, 38, 48, 0.3), transparent);
 }
 
 .btn-icon,
-.theme-icon, 
+.theme-icon,
 .logout-icon {
   font-size: 1rem;
 }
@@ -296,31 +280,28 @@ body {
   .dashboard-container {
     padding: 1.5rem;
   }
-  
+
   .dashboard-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1.5rem;
   }
-  
+
   .header-controls {
     width: 100%;
     justify-content: space-between;
   }
-  
+
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .dashboard-title {
     font-size: 1.8rem;
   }
-  
+
   .card-link {
     width: 100%;
   }
-  
-  .btn-back {
-    margin-bottom: 0.5rem;
-  }
+
 }

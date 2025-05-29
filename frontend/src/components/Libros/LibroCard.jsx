@@ -12,38 +12,128 @@ const LibroCard = ({ libro, onEdit, onDelete }) => {
       if (!libro.portada_url) {
         setLoadingImage(true);
         try {
-          // Intento con OpenLibrary API
+          // Preparar términos de búsqueda
+          const autorCompleto = libro.autor 
+            ? `${libro.autor.nombre} ${libro.autor.apellido}`.trim()
+            : '';
+
+          // Intento con OpenLibrary API - búsqueda combinada
+          let searchQuery = `title:${encodeURIComponent(libro.titulo)}`;
+          
+          if (autorCompleto) {
+            searchQuery += `+author:${encodeURIComponent(autorCompleto)}`;
+          }
+          
+          if (libro.anio_publicacion) {
+            searchQuery += `+first_publish_year:${libro.anio_publicacion}`;
+          }
+
           const openLibResponse = await fetch(
-            `https://openlibrary.org/search.json?title=${encodeURIComponent(libro.titulo)}&limit=1`
+            `https://openlibrary.org/search.json?q=${searchQuery}&limit=5`
           );
           const openLibData = await openLibResponse.json();
 
+          // Buscar la mejor coincidencia en OpenLibrary
           if (openLibData.docs?.length > 0) {
-            const coverId = openLibData.docs[0].cover_i;
-            if (coverId) {
-              setImageUrl(`https://covers.openlibrary.org/b/id/${coverId}-M.jpg`);
+            let bestMatch = null;
+            let bestScore = 0;
+
+            for (const doc of openLibData.docs) {
+              let score = 0;
+              
+              // Comparar título
+              if (doc.title && doc.title.toLowerCase().includes(libro.titulo.toLowerCase())) {
+                score += 3;
+              }
+              
+              // Comparar autor
+              if (autorCompleto && doc.author_name) {
+                const docAuthors = doc.author_name.join(' ').toLowerCase();
+                if (docAuthors.includes(autorCompleto.toLowerCase())) {
+                  score += 2;
+                }
+              }
+              
+              // Comparar año
+              if (libro.anio_publicacion && doc.first_publish_year) {
+                if (Math.abs(doc.first_publish_year - parseInt(libro.anio_publicacion)) <= 1) {
+                  score += 1;
+                }
+              }
+
+              if (score > bestScore && doc.cover_i) {
+                bestScore = score;
+                bestMatch = doc;
+              }
+            }
+
+            if (bestMatch && bestMatch.cover_i) {
+              setImageUrl(`https://covers.openlibrary.org/b/id/${bestMatch.cover_i}-M.jpg`);
               return;
             }
           }
 
           // Si no hay en OpenLibrary, probamos con Google Books
-          if (libro.isbn) {
-            const googleResponse = await fetch(
-              `https://www.googleapis.com/books/v1/volumes?q=isbn:${libro.isbn}`
-            );
-            const googleData = await googleResponse.json();
+          let googleQuery = `intitle:${encodeURIComponent(libro.titulo)}`;
+          
+          if (autorCompleto) {
+            googleQuery += `+inauthor:${encodeURIComponent(autorCompleto)}`;
+          }
 
-            const thumbnail = googleData.items?.[0]?.volumeInfo?.imageLinks?.thumbnail;
-            if (thumbnail) {
+          const googleResponse = await fetch(
+            `https://www.googleapis.com/books/v1/volumes?q=${googleQuery}&maxResults=5`
+          );
+          const googleData = await googleResponse.json();
+
+          // Buscar la mejor coincidencia en Google Books
+          if (googleData.items?.length > 0) {
+            let bestMatch = null;
+            let bestScore = 0;
+
+            for (const item of googleData.items) {
+              const volumeInfo = item.volumeInfo;
+              let score = 0;
+              
+              // Comparar título
+              if (volumeInfo.title && volumeInfo.title.toLowerCase().includes(libro.titulo.toLowerCase())) {
+                score += 3;
+              }
+              
+              // Comparar autor
+              if (autorCompleto && volumeInfo.authors) {
+                const bookAuthors = volumeInfo.authors.join(' ').toLowerCase();
+                if (bookAuthors.includes(autorCompleto.toLowerCase())) {
+                  score += 2;
+                }
+              }
+              
+              // Comparar año
+              if (libro.anio_publicacion && volumeInfo.publishedDate) {
+                const bookYear = parseInt(volumeInfo.publishedDate);
+                if (Math.abs(bookYear - parseInt(libro.anio_publicacion)) <= 1) {
+                  score += 1;
+                }
+              }
+
+              if (score > bestScore && volumeInfo.imageLinks?.thumbnail) {
+                bestScore = score;
+                bestMatch = volumeInfo;
+              }
+            }
+
+            if (bestMatch && bestMatch.imageLinks?.thumbnail) {
+              // Mejorar calidad de imagen de Google Books
+              const thumbnail = bestMatch.imageLinks.thumbnail.replace('zoom=1', 'zoom=2');
               setImageUrl(thumbnail);
               return;
             }
           }
 
-          setImageUrl('https://via.placeholder.com/150x200?text=No+Portada');
+          // Si no se encuentra nada, usar placeholder
+          setImageUrl('https://via.placeholder.com/150x200.png?text=No+Portada');
         } catch (error) {
           console.error("Error buscando portada:", error);
-          setImageUrl('https://via.placeholder.com/150x200?text=Error+Cargando');
+          setImageUrl('https://via.placeholder.com/150x200.png?text=Error+Cargando');
         } finally {
           setLoadingImage(false);
         }
@@ -51,11 +141,11 @@ const LibroCard = ({ libro, onEdit, onDelete }) => {
     };
 
     buscarPortadaLibro();
-  }, [libro.titulo, libro.portada_url, libro.isbn]);
+  }, [libro.titulo, libro.portada_url, libro.autor, libro.anio_publicacion]);
 
   const handleImageError = () => {
     if (!imageError) {
-      setImageUrl('https://via.placeholder.com/150x200?text=No+Portada');
+      setImageUrl('https://via.placeholder.com/150x200.png?text=No+Portada');
       setImageError(true);
     }
   };
@@ -134,7 +224,6 @@ LibroCard.propTypes = {
     id_libro: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     titulo: PropTypes.string.isRequired,
     portada_url: PropTypes.string,
-    isbn: PropTypes.string,
     autor: PropTypes.shape({
       nombre: PropTypes.string,
       apellido: PropTypes.string

@@ -148,7 +148,7 @@ export default function LibrosPage() {
             onClick={toggleDarkMode}
             aria-label={darkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
           >
-            {darkMode ? (
+          {darkMode ? (
               <>
                 <FaSun className="theme-icon" />
                 <span>Modo Claro</span>

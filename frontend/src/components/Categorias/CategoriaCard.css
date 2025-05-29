@@ -1,7 +1,45 @@
 /* src/components/Categorias/CategoriaCard.css */
+:root {
+ /* Colores para modo claro */
+  --bg-color: #f5f7fa;
+  --text-color: #2c3e50;
+  --text-secondary: #7f8c8d;
+  --card-bg: white;
+  --header-bg: white;
+  --shadow-color: rgba(0, 0, 0, 0.08);
+  --shadow-hover: rgba(0, 0, 0, 0.12);
+  --theme-toggle-bg: #f0f0f0;
+  --theme-toggle-text: #333;
+  --vinotinto: #862630;
+  --vinotinto-light: #a7303d;
+  --vinotinto-dark: #5c1a22;
+  --info-color: #17a2b8;
+  --info-hover: #138496;
+  --danger-color: #c0392b;
+  --danger-hover: #e74c3c;
+  --success-color: #28a745;
+  --success-hover: #218838;
+}
+
+.dark-mode {
+  /* Colores para modo oscuro */
+  --bg-color: #1a1a2e;
+  --text-color: #e6e6e6;
+  --text-secondary: #b3b3b3;
+  --card-bg: #16213e;
+  --header-bg: #16213e;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --shadow-hover: rgba(0, 0, 0, 0.5);
+  --theme-toggle-bg: #333;
+  --theme-toggle-text: #f0f0f0;
+  --info-color: #2d9cb3;
+  --danger-color: #d9534f;
+  --success-color: #5cb85c;
+}
+
 .categoria-card {
+    border: 1px solid rgba(134, 38, 48, 0.1);
     background-color: #f9f9f9;
-    border: 1px solid #ddd;
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 15px;

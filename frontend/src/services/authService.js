@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:3001/api/auth/';
 
-export const login = async (email, password) => {
-  const response = await axios.post(API_URL + 'login', { email, password });
+export const Redbook = async (email, password) => {
+  const response = await axios.post(API_URL + 'Redbook', { email, password });
   if (response.data.token) {
     localStorage.setItem('token', response.data.token);
   }

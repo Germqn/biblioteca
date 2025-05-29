@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Usuario = require('../models/Usuario');
 
-exports.login = async (req, res) => {
+exports.Redbook = async (req, res) => {
   const { email, password } = req.body;
   try {
     const usuario = await Usuario.findOne({ where: { email } });

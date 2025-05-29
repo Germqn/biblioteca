@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import './LibroForm.css';
 
 const LibroForm = ({ initialLibro = {}, autores = [], categorias = [], onSave, onCancel }) => {
@@ -10,57 +11,65 @@ const LibroForm = ({ initialLibro = {}, autores = [], categorias = [], onSave, o
     cantidad_disponible: 1
   });
 
-  // Efecto para cargar datos iniciales al editar
+  // Efecto para cargar datos iniciales
   useEffect(() => {
-    if (initialLibro.id_libro && autores.length > 0 && categorias.length > 0) {
-      setFormData({
-        titulo: initialLibro.titulo || '',
-        id_autor: initialLibro.id_autor !== null && initialLibro.id_autor !== undefined
-          ? String(initialLibro.id_autor)
-          : '',
-        id_categoria: initialLibro.id_categoria !== null && initialLibro.id_categoria !== undefined
-          ? String(initialLibro.id_categoria)
-          : '',
-        anio_publicacion: initialLibro.anio_publicacion || new Date().getFullYear(),
-        cantidad_disponible: initialLibro.cantidad_disponible || 1
-      });
-      console.log('Datos iniciales de edición:', initialLibro);
-    } else if (!initialLibro.id_libro && autores.length > 0 && categorias.length > 0) {
-      // Si es un nuevo libro, selecciona el primero por defecto si existen
-      setFormData({
-        titulo: '',
-        id_autor: autores.length > 0 ? String(autores[0].id_autor) : '',
-        id_categoria: categorias.length > 0 ? String(categorias[0].id_categoria) : '',
-        anio_publicacion: new Date().getFullYear(),
-        cantidad_disponible: 1
-      });
-      console.log('Valores por defecto para nuevo libro:', {
-        id_autor: autores.length > 0 ? String(autores[0].id_autor) : '',
-        id_categoria: categorias.length > 0 ? String(categorias[0].id_categoria) : ''
-      });
+    if (autores.length === 0 || categorias.length === 0) return;
+
+    const isEditing = Boolean(initialLibro.id_libro);
+    
+    const defaultValues = {
+      titulo: '',
+      id_autor: autores[0]?.id_autor ? String(autores[0].id_autor) : '',
+      id_categoria: categorias[0]?.id_categoria ? String(categorias[0].id_categoria) : '',
+      anio_publicacion: new Date().getFullYear(),
+      cantidad_disponible: 1
+    };
+
+    setFormData(isEditing ? {
+      titulo: initialLibro.titulo || defaultValues.titulo,
+      id_autor: initialLibro.id_autor != null ? String(initialLibro.id_autor) : defaultValues.id_autor,
+      id_categoria: initialLibro.id_categoria != null ? String(initialLibro.id_categoria) : defaultValues.id_categoria,
+      anio_publicacion: initialLibro.anio_publicacion || defaultValues.anio_publicacion,
+      cantidad_disponible: initialLibro.cantidad_disponible || defaultValues.cantidad_disponible
+    } : defaultValues);
+
+    if (process.env.NODE_ENV === 'development') {
+      console.log(isEditing ? 'Datos iniciales de edición:' : 'Valores por defecto para nuevo libro:', 
+        isEditing ? initialLibro : defaultValues);
     }
   }, [initialLibro, autores, categorias]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
     if (!formData.titulo.trim()) {
       alert('El título es requerido');
       return;
     }
-    onSave(formData);
+
+    const dataToSave = {
+      ...formData,
+      id_autor: formData.id_autor ? Number(formData.id_autor) : null,
+      id_categoria: formData.id_categoria ? Number(formData.id_categoria) : null
+    };
+    
+    onSave(dataToSave);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
     setFormData(prev => ({
       ...prev,
       [name]: ['anio_publicacion', 'cantidad_disponible'].includes(name)
-        ? Number(value)
+        ? Math.max(0, Number(value)) // Asegura números positivos
         : value
     }));
   };
 
-  console.log('Estado actual del formulario:', formData);
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Estado actual del formulario:', formData);
+  }
 
   return (
     <form onSubmit={handleSubmit} className="libro-form-container">
@@ -73,6 +82,7 @@ const LibroForm = ({ initialLibro = {}, autores = [], categorias = [], onSave, o
           value={formData.titulo}
           onChange={handleChange}
           required
+          aria-required="true"
         />
       </div>
 
@@ -83,10 +93,11 @@ const LibroForm = ({ initialLibro = {}, autores = [], categorias = [], onSave, o
           name="id_autor"
           value={formData.id_autor}
           onChange={handleChange}
+          aria-label="Seleccionar autor"
         >
           <option value="">Seleccionar autor...</option>
           {autores.map(autor => (
-            <option key={autor.id_autor} value={String(autor.id_autor)}> {/* Asegúrate de que el value sea string */}
+            <option key={autor.id_autor} value={String(autor.id_autor)}>
               {autor.nombre} {autor.apellido}
             </option>
           ))}
@@ -105,10 +116,11 @@ const LibroForm = ({ initialLibro = {}, autores = [], categorias = [], onSave, o
           name="id_categoria"
           value={formData.id_categoria}
           onChange={handleChange}
+          aria-label="Seleccionar categoría"
         >
           <option value="">Seleccionar categoría...</option>
           {categorias.map(cat => (
-            <option key={cat.id_categoria} value={String(cat.id_categoria)}> {/* Asegúrate de que el value sea string */}
+            <option key={cat.id_categoria} value={String(cat.id_categoria)}>
               {cat.nombre_categoria}
             </option>
           ))}
@@ -131,6 +143,7 @@ const LibroForm = ({ initialLibro = {}, autores = [], categorias = [], onSave, o
             onChange={handleChange}
             min="1000"
             max={new Date().getFullYear()}
+            aria-label="Año de publicación"
           />
         </div>
         <div className="col-md-6 mb-3">
@@ -142,24 +155,56 @@ const LibroForm = ({ initialLibro = {}, autores = [], categorias = [], onSave, o
             value={formData.cantidad_disponible}
             onChange={handleChange}
             min="0"
+            aria-label="Cantidad disponible"
           />
         </div>
       </div>
 
-      <div className="d-flex justify-content-end">
-        <button type="submit" className="btn btn-primary me-2">
-          {initialLibro.id_libro ? 'Actualizar' : 'Guardar'}
-        </button>
+      <div className="d-flex justify-content-end gap-2">
         <button
           type="button"
-          className="btn btn-secondary"
+          className="btn btn-outline-secondary"
           onClick={onCancel}
+          aria-label="Cancelar"
         >
           Cancelar
+        </button>
+        <button 
+          type="submit" 
+          className="btn btn-primary"
+          aria-label={initialLibro.id_libro ? 'Actualizar libro' : 'Guardar libro'}
+        >
+          {initialLibro.id_libro ? 'Actualizar' : 'Guardar'}
         </button>
       </div>
     </form>
   );
+};
+
+LibroForm.propTypes = {
+  initialLibro: PropTypes.shape({
+    id_libro: PropTypes.number,
+    titulo: PropTypes.string,
+    id_autor: PropTypes.number,
+    id_categoria: PropTypes.number,
+    anio_publicacion: PropTypes.number,
+    cantidad_disponible: PropTypes.number
+  }),
+  autores: PropTypes.arrayOf(
+    PropTypes.shape({
+      id_autor: PropTypes.number.isRequired,
+      nombre: PropTypes.string.isRequired,
+      apellido: PropTypes.string.isRequired
+    })
+  ).isRequired,
+  categorias: PropTypes.arrayOf(
+    PropTypes.shape({
+      id_categoria: PropTypes.number.isRequired,
+      nombre_categoria: PropTypes.string.isRequired
+    })
+  ).isRequired,
+  onSave: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired
 };
 
 export default LibroForm;
