@@ -133,7 +133,16 @@ body {
 
 .dashboard-title {
   font-size: 2.2rem;
-  color: var(--text-color);
+  color: black;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.dark-mode .dashboard-title {
+  font-size: 2.2rem;
+  color: white;
   font-weight: 700;
   margin-bottom: 0.5rem;
   position: relative;
@@ -180,9 +189,17 @@ body {
   display: flex;
   flex-direction: column;
   border: none;
-  color: var(--text-color);
+  color: black;
   position: relative;
   border: 1px solid transparent;
+  text-align: center;
+  flex-grow: 1;
+
+}
+.dark-mode .dashboard-card {
+  background: var(--card-bg);
+  color: var(--text-color);
+  box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .dashboard-card:hover {
@@ -206,8 +223,12 @@ body {
 .card-icon-container {
   padding: 1.5rem;
   text-align: center;
-  color: white;
+  color: black;
   margin-top: 4px;
+}
+
+.dark-mode .card-icon-container {
+  color: var(--text-color);
 }
 
 .card-icon {

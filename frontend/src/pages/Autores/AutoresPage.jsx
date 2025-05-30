@@ -76,15 +76,17 @@ export default function AutoresPage() {
 
   return (
     <div className={`container mt-4 ${darkMode ? 'dark-mode' : ''}`}>
+      <div className="d-flex justify-content-center align-items-center mb-4">
+        <h1 className="title autores-titulo">Autores</h1>
+      </div>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
           <button
             onClick={() => navigate('/dashboard')}
-            className="btn btn-outline-secondary" // Mantiene la clase de Bootstrap y debería heredar tus estilos
+            className="btn btn-outline-secondary"
           >
             <i className="bi bi-arrow-left"></i> Regresar
           </button>
-          <h2 className="d-inline-block ms-2">Autores</h2>
         </div>
         <div>
           <button
@@ -105,7 +107,7 @@ export default function AutoresPage() {
             )}
           </button>
           <button
-            className="btn btn-primary" // Mantiene la clase de Bootstrap y debería heredar tus estilos
+            className="btn btn-agregar-autor" 
             onClick={() => {
               setAutorEdit(null);
               setMostrarFormulario(true);
@@ -116,20 +118,16 @@ export default function AutoresPage() {
         </div>
       </div>
 
-      {mostrarFormulario && (
-        <div className="card mb-4">
-          <div className="card-body">
-            <AutorForm
-              initialAutor={autorEdit || {}}
-              onSave={handleGuardar}
-              onCancel={() => {
-                setMostrarFormulario(false);
-                setAutorEdit(null);
-              }}
-            />
-          </div>
-        </div>
-      )}
+      {/* Overlay para el formulario */}
+      <AutorForm
+        initialAutor={autorEdit || {}}
+        onSave={handleGuardar}
+        onCancel={() => {
+          setMostrarFormulario(false);
+          setAutorEdit(null);
+        }}
+        isVisible={mostrarFormulario} // Controla la visibilidad del formulario
+      />
 
       <div className="row">
         {autores.length > 0 ? (

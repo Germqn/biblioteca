@@ -2,153 +2,180 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './LibroCard.css';
 
-const LibroCard = ({ libro, onEdit, onDelete }) => {
-  const [imageUrl, setImageUrl] = useState(libro.portada_url);
+// Placeholder local como SVG en base64
+const PLACEHOLDER_IMAGE = `data:image/svg+xml;base64,${btoa(`
+<svg xmlns="http://www.w3.org/2000/svg" width="150" height="200" viewBox="0 0 150 200">
+  <rect width="100%" height="100%" fill="#e0e0e0"/>
+  <text 
+    x="50%" 
+    y="50%" 
+    font-family="Arial, sans-serif" 
+    font-size="12" 
+    text-anchor="middle" 
+    dominant-baseline="middle"
+    fill="#666"
+  >
+    No Portada
+  </text>
+</svg>
+`)}`;
+
+// Función para convertir URLs relativas a absolutas
+const getAbsoluteImageUrl = (url) => {
+  if (!url) return url;
+  
+  // Si ya es una URL absoluta, retornar tal cual
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url;
+  }
+  
+  // Si es una URL con protocolo relativo (//example.com)
+  if (url.startsWith('//')) {
+    return window.location.protocol + url;
+  }
+  
+  // Si es una ruta relativa, convertir a absoluta
+  if (url.startsWith('/')) {
+    return window.location.origin + url;
+  }
+  
+  // Para rutas sin slash inicial
+  return window.location.origin + '/' + url;
+};
+
+const LibroCard = ({ libro, onEdit, onDelete, onSaveCover }) => {
+  const [imageUrl, setImageUrl] = useState(PLACEHOLDER_IMAGE);
   const [loadingImage, setLoadingImage] = useState(false);
-  const [imageError, setImageError] = useState(false);
+  const [attemptedSearch, setAttemptedSearch] = useState(false);
+  const [coverSaved, setCoverSaved] = useState(false);
 
   useEffect(() => {
-    const buscarPortadaLibro = async () => {
-      if (!libro.portada_url) {
-        setLoadingImage(true);
+    const loadImage = async () => {
+      // 1. Intentar cargar portada_url si existe
+      if (libro.portada_url) {
+        const absoluteUrl = getAbsoluteImageUrl(libro.portada_url);
+        
         try {
-          // Preparar términos de búsqueda
-          const autorCompleto = libro.autor 
-            ? `${libro.autor.nombre} ${libro.autor.apellido}`.trim()
-            : '';
-
-          // Intento con OpenLibrary API - búsqueda combinada
-          let searchQuery = `title:${encodeURIComponent(libro.titulo)}`;
-          
-          if (autorCompleto) {
-            searchQuery += `+author:${encodeURIComponent(autorCompleto)}`;
-          }
-          
-          if (libro.anio_publicacion) {
-            searchQuery += `+first_publish_year:${libro.anio_publicacion}`;
-          }
-
-          const openLibResponse = await fetch(
-            `https://openlibrary.org/search.json?q=${searchQuery}&limit=5`
-          );
-          const openLibData = await openLibResponse.json();
-
-          // Buscar la mejor coincidencia en OpenLibrary
-          if (openLibData.docs?.length > 0) {
-            let bestMatch = null;
-            let bestScore = 0;
-
-            for (const doc of openLibData.docs) {
-              let score = 0;
-              
-              // Comparar título
-              if (doc.title && doc.title.toLowerCase().includes(libro.titulo.toLowerCase())) {
-                score += 3;
-              }
-              
-              // Comparar autor
-              if (autorCompleto && doc.author_name) {
-                const docAuthors = doc.author_name.join(' ').toLowerCase();
-                if (docAuthors.includes(autorCompleto.toLowerCase())) {
-                  score += 2;
-                }
-              }
-              
-              // Comparar año
-              if (libro.anio_publicacion && doc.first_publish_year) {
-                if (Math.abs(doc.first_publish_year - parseInt(libro.anio_publicacion)) <= 1) {
-                  score += 1;
-                }
-              }
-
-              if (score > bestScore && doc.cover_i) {
-                bestScore = score;
-                bestMatch = doc;
-              }
-            }
-
-            if (bestMatch && bestMatch.cover_i) {
-              setImageUrl(`https://covers.openlibrary.org/b/id/${bestMatch.cover_i}-M.jpg`);
-              return;
-            }
-          }
-
-          // Si no hay en OpenLibrary, probamos con Google Books
-          let googleQuery = `intitle:${encodeURIComponent(libro.titulo)}`;
-          
-          if (autorCompleto) {
-            googleQuery += `+inauthor:${encodeURIComponent(autorCompleto)}`;
-          }
-
-          const googleResponse = await fetch(
-            `https://www.googleapis.com/books/v1/volumes?q=${googleQuery}&maxResults=5`
-          );
-          const googleData = await googleResponse.json();
-
-          // Buscar la mejor coincidencia en Google Books
-          if (googleData.items?.length > 0) {
-            let bestMatch = null;
-            let bestScore = 0;
-
-            for (const item of googleData.items) {
-              const volumeInfo = item.volumeInfo;
-              let score = 0;
-              
-              // Comparar título
-              if (volumeInfo.title && volumeInfo.title.toLowerCase().includes(libro.titulo.toLowerCase())) {
-                score += 3;
-              }
-              
-              // Comparar autor
-              if (autorCompleto && volumeInfo.authors) {
-                const bookAuthors = volumeInfo.authors.join(' ').toLowerCase();
-                if (bookAuthors.includes(autorCompleto.toLowerCase())) {
-                  score += 2;
-                }
-              }
-              
-              // Comparar año
-              if (libro.anio_publicacion && volumeInfo.publishedDate) {
-                const bookYear = parseInt(volumeInfo.publishedDate);
-                if (Math.abs(bookYear - parseInt(libro.anio_publicacion)) <= 1) {
-                  score += 1;
-                }
-              }
-
-              if (score > bestScore && volumeInfo.imageLinks?.thumbnail) {
-                bestScore = score;
-                bestMatch = volumeInfo;
-              }
-            }
-
-            if (bestMatch && bestMatch.imageLinks?.thumbnail) {
-              // Mejorar calidad de imagen de Google Books
-              const thumbnail = bestMatch.imageLinks.thumbnail.replace('zoom=1', 'zoom=2');
-              setImageUrl(thumbnail);
-              return;
-            }
-          }
-
-          // Si no se encuentra nada, usar placeholder
-          setImageUrl('https://via.placeholder.com/150x200.png?text=No+Portada');
-        } catch (error) {
-          console.error("Error buscando portada:", error);
-          setImageUrl('https://via.placeholder.com/150x200.png?text=Error+Cargando');
-        } finally {
+          setLoadingImage(true);
+          await testImage(absoluteUrl);
+          setImageUrl(absoluteUrl);
           setLoadingImage(false);
+          return; // Salir si la carga es exitosa
+        } catch (error) {
+          console.warn("Error cargando portada_url:", absoluteUrl, error);
+          // Continuar con búsqueda en APIs si falla
+        }
+      }
+      
+      // 2. Buscar en APIs externas solo si no se ha intentado antes
+      if (!attemptedSearch) {
+        searchCoverFromAPIs();
+      }
+    };
+
+    // Función para probar carga de imágenes
+    const testImage = (url) => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve();
+        img.onerror = () => reject();
+        img.src = url;
+        
+        // Timeout para no bloquear indefinidamente
+        setTimeout(() => {
+          if (!img.complete) reject();
+        }, 5000);
+      });
+    };
+
+    // Guardar la portada en la base de datos
+    const saveCoverToDatabase = async (coverUrl) => {
+      if (!coverSaved && typeof onSaveCover === 'function') {
+        try {
+          await onSaveCover(libro.id_libro, coverUrl);
+          setCoverSaved(true);
+          console.log(`Portada guardada para libro ID ${libro.id_libro}`);
+        } catch (error) {
+          console.error("Error guardando portada en BD:", error);
         }
       }
     };
 
-    buscarPortadaLibro();
-  }, [libro.titulo, libro.portada_url, libro.autor, libro.anio_publicacion]);
+    // Buscar portada en APIs externas
+    const searchCoverFromAPIs = async () => {
+      setLoadingImage(true);
+      setAttemptedSearch(true);
+      
+      try {
+        // Preparar términos de búsqueda
+        const searchTerms = [
+          libro.titulo,
+          libro.autor && `${libro.autor.nombre} ${libro.autor.apellido}`,
+          libro.anio_publicacion
+        ].filter(Boolean).join(' ');
+        
+        // Variable para guardar la URL encontrada
+        let foundCoverUrl = null;
+        
+        // Intentar con OpenLibrary
+        try {
+          const openLibResponse = await fetch(
+            `https://openlibrary.org/search.json?q=${encodeURIComponent(searchTerms)}&limit=1`
+          );
+          
+          const openLibData = await openLibResponse.json();
+          const firstBook = openLibData.docs?.[0];
+          
+          if (firstBook?.cover_i) {
+            foundCoverUrl = `https://covers.openlibrary.org/b/id/${firstBook.cover_i}-M.jpg`;
+            await testImage(foundCoverUrl);
+          }
+        } catch (openLibError) {
+          console.warn("Error con OpenLibrary:", openLibError);
+        }
+        
+        // Si no se encontró en OpenLibrary, intentar con Google Books
+        if (!foundCoverUrl) {
+          try {
+            const googleResponse = await fetch(
+              `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(searchTerms)}&maxResults=1`
+            );
+            
+            const googleData = await googleResponse.json();
+            const firstItem = googleData.items?.[0];
+            
+            if (firstItem?.volumeInfo?.imageLinks?.thumbnail) {
+              foundCoverUrl = firstItem.volumeInfo.imageLinks.thumbnail
+                .replace('http://', 'https://')
+                .replace('zoom=1', 'zoom=2');
+              
+              await testImage(foundCoverUrl);
+            }
+          } catch (googleError) {
+            console.warn("Error con Google Books:", googleError);
+          }
+        }
+        
+        // Si encontramos una portada válida
+        if (foundCoverUrl) {
+          setImageUrl(foundCoverUrl);
+          
+          // Guardar la URL en la base de datos
+          saveCoverToDatabase(foundCoverUrl);
+        } else {
+          // Si no se encontró portada, usar placeholder
+          setImageUrl(PLACEHOLDER_IMAGE);
+        }
+      } catch (error) {
+        console.error("Error en búsqueda de portada:", error);
+        setImageUrl(PLACEHOLDER_IMAGE);
+      } finally {
+        setLoadingImage(false);
+      }
+    };
 
-  const handleImageError = () => {
-    if (!imageError) {
-      setImageUrl('https://via.placeholder.com/150x200.png?text=No+Portada');
-      setImageError(true);
-    }
-  };
+    loadImage();
+  }, [libro, attemptedSearch, coverSaved, onSaveCover]);
 
   const handleDelete = () => {
     if (typeof onDelete === 'function') {
@@ -170,7 +197,7 @@ const LibroCard = ({ libro, onEdit, onDelete }) => {
             className="libro-portada"
             src={imageUrl}
             alt={`Portada de ${libro.titulo}`}
-            onError={handleImageError}
+            onError={() => setImageUrl(PLACEHOLDER_IMAGE)}
             loading="lazy"
           />
         )}
@@ -235,12 +262,14 @@ LibroCard.propTypes = {
     cantidad_disponible: PropTypes.number
   }).isRequired,
   onEdit: PropTypes.func,
-  onDelete: PropTypes.func
+  onDelete: PropTypes.func,
+  onSaveCover: PropTypes.func // Nueva prop para guardar la portada
 };
 
 LibroCard.defaultProps = {
   onEdit: null,
-  onDelete: null
+  onDelete: null,
+  onSaveCover: null
 };
 
 export default LibroCard;

@@ -90,12 +90,42 @@ body, html {
   gap: 1rem;
 }
 
+.btn-nuevo-libro {
+  background: linear-gradient(135deg, var(--vinotinto-primary), var(--vinotinto-secondary)) ;
+  color: white !important;
+  border: none;
+  padding: 1rem 2rem !important;
+  border-radius: 4rem !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  cursor: pointer;
+  transition: all 0.3s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  min-width: 140px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  letter-spacing: 0.5px !important;
+  box-shadow: 
+  0 6px 20px rgba(139, 44, 91, 0.4),
+  inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+.btn-nuevo-libro:hover {
+  background-color: var(--vinotinto-claro);
+  color: var(--texto-claro) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(134, 38, 48, 0.4);
+}
+
 /* Estilos unificados para todos los botones */
 .libros-header .header-actions .btn, /* Selector más específico para Nuevo Libro */
 .btn-back-visible,
 .theme-toggle,
 .btn-edit,
-.btn-delete {
+.btn-delete{
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-weight: 500;
@@ -118,7 +148,7 @@ body, html {
 .btn-back-visible:hover,
 .theme-toggle:hover,
 .btn-edit:hover,
-.btn-delete:hover {
+.btn-delete:hover{
   transform: translateY(-2px) scale(1.05);
   box-shadow: 0 4px 8px var(--shadow-hover);
   animation: none;
@@ -130,10 +160,12 @@ body, html {
 .dark-mode .btn-back-visible,
 .dark-mode .theme-toggle,
 .dark-mode .btn-edit,
-.dark-mode .btn-delete {
+.dark-mode .btn-delete,
+.dark-mode .btn-nuevo-libro {
   background-color: var(--theme-toggle-bg);
   color: var(--theme-toggle-text);
   border: 2px solid var(--vinotinto);
+  border-color: var(--vinotinto) !important;
   box-shadow: 0 2px 5px var(--shadow-color);
 }
 
@@ -142,10 +174,11 @@ body, html {
 .dark-mode .btn-back-visible:hover,
 .dark-mode .theme-toggle:hover,
 .dark-mode .btn-edit:hover,
-.dark-mode .btn-delete:hover {
-  background-color: var(--theme-toggle-text);
-  color: var(--theme-toggle-bg);
-  border-color: var(--theme-toggle-text);
+.dark-mode .btn-delete:hover,
+.dark-mode .btn-nuevo-libro:hover {
+  background-color: var(--theme-toggle-text) ;
+  color: white !important;
+  border-color: var(--vinotinto-dark) !important;
   box-shadow: 0 4px 8px var(--shadow-hover);
 }
 

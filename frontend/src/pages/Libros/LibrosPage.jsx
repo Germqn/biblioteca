@@ -7,7 +7,7 @@ import LibrosCarrusel from '../../components/Libros/LibrosCarrusel';
 import './LibrosPage.css';
 import '../../components/Libros/LibroCard.css';
 import '../../components/Libros/LibroForm.css';
-import { FaSun, FaMoon } from 'react-icons/fa'; // Importa los iconos de react-icons
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 export default function LibrosPage() {
   const [libros, setLibros] = useState([]);
@@ -17,13 +17,11 @@ export default function LibrosPage() {
   const [categorias, setCategorias] = useState([]);
   const [carruselKey, setCarruselKey] = useState(0);
   const [darkMode, setDarkMode] = useState(() => {
-    // Comprobar preferencia guardada o preferencia del sistema
     const savedMode = localStorage.getItem('darkMode');
     return savedMode ? JSON.parse(savedMode) : window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
   const navigate = useNavigate();
 
-  // Aplicar/remover dark mode al body y guardar preferencia
   useEffect(() => {
     if (darkMode) {
       document.body.classList.add('dark-mode');
@@ -58,6 +56,27 @@ export default function LibrosPage() {
     }
   };
 
+  // Función para guardar la portada en la base de datos
+  const handleSaveCover = async (libroId, coverUrl) => {
+    try {
+      // Actualizar solo el campo portada_url
+      await axios.patch(`http://localhost:3001/api/libros/${libroId}`, {
+        portada_url: coverUrl
+      });
+      
+      // Actualizar el estado local
+      setLibros(prevLibros => prevLibros.map(libro => 
+        libro.id_libro === libroId ? { ...libro, portada_url: coverUrl } : libro
+      ));
+      
+      // Forzar actualización del carrusel
+      setCarruselKey(prev => prev + 1);
+    } catch (error) {
+      console.error("Error guardando portada en BD:", error);
+      alert('Error al guardar la portada: ' + (error.response?.data?.message || error.message));
+    }
+  };
+
   const handleEditarLibro = (libro) => {
     setLibroEdit({
       id_libro: libro.id_libro,
@@ -65,7 +84,8 @@ export default function LibrosPage() {
       id_autor: libro.id_autor !== null && libro.id_autor !== undefined ? String(libro.id_autor) : '',
       id_categoria: libro.id_categoria !== null && libro.id_categoria !== undefined ? String(libro.id_categoria) : '',
       anio_publicacion: libro.anio_publicacion || new Date().getFullYear(),
-      cantidad_disponible: libro.cantidad_disponible || 1
+      cantidad_disponible: libro.cantidad_disponible || 1,
+      portada_url: libro.portada_url || '' // Asegurar que tenemos la portada
     });
     setMostrarFormulario(true);
   };
@@ -82,7 +102,9 @@ export default function LibrosPage() {
         id_autor: formData.id_autor ? Number(formData.id_autor) : null,
         id_categoria: formData.id_categoria ? Number(formData.id_categoria) : null,
         anio_publicacion: Number(formData.anio_publicacion),
-        cantidad_disponible: Number(formData.cantidad_disponible)
+        cantidad_disponible: Number(formData.cantidad_disponible),
+        // Mantener la portada_url si existe
+        portada_url: formData.portada_url || libroEdit?.portada_url || null
       };
 
       if (libroEdit) {
@@ -133,13 +155,13 @@ export default function LibrosPage() {
   return (
     <div className={`libros-container ${darkMode ? 'dark-mode' : ''}`}>
       <div className="libros-header">
-        <div className="header-title-container"> {/* Nuevo contenedor para alinear */}
+        <div className="header-title-container">
           <button
             onClick={() => navigate('/dashboard')}
             className="btn-back-visible"
           >
             <i className="bi bi-arrow-left"></i> Regresar
-        </button>
+          </button>
           <h2>Gestión de Libros</h2>
         </div>
         <div className="header-actions">
@@ -161,7 +183,7 @@ export default function LibrosPage() {
             )}
           </button>
           <button
-            className={`btn ${darkMode ? 'btn-dark-mode' : 'btn-light-mode'}`}
+            className={'btn btn-nuevo-libro'}
             onClick={() => {
               setLibroEdit(null);
               setMostrarFormulario(true);
@@ -177,6 +199,7 @@ export default function LibrosPage() {
         libros={libros}
         onEdit={handleEditarLibro}
         onDelete={handleEliminar}
+        onSaveCover={handleSaveCover} // Pasamos la función al carrusel
         darkMode={darkMode}
       />
 
@@ -206,6 +229,7 @@ export default function LibrosPage() {
                 libro={libro}
                 onEdit={handleEditarLibro}
                 onDelete={handleEliminar}
+                onSaveCover={handleSaveCover} // Pasamos la función a cada tarjeta
                 darkMode={darkMode}
               />
             </div>

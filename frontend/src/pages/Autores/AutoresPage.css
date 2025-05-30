@@ -8,7 +8,24 @@
   --fondo-oscuro: #1a1a2e;
   --borde-claro: #e0e0e0;
   --borde-oscuro: #333333;
+
+  --vinotinto-primary: #8B2C5B;
+  --vinotinto-secondary: #A0336B;
+  --vinotinto-light: #B84A7A;
+  --vinotinto-lighter: #D16B9A;
+  --vinotinto-bg: #F8F4F6;
+  --vinotinto-border: #E8D4DC;
+  
+  --bg-color: #ffffff;
+  --text-color: #ffffff;
+  --text-muted: #4a4a4a;
+  --border-color: #d1d5db;
+  --input-bg: #ffffff;
+  --shadow-color: rgba(139, 44, 91, 0.2);
+  --error-color: #dc2626;
+  --success-color: #16a34a;
 }
+
 
 /* ===== ESTILOS PARA EL CONTENEDOR ===== */
 .container,
@@ -58,29 +75,32 @@
 }
 
 /* ===== BOTÓN PRIMARIO ===== */
-.btn.btn-primary { /* Selector más específico */
-  background-color: transparent;
-  border-color: var(--vinotinto);
-  color: var(--fondo-oscuro);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 20px;
-  font-weight: 500;
-  font-size: 0.9rem;
-  height: 40px;
+.btn-agregar-autor { /* Selector más específico */
+  background: linear-gradient(135deg, var(--vinotinto-primary), var(--vinotinto-secondary)) ;
+  color: white !important;
+  border: none;
+  padding: 1rem 2rem !important;
+  border-radius: 4rem !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
   cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: center;
-  vertical-align: middle;
-  user-select: none;
-  box-shadow: 0 2px 5px rgba(134, 38, 48, 0.3);
+  transition: all 0.3s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  min-width: 140px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  letter-spacing: 0.5px !important;
+  box-shadow: 
+  0 6px 20px rgba(139, 44, 91, 0.4),
+  inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
-.btn.btn-primary:hover {
+.btn-agregar-autor:hover {
   background-color: var(--vinotinto-claro);
+  color: var(--texto-claro) !important;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(134, 38, 48, 0.4);
 }
@@ -89,7 +109,7 @@
 .btn.btn-outline-secondary { /* Selector más específico */
   background-color: transparent;
   border-color: var(--vinotinto);
-  color: var(--fondo-oscuro);
+  color: var(--fondo-oscuro) !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -108,7 +128,10 @@
 }
 
 .btn.btn-outline-secondary:hover {
-  background-color: rgba(134, 38, 48, 0.1);
+  background-color: var(--vinotinto-claro);
+  color: var(--texto-claro) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(134, 38, 48, 0.4);
 }
 
 /* ===== BOTÓN DE TEMA ===== */
@@ -142,22 +165,48 @@
   color: var(--texto-claro);
 }
 
-.dark-mode .btn.btn-primary {
-  color: var(--texto-claro);
-  border-color: var(--vinotinto);
+.dark-mode .btn.btn.btn-agregar-autor{
+  background: linear-gradient(135deg, var(--vinotinto-primary), var(--vinotinto-secondary)) ;
+  color: white !important;
+  border: none;
+  padding: 1rem 2rem !important;
+  border-radius: 4rem !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  cursor: pointer;
+  transition: all 0.3s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  min-width: 140px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  letter-spacing: 0.5px !important;
+  box-shadow: 
+  0 6px 20px rgba(139, 44, 91, 0.4),
+  inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
-.dark-mode .btn.btn-primary:hover {
-    color: var(--vinotinto);
+.dark-mode .btn.btn-agregar-autor:hover {
+  background: linear-gradient(135deg, var(--vinotinto-secondary), var(--vinotinto-light));
+  transform: translateY(-3px);
+  box-shadow: 
+  0 8px 25px rgba(139, 44, 91, 0.5),
+  inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .dark-mode .btn.btn-outline-secondary,
 .dark-mode .theme-toggle {
-  color: var(--texto-claro);
-  border-color: var(--vinotinto);
+  color: var(--texto-claro) !important;
+  border-color: var(--vinotinto) !important;
 }
 
-.dark-mode .btn.btn-outline-secondary:hover,
+.dark-mode .btn.btn-outline-secondary:hover{
+  color:var(--vinotinto) !important;
+}
+
+
 .dark-mode .theme-toggle:hover {
   color: var(--vinotinto);
 }
@@ -172,7 +221,7 @@
   }
 }
 
-/* ===== SOBREESCRITURA ESPECÍFICA PARA BOOTSTRAP (Puedes mantener esto) ===== */
+/* ===== SOBREESCRITURA ESPECÍFICA PARA BOOTSTRAP ===== */
 .btn-primary {
   --bs-btn-bg: var(--vinotinto) !important;
   --bs-btn-border-color: var(--vinotinto) !important;

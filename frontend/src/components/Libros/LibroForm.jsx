@@ -171,7 +171,7 @@ const LibroForm = ({ initialLibro = {}, autores = [], categorias = [], onSave, o
         </button>
         <button 
           type="submit" 
-          className="btn btn-primary"
+          className="btn btn-actualizar-guardar"
           aria-label={initialLibro.id_libro ? 'Actualizar libro' : 'Guardar libro'}
         >
           {initialLibro.id_libro ? 'Actualizar' : 'Guardar'}
