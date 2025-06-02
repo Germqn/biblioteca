@@ -1,328 +1,478 @@
+/* Variables de color y tema */
 :root {
-  /* Light mode colors */
-  --bg-color: #f5f7fa;
-  --text-color: #2c3e50;
-  --text-secondary: #7f8c8d;
+  /* Colores para el modo claro */
+  --bg-color: #f0f2f5; /* Un gris azulado muy claro, más suave */
+  --text-color: #263238; /* Gris oscuro para el texto principal */
+  --text-secondary: #607d8b; /* Gris azulado para texto secundario */
   --card-bg: white;
   --header-bg: white;
-  --shadow-color: rgba(0, 0, 0, 0.08);
-  --shadow-hover: rgba(0, 0, 0, 0.12);
-  --theme-toggle-bg: #f0f0f0;
-  --theme-toggle-text: #333;
-  --vinotinto: #862630;
-  --vinotinto-light: #a7303d;
-  --vinotinto-dark: #5c1a22;
+  --shadow-color: rgba(0, 0, 0, 0.07); /* Sombra más ligera */
+  --shadow-hover: rgba(0, 0, 0, 0.18); /* Sombra más profunda al pasar el ratón */
+  --theme-toggle-bg: #e3e8ed; /* Fondo claro para el toggle */
+  --theme-toggle-text: #455a64;
+  --vinotinto: #862630; /* Color principal vinotinto */
+  --vinotinto-light: #a7303d; /* Versión más clara del vinotinto */
+  --vinotinto-dark: #5c1a22; /* Versión más oscura del vinotinto */
+  --accent-gradient: linear-gradient(90deg, #862630, #a7303d, #5c1a22); /* Gradiente base para acentos */
+  --button-hover-bg: var(--vinotinto); /* Fondo del botón al pasar el ratón en modo claro */
+  --button-hover-text: white;
+  --border-light: #cfd8dc; /* Borde sutil para elementos claros */
 }
 
+/* Colores para el modo oscuro */
 .dark-mode {
-  /* Dark mode colors */
-  --bg-color: #1a1a2e;
-  --text-color: #e6e6e6;
-  --text-secondary: #b3b3b3;
-  --card-bg: #16213e;
-  --header-bg: #16213e;
-  --shadow-color: rgba(0, 0, 0, 0.3);
-  --shadow-hover: rgba(0, 0, 0, 0.5);
-  --theme-toggle-bg: #333;
-  --theme-toggle-text: #f0f0f0;
+  --bg-color: #1c2a38; /* Azul oscuro profundo */
+  --text-color: #e0e0e0; /* Blanco roto para el texto principal */
+  --text-secondary: #a0a0a0; /* Gris medio para texto secundario */
+  --card-bg: #27394d; /* Azul oscuro para las tarjetas */
+  --header-bg: #27394d;
+  --shadow-color: rgba(0, 0, 0, 0.5); /* Sombras más oscuras */
+  --shadow-hover: rgba(0, 0, 0, 0.7);
+  --theme-toggle-bg: #3f516d; /* Fondo oscuro para el toggle */
+  --theme-toggle-text: #e0e0e0;
+  --button-hover-bg: var(--vinotinto-dark); /* Fondo del botón al pasar el ratón en modo oscuro */
+  --button-hover-text: #f0f0f0;
+  --border-light: #3f516d; /* Borde sutil para elementos oscuros */
 }
 
 /* Estilos base */
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  transition: background-color 0.3s ease;
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Poppins: Moderna, legible y elegante */
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out; /* Transiciones más suaves y con curva */
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6; /* Mejora la legibilidad general */
+  -webkit-font-smoothing: antialiased; /* Suavizado de fuentes para Mac */
+  -moz-osx-font-smoothing: grayscale; /* Suavizado de fuentes para Firefox */
 }
+
+/* Asegúrate de importar Poppins en tu HTML */
+/* Ejemplo: <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"> */
 
 .dashboard-container {
-  padding: 2rem;
-  max-width: 1400px;
+  padding: 3rem; /* Mayor padding general */
+  max-width: 1600px; /* Ancho máximo aumentado para dashboards más grandes */
   margin: 0 auto;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+/* --- Encabezado del Dashboard --- */
 .dashboard-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 3rem;
+  align-items: center; /* Alinea los ítems al centro verticalmente */
+  margin-bottom: 4rem; /* Más espacio debajo del encabezado */
+  padding-bottom: 2rem; /* Mayor padding inferior */
+  border-bottom: 1px solid var(--border-light); /* Borde más sutil */
   position: relative;
-  color: var(--text-color);
-  padding-bottom: 1.5rem;
-  border-bottom: 2px solid var(--vinotinto);
-  animation: borderPulse 3s infinite;
+  overflow: hidden; /* Asegura que el gradiente de luz no se desborde */
 }
 
-@keyframes borderPulse {
-  0% { border-color: var(--vinotinto); }
-  50% { border-color: var(--vinotinto-light); }
-  100% { border-color: var(--vinotinto); }
+/* Línea brillante animada debajo del encabezado */
+.dashboard-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; /* Alineado justo al borde inferior */
+  left: 0;
+  width: 100%;
+  height: 3px; /* Grosor de la línea */
+  background: var(--accent-gradient);
+  background-size: 200% 100%;
+  animation: gradientFlow 6s linear infinite; /* Animación más lenta y majestuosa */
+  opacity: 0.9;
+  box-shadow: 0 0 15px rgba(134, 38, 48, 0.4); /* Sombra suave para el efecto de brillo */
 }
 
 .header-content {
   flex: 1;
-  flex-shrink: 0; /* Evita que el contenido se encoja demasiado */
+  flex-shrink: 0;
 }
 
 .header-controls {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem; /* Mayor separación entre controles */
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
-/* Estilo para botones consistentes */
-.btn-back,
-.theme-toggle,
-.logout-btn {
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-weight: 500;
+/* --- Estilo para botones consistentes --- */
+.btn-base {
+  padding: 0.75rem 1.8rem; /* Mayor padding para botones más "rellenos" */
+  border-radius: 30px; /* Bordes aún más redondeados, estilo "pill" */
+  font-weight: 600;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  transition: all 0.3s ease;
+  gap: 0.75rem; /* Más espacio entre icono y texto */
+  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); /* Curva de transición elástica */
   cursor: pointer;
-  font-size: 0.9rem;
-  border: 2px solid var(--vinotinto);
+  font-size: 1rem; /* Fuente más grande */
+  border: 2px solid var(--vinotinto); /* Borde definido */
   position: relative;
   overflow: hidden;
   text-decoration: none;
+  background-color: transparent;
+  color: var(--vinotinto); /* Color principal de texto para los botones */
+
+  letter-spacing: 0.8px; /* Mayor espaciado entre letras */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Sutil sombra inicial */
 }
 
-.btn-back::before,
-.theme-toggle::before,
-.logout-btn::before {
+.btn-base:hover {
+  transform: translateY(-4px) scale(1.02); /* Efecto de elevación y ligero zoom más pronunciado */
+  box-shadow: 0 8px 20px var(--shadow-hover); /* Sombra más notable al pasar el ratón */
+  background-color: var(--button-hover-bg);
+  color: var(--button-hover-text);
+  border-color: var(--button-hover-bg); /* Borde se funde con el fondo al pasar el ratón */
+}
+
+/* Efecto de brillo "swipe" en los botones */
+.btn-base::before {
+  content: '';
   position: absolute;
   top: 0;
-  left: -100%;
+  left: -120%; /* Inicia más a la izquierda */
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(134, 38, 48, 0.3), transparent);
-  transition: all 0.5s ease;
+  background: rgba(255, 255, 255, 0.15); /* Blanco semi-transparente para el brillo */
+  transform: skewX(-20deg); /* Inclinación para el efecto de swipe */
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 1;
 }
 
-.theme-toggle {
-  background: var(--theme-toggle-bg);
-  color: var(--theme-toggle-text);
+.btn-base:hover::before {
+  left: 120%; /* Se mueve más a la derecha */
 }
 
-.theme-toggle:hover {
-  box-shadow: 0 4px 8px rgba(134, 38, 48, 0.2);
-  background-color: var(--vinotinto);
-  color:var(--vinotinto-light);
-  background: linear-gradient(90deg, transparent, rgba(134, 38, 48, 0.3), transparent);
+.btn-icon {
+  font-size: 1.2rem; /* Iconos más grandes */
+  transition: transform 0.3s ease;
 }
 
-.logout-btn {
-  background: var(--theme-toggle-bg);
-  color: var(--theme-toggle-text);
+.btn-base:hover .btn-icon {
+  transform: rotate(5deg) scale(1.05); /* Pequeña rotación y zoom en el icono al pasar el ratón */
 }
 
-.logout-btn:hover {
-  background-color: var(--vinotinto);
-  color: var(--vinotinto-light);
-  box-shadow: 0 4px 8px rgba(134, 38, 48, 0.2);
-  background: linear-gradient(90deg, transparent, rgba(134, 38, 48, 0.3), transparent);
-}
-
-.btn-icon,
-.theme-icon,
-.logout-icon {
-  font-size: 1rem;
-}
-
+/* --- Títulos y subtítulos --- */
 .dashboard-title {
-  font-size: 2.2rem;
-  color: black;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+  font-size: 3.5rem; /* Título aún más grande y prominente */
+  color: var(--text-color);
+  font-weight: 800;
+  margin-bottom: 0.8rem;
   position: relative;
   display: inline-block;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15); /* Sombra de texto más pronunciada */
 }
 
-.dark-mode .dashboard-title {
-  font-size: 2.2rem;
-  color: white;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  position: relative;
-  display: inline-block;
-}
-
+/* Línea animada del título */
 .dashboard-title::after {
   content: '';
   position: absolute;
-  bottom: -5px;
+  bottom: -12px; /* Más abajo del texto */
   left: 0;
   width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, var(--vinotinto), var(--vinotinto-light), var(--vinotinto));
-  background-size: 200% 100%;
-  animation: gradientFlow 3s linear infinite;
+  height: 6px; /* Borde inferior más grueso */
+  background: var(--accent-gradient);
+  background-size: 300% 100%;
+  animation: gradientFlow 8s linear infinite alternate; /* Animación más lenta y alternada */
+  border-radius: 3px;
+  box-shadow: 0 0 20px rgba(134, 38, 48, 0.5); /* Sombra para el efecto de brillo de la línea */
 }
 
 @keyframes gradientFlow {
   0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
+  100% { background-position: 100% 50%; }
 }
 
 .dashboard-subtitle {
   color: var(--text-secondary);
-  font-size: 1.1rem;
-  max-width: 700px;
+  font-size: 1.3rem; /* Subtítulo más grande y claro */
+  max-width: 900px; /* Ancho máximo para el subtítulo */
+  line-height: 1.7; /* Mayor interlineado para mejor lectura */
+  font-weight: 300; /* Fuente más ligera para el subtítulo */
 }
 
+/* --- Contenedor de la cuadrícula de tarjetas --- */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Tarjetas más grandes */
+  gap: 2.5rem; /* Mayor espacio entre tarjetas */
   padding: 0;
+  flex-grow: 1;
 }
 
+/* --- Tarjetas del Dashboard --- */
 .dashboard-card {
   background: var(--card-bg);
-  border-radius: 12px;
+  border-radius: 20px; /* Bordes muy redondeados para un aspecto moderno */
   overflow: hidden;
-  box-shadow: 0 4px 12px var(--shadow-color);
-  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px var(--shadow-color); /* Sombra más definida y extendida */
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transición elástica y suave */
   height: 100%;
   display: flex;
   flex-direction: column;
-  border: none;
-  color: black;
-  position: relative;
-  border: 1px solid transparent;
-  text-align: center;
-  flex-grow: 1;
-
-}
-.dark-mode .dashboard-card {
-  background: var(--card-bg);
+  border: 1px solid var(--border-light); /* Borde sutil que se adapta al tema */
   color: var(--text-color);
-  box-shadow: 0 4px 12px var(--shadow-color);
+  position: relative;
+  text-align: center;
+  will-change: transform, box-shadow; /* Optimización para animaciones */
 }
 
 .dashboard-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 24px var(--shadow-hover);
-  border-color: var(--vinotinto);
+  transform: translateY(-10px) scale(1.03); /* Efecto de elevación y zoom más dramático */
+  box-shadow: 0 15px 40px var(--shadow-hover); /* Sombra muy pronunciada al pasar el ratón */
+  border-color: var(--vinotinto-light); /* Borde más vibrante al pasar el ratón */
 }
 
+/* Borde superior animado para las tarjetas */
 .dashboard-card::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--vinotinto), var(--vinotinto-light), var(--vinotinto));
+  height: 6px; /* Borde superior más grueso */
+  background: var(--accent-gradient);
   background-size: 200% 100%;
-  animation: gradientFlow 3s linear infinite;
+  animation: gradientFlow 4s linear infinite alternate; /* Animación de gradiente alternada */
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 0 10px rgba(134, 38, 48, 0.3); /* Sombra suave para el efecto de brillo */
 }
 
 .card-icon-container {
-  padding: 1.5rem;
+  padding: 2.5rem 1.5rem 1.5rem; /* Más padding superior para el icono */
   text-align: center;
-  color: black;
-  margin-top: 4px;
+  color: black; /* Iconos siempre en vinotinto, muy visibles */
+  margin-top: 6px; /* Deja espacio para el borde animado */
 }
 
 .dark-mode .card-icon-container {
-  color: var(--text-color);
+  color: var(--text-color); /* Iconos claros en modo oscuro */
 }
 
 .card-icon {
-  font-size: 2.5rem;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  font-size: 4rem; /* Iconos más grandes y llamativos */
+  filter: drop-shadow(0 5px 12px rgba(0, 0, 0, 0.25)); /* Sombra más definida para el icono */
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transición elástica para el icono */
+}
+
+.dashboard-card:hover .card-icon {
+  transform: scale(1.15) rotate(-3deg); /* Efecto de zoom y ligera rotación en el icono al pasar el ratón */
 }
 
 .card-body {
-  padding: 1.5rem;
+  padding: 1.5rem 2.5rem 2.5rem; /* Padding generoso para el contenido */
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .card-title {
-  font-size: 1.3rem;
+  font-size: 1.7rem; /* Título de tarjeta más grande y legible */
   color: var(--text-color);
-  margin-bottom: 0.75rem;
-  font-weight: 600;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .card-text {
   color: var(--text-secondary);
-  margin-bottom: 1.5rem;
-  line-height: 1.5;
+  margin-bottom: 2rem; /* Más espacio antes del botón */
+  line-height: 1.7;
   flex-grow: 1;
+  font-size: 1rem; /* Texto de la tarjeta un poco más grande */
+  font-weight: 300; /* Ligeramente más ligero para el cuerpo del texto */
 }
 
 .card-link {
   display: inline-block;
-  padding: 0.75rem 1.5rem;
+  padding: 0.9rem 2rem; /* Más padding para el botón de la tarjeta */
   background-color: var(--vinotinto);
   color: white;
-  border-radius: 6px;
+  border-radius: 10px; /* Bordes suaves */
   text-decoration: none;
-  font-weight: 500;
-  transition: all 0.3s ease;
+  font-weight: 600;
+  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
   border: none;
   cursor: pointer;
   text-align: center;
   width: auto;
-  min-width: 150px;
+  min-width: 200px; /* Ancho mínimo más generoso */
   position: relative;
   overflow: hidden;
+  z-index: 1;
+  letter-spacing: 1px; /* Mayor espaciado para el texto del botón */
+  align-self: center; /* Centra el botón */
+  box-shadow: 0 4px 10px rgba(134, 38, 48, 0.2); /* Sombra sutil inicial */
 }
 
 .card-link::before {
   content: '';
   position: absolute;
   top: 0;
-  left: -100%;
+  left: -150%; /* Más a la izquierda para un barrido más largo */
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: all 0.5s ease;
+  background: rgba(255, 255, 255, 0.25); /* Brillo más intenso */
+  transform: skewX(-25deg); /* Mayor inclinación */
+  transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 0;
 }
 
 .card-link:hover::before {
-  left: 100%;
+  left: 150%; /* Barrido completo */
 }
 
 .card-link:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(134, 38, 48, 0.3);
-  background-color: var(--vinotinto-light);
+  background-color: var(--vinotinto-dark); /* Color más oscuro al pasar el ratón */
+  box-shadow: 0 8px 25px rgba(134, 38, 48, 0.5); /* Sombra más intensa y brillante */
+  transform: translateY(-5px); /* Mayor elevación */
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* --- Responsive Design --- */
+@media (max-width: 1200px) {
   .dashboard-container {
-    padding: 1.5rem;
+    padding: 2.5rem;
   }
+  .dashboard-title {
+    font-size: 3rem;
+  }
+  .dashboard-subtitle {
+    font-size: 1.2rem;
+  }
+  .dashboard-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  .card-icon {
+    font-size: 3.5rem;
+  }
+  .card-title {
+    font-size: 1.5rem;
+  }
+}
 
+@media (max-width: 992px) {
+  .dashboard-container {
+    padding: 2rem;
+  }
   .dashboard-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.5rem;
+    gap: 2rem;
+    margin-bottom: 3rem;
   }
-
   .header-controls {
     width: 100%;
     justify-content: space-between;
   }
+  .dashboard-title {
+    font-size: 2.5rem;
+  }
+  .dashboard-subtitle {
+    font-size: 1.1rem;
+  }
+  .dashboard-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.8rem;
+  }
+  .card-body {
+    padding: 1.2rem 2rem 2rem;
+  }
+  .card-link {
+    min-width: 180px;
+  }
+}
 
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1.5rem;
+  }
+  .dashboard-header {
+    padding-bottom: 1.5rem;
+  }
+  .header-controls {
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  .btn-base {
+    width: 100%;
+    max-width: 300px; /* Ancho máximo para los botones en móviles */
+    padding: 0.6rem 1.5rem;
+    font-size: 0.95rem;
+  }
+  .dashboard-title {
+    font-size: 2.2rem;
+    text-align: center;
+    width: 100%;
+  }
+  .dashboard-title::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .dashboard-subtitle {
+    font-size: 1rem;
+    text-align: center;
+  }
+  .header-content {
+    align-items: center;
+    text-align: center;
+  }
   .dashboard-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
+  .dashboard-card {
+    box-shadow: 0 5px 15px var(--shadow-color);
+  }
+  .dashboard-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px var(--shadow-hover);
+  }
+  .card-icon {
+    font-size: 3rem;
+  }
+  .card-title {
+    font-size: 1.35rem;
+  }
+  .card-text {
+    font-size: 0.9rem;
+  }
+  .card-link {
+    width: 90%;
+    max-width: 250px;
+    padding: 0.8rem 1.5rem;
+  }
+}
 
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 1rem;
+  }
   .dashboard-title {
     font-size: 1.8rem;
   }
-
-  .card-link {
-    width: 100%;
+  .dashboard-subtitle {
+    font-size: 0.9rem;
   }
-
+  .card-icon {
+    font-size: 2.5rem;
+  }
+  .card-title {
+    font-size: 1.2rem;
+  }
+  .card-text {
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+  .card-link {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+  }
 }

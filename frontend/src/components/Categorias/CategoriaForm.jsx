@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CategoriaForm.css';
 
-const CategoriaForm = ({ categoriaEdit, onSave, onCancel, onUpdateSuccess }) => {
+const CategoriaForm = ({ categoriaEdit, onSave, onCancel, onUpdateSuccess, darkMode, isVisible }) => {
   const [nombre, setNombre] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -22,20 +22,17 @@ const CategoriaForm = ({ categoriaEdit, onSave, onCancel, onUpdateSuccess }) => 
     
     try {
       if (categoriaEdit) {
-        // Editar
         const response = await axios.put(
           `http://localhost:3001/api/categorias/${categoriaEdit.id_categoria}`, 
           { nombre_categoria: nombre }
         );
-        onUpdateSuccess(response.data); // Pasar los datos actualizados
+        onUpdateSuccess(response.data);
       } else {
-        // Crear
         const response = await axios.post('http://localhost:3001/api/categorias', {
           nombre_categoria: nombre,
         });
-        onSave(response.data); // Pasar la nueva categoría
+        onSave(response.data);
       }
-      setNombre('');
     } catch (error) {
       console.error('Error al guardar la categoría:', error);
     } finally {
@@ -44,10 +41,19 @@ const CategoriaForm = ({ categoriaEdit, onSave, onCancel, onUpdateSuccess }) => 
   };
 
   return (
-    <div className="categoria-form-container">
-      <h3 className="categoria-form-title">
-        {categoriaEdit ? 'Editar Categoría' : 'Nueva Categoría'}
-      </h3>
+    <div className={`categoria-form-overlay ${isVisible ? 'show' : ''}`}>
+      <div className={`categoria-form-container ${darkMode ? 'dark-mode' : ''}`}>
+      <div className="form-header">
+        <h3 className="categoria-form-title">
+          {categoriaEdit ? 'Editar Categoría' : 'Nueva Categoría'}
+        </h3>
+        <button 
+          className="btn-close-form"
+          onClick={onCancel}
+        >
+          <i className="bi bi-x-lg"></i>
+        </button>
+      </div>
       
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -66,7 +72,7 @@ const CategoriaForm = ({ categoriaEdit, onSave, onCancel, onUpdateSuccess }) => 
         <div className="form-actions">
           <button 
             type="submit" 
-            className="btn btn-primary"
+            className="btn btn-crear-actualizar"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
@@ -79,18 +85,17 @@ const CategoriaForm = ({ categoriaEdit, onSave, onCancel, onUpdateSuccess }) => 
             )}
           </button>
           
-          {categoriaEdit && (
-            <button 
-              type="button" 
-              className="btn btn-secondary"
-              onClick={onCancel}
-              disabled={isSubmitting}
-            >
-              Cancelar
-            </button>
-          )}
+          <button 
+            type="button" 
+            className="btn btn-cancelar"
+            onClick={onCancel}
+            disabled={isSubmitting}
+          >
+            Cancelar
+          </button>
         </div>
       </form>
+    </div>
     </div>
   );
 };

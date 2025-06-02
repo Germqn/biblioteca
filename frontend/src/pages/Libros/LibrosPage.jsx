@@ -59,22 +59,37 @@ export default function LibrosPage() {
   // Función para guardar la portada en la base de datos
   const handleSaveCover = async (libroId, coverUrl) => {
     try {
-      // Actualizar solo el campo portada_url
-      await axios.patch(`http://localhost:3001/api/libros/${libroId}`, {
-        portada_url: coverUrl
-      });
+      await axios.patch(
+        `http://localhost:3001/api/libros/${libroId}/portada`,
+        { portada_url: coverUrl },
+        { 
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
       
-      // Actualizar el estado local
-      setLibros(prevLibros => prevLibros.map(libro => 
+      setLibros(prev => prev.map(libro => 
         libro.id_libro === libroId ? { ...libro, portada_url: coverUrl } : libro
       ));
       
-      // Forzar actualización del carrusel
       setCarruselKey(prev => prev + 1);
+      alert('Portada guardada correctamente');
     } catch (error) {
-      console.error("Error guardando portada en BD:", error);
-      alert('Error al guardar la portada: ' + (error.response?.data?.message || error.message));
-    }
+      console.error("Detalles del error:", error);
+      let errorMessage = 'Error al guardar la portada';
+      
+      if (error.response) {
+        if (error.response.data?.errors) {
+          errorMessage = error.response.data.errors.map(e => e.msg).join(', ');
+        } else if (error.response.data?.message) {
+          errorMessage = error.response.data.message;
+        }
+      }
+      
+      alert(errorMessage);
+      }
   };
 
   const handleEditarLibro = (libro) => {

@@ -3,17 +3,14 @@ import axios from "axios";
 const API = "http://localhost:3001/api/libros";
 
 export const getLibros = async () => {
-  const res = await axios.get(API);
-  return res.data;
-};
-
-export const getLibro = async () => {
   const token = localStorage.getItem('token');
-  const response = await axios.get(API, {
+  const response = await axios.get("http://localhost:3001/api/libros", {
     headers: { Authorization: `Bearer ${token}` }
   });
   return response.data;
 };
+
+
 
 export const createLibro = async (libro) => {
   const res = await axios.post(API, libro);

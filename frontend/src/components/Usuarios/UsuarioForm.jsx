@@ -1,39 +1,81 @@
-import { useState, useEffect } from "react";
-import { createUsuario, updateUsuario } from "../../services/usuarioService";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { createUsuario, getUsuario, updateUsuario } from "../services/usuarioService";
 
-export default function UsuarioForm({ usuarioEdit, setUsuarioEdit, loadUsuarios }) {
-  const [formData, setFormData] = useState({
+const UsuarioForm = () => {
+  const [usuario, setUsuario] = useState({
     nombre: "",
     apellido: "",
     email: ""
   });
 
-  useEffect(() => {
-    if (usuarioEdit) setFormData(usuarioEdit);
-  }, [usuarioEdit]);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const esEdicion = !!id;
 
-  const handleChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  useEffect(() => {
+    if (esEdicion) {
+      getUsuario(id).then(setUsuario);
+    }
+  }, [id]);
+
+  const handleChange = (e) => {
+    setUsuario({
+      ...usuario,
+      [e.target.name]: e.target.value
+    });
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (usuarioEdit) {
-      await updateUsuario(usuarioEdit.id_usuario, formData);
+    if (esEdicion) {
+      await updateUsuario(id, usuario);
     } else {
-      await createUsuario(formData);
+      await createUsuario(usuario);
     }
-    setUsuarioEdit(null);
-    loadUsuarios();
-    setFormData({ nombre: "", apellido: "", email: "" });
+    navigate("/usuarios");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="nombre" value={formData.nombre} onChange={handleChange} placeholder="Nombre" />
-      <input name="apellido" value={formData.apellido} onChange={handleChange} placeholder="Apellido" />
-      <input name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
-      <button type="submit">{usuarioEdit ? "Actualizar" : "Crear"}</button>
-    </form>
+    <div>
+      <h2>{esEdicion ? "Editar Usuario" : "Crear Usuario"}</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Nombre:</label>
+          <input
+            type="text"
+            name="nombre"
+            value={usuario.nombre}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label>Apellido:</label>
+          <input
+            type="text"
+            name="apellido"
+            value={usuario.apellido}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label>Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={usuario.email}
+            onChange={handleChange}
+          />
+        </div>
+        <button type="submit">Guardar</button>
+        <button type="button" onClick={() => navigate("/usuarios")}>
+          Cancelar
+        </button>
+      </form>
+    </div>
   );
-}
+};
+
+export default UsuarioForm;

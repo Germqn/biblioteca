@@ -5,6 +5,7 @@ import { getLibros } from "../../services/libroService";
 import CategoriaCard from "../../components/Categorias/CategoriaCard";
 import CategoriaForm from "../../components/Categorias/CategoriaForm";
 import './CategoriasPage.css';
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 export default function CategoriasPage() {
   const [categorias, setCategorias] = useState([]);
@@ -13,6 +14,8 @@ export default function CategoriasPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,8 +27,38 @@ export default function CategoriasPage() {
           getLibros()
         ]);
         
-        setCategorias(Array.isArray(categoriasData?.data) ? categoriasData.data : []);
-        setLibros(Array.isArray(librosData) ? librosData : []);
+        // Logs para debugging
+        console.log('=== DATOS CARGADOS ===');
+        console.log('Raw categoriasData:', categoriasData);
+        console.log('Raw librosData:', librosData);
+        
+        const processedCategorias = Array.isArray(categoriasData?.data) ? categoriasData.data : [];
+        const processedLibros = Array.isArray(librosData) ? librosData : [];
+        
+        console.log('Categorías procesadas:', processedCategorias);
+        console.log('Libros procesados:', processedLibros);
+        console.log('Cantidad de categorías:', processedCategorias.length);
+        console.log('Cantidad de libros:', processedLibros.length);
+        
+        // Log de estructura de datos
+        if (processedCategorias.length > 0) {
+          console.log('Estructura de primera categoría:', processedCategorias[0]);
+          console.log('Claves de categoría:', Object.keys(processedCategorias[0]));
+        }
+        
+        if (processedLibros.length > 0) {
+          console.log('Estructura de primer libro:', processedLibros[0]);
+          console.log('Claves de libro:', Object.keys(processedLibros[0]));
+          console.log('TODAS LAS CLAVES DEL PRIMER LIBRO:', Object.keys(processedLibros[0]));
+          console.log('VALORES DE TODAS LAS CLAVES:');
+          Object.keys(processedLibros[0]).forEach(key => {
+            console.log(`- ${key}:`, processedLibros[0][key], `(tipo: ${typeof processedLibros[0][key]})`);
+          });
+        }
+        console.log('====================');
+        
+        setCategorias(processedCategorias);
+        setLibros(processedLibros);
         setError(null);
       } catch (error) {
         console.error("Error loading data:", error);
@@ -39,15 +72,15 @@ export default function CategoriasPage() {
   }, []);
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this category?")) {
+    if (window.confirm("¿Estás seguro de eliminar esta categoría?")) {
       try {
         await deleteCategoria(id);
         setCategorias(prev => prev.filter(cat => cat.id_categoria !== id));
-        setSuccessMessage("Category deleted successfully");
+        setSuccessMessage("Categoría eliminada correctamente");
         setTimeout(() => setSuccessMessage(null), 3000);
       } catch (error) {
-        console.error("Error deleting category:", error);
-        setError("Error deleting category");
+        console.error("Error eliminando categoría:", error);
+        setError("Error eliminando categoría");
       }
     }
   };
@@ -59,38 +92,94 @@ export default function CategoriasPage() {
       )
     );
     setCategoriaEdit(null);
-    setSuccessMessage("Category updated successfully");
+    setShowModal(false);
+    setSuccessMessage("Categoría actualizada correctamente");
     setTimeout(() => setSuccessMessage(null), 3000);
   };
 
   const handleCreateSuccess = (newCategoria) => {
     setCategorias(prev => [...prev, newCategoria]);
-    setSuccessMessage("Category created successfully");
+    setShowModal(false);
+    setSuccessMessage("Categoría creada correctamente");
     setTimeout(() => setSuccessMessage(null), 3000);
   };
 
+  const handleCancelForm = () => {
+    setShowModal(false);
+    setCategoriaEdit(null);
+  };
+
   const librosPorCategoria = useMemo(() => {
+    console.log('=== CREANDO MAPA DE LIBROS ===');
+    console.log('Libros para mapear:', libros);
+    
     const map = new Map();
-    libros.forEach(libro => {
-      if (!map.has(libro.id_categoria)) {
-        map.set(libro.id_categoria, []);
+    
+    libros.forEach((libro, index) => {
+      console.log(`Procesando libro ${index + 1}:`, libro);
+      console.log(`- Objeto categoria completo:`, libro.categoria);
+      console.log(`- ID categoria del libro: ${libro.categoria?.id_categoria}`);
+      console.log(`- Tipo de id_categoria:`, typeof libro.categoria?.id_categoria);
+      
+      const categoriaId = libro.categoria?.id_categoria;
+      
+      if (!map.has(categoriaId)) {
+        map.set(categoriaId, []);
+        console.log(`- Creada nueva entrada para categoría: ${categoriaId}`);
       }
-      map.get(libro.id_categoria).push(libro);
+      map.get(categoriaId).push(libro);
+      console.log(`- Libro agregado a categoría: ${categoriaId}`);
     });
+    
+    console.log('Mapa final:', map);
+    console.log('Claves del mapa:', Array.from(map.keys()));
+    map.forEach((librosArray, categoriaId) => {
+      console.log(`Categoría ${categoriaId} tiene ${librosArray.length} libros:`, librosArray);
+    });
+    console.log('=============================');
+    
     return map;
   }, [libros]);
 
   return (
-    <div className="container categorias-page">
-      <div className="d-flex justify-content-between align-items-center mb-4">
+    <div className={`categorias-page ${darkMode ? 'dark-mode' : ''}`}>
+      <div className="header-container">
         <button 
           onClick={() => navigate('/dashboard')}
           className="btn btn-outline-secondary"
         >
           <i className="bi bi-arrow-left me-2"></i>Regresar
         </button>
-        <h1 className="page-title mb-0">Categories</h1>
-        <div style={{ width: '160px' }}></div>
+        
+        <h1 className="page-title">Categorías</h1>
+        
+        <div className="header-actions">
+          <button 
+            className="btn btn-dark-mode"
+            onClick={() => setDarkMode(!darkMode)}
+            aria-label={darkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+          >
+            {darkMode ? (
+              <>
+                <FaSun className="theme-icon" />
+                <span>Modo Claro</span>
+              </>
+            ) : (
+              <>
+                <FaMoon className="theme-icon" />
+                <span>Modo Oscuro</span></>
+            )}
+          </button>
+          <button 
+            className="btn btn-add"
+            onClick={() => {
+              setCategoriaEdit(null);
+              setShowModal(true);
+            }}
+          >
+            <i className="bi bi-plus-lg me-2"></i>Añadir Categoría
+          </button>
+        </div>
       </div>
 
       {successMessage && (
@@ -115,42 +204,64 @@ export default function CategoriasPage() {
         </div>
       )}
 
-      <div className="row">
-        <div className="col-lg-5">
-          <CategoriaForm 
-            categoriaEdit={categoriaEdit}
-            onSave={handleCreateSuccess}
-            onCancel={() => setCategoriaEdit(null)}
-            onUpdateSuccess={handleUpdateSuccess}
-          />
+      {loading ? (
+        <div className="text-center my-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Cargando...</span>
+          </div>
+          <p className="mt-3">Cargando categorías...</p>
         </div>
-        <div className="col-lg-7">
-          {loading ? (
-            <div className="text-center my-5">
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Cargando...</span>
-              </div>
-              <p className="mt-3">Cargando categorias...</p>
-            </div>
-          ) : categorias.length === 0 ? (
-            <div className="alert alert-info text-center">
-              No categories found. Create your first category!
-            </div>
-          ) : (
-            <div className="categorias-list">
-              {categorias.map((categoria) => (
-                <CategoriaCard 
-                  key={categoria.id_categoria} 
-                  categoria={categoria}
-                  libros={librosPorCategoria.get(categoria.id_categoria) || []}
-                  onEdit={() => setCategoriaEdit(categoria)}
-                  onDelete={() => handleDelete(categoria.id_categoria)}
-                />
-              ))}
-            </div>
-          )}
+      ) : categorias.length === 0 ? (
+        <div className="alert alert-info text-center">
+          No hay categorías disponibles. Crea una nueva categoría para empezar.
         </div>
-      </div>
+      ) : (
+        <div className="categorias-grid">
+          {categorias.map((categoria) => {
+            const librosDeCategoria = librosPorCategoria.get(categoria.id_categoria) || [];
+            
+            // Log específico para cada categoría
+            console.log(`=== RENDERIZANDO CATEGORIA ${categoria.nombre_categoria} ===`);
+            console.log('ID de categoría:', categoria.id_categoria);
+            console.log('Tipo de ID:', typeof categoria.id_categoria);
+            console.log('Buscando en mapa con key:', categoria.id_categoria);
+            console.log('Libros encontrados:', librosDeCategoria);
+            console.log('Cantidad de libros:', librosDeCategoria.length);
+            console.log('Todas las keys del mapa:', Array.from(librosPorCategoria.keys()));
+            console.log('================================================');
+            
+            return (
+              <CategoriaCard 
+                key={categoria.id_categoria} 
+                categoria={categoria}
+                libros={librosDeCategoria}
+                onEdit={() => {
+                  setCategoriaEdit(categoria);
+                  setShowModal(true);
+                }}
+                onDelete={() => handleDelete(categoria.id_categoria)}
+                darkMode={darkMode}
+              />
+            );
+          })}
+        </div>
+      )}
+
+      {(showModal || categoriaEdit) && (
+        <div className="modal-backdrop">
+          <div className="modal-content">
+            <CategoriaForm 
+              categoriaEdit={categoriaEdit}
+              onSave={handleCreateSuccess}
+              onCancel={handleCancelForm}
+              onUpdateSuccess={handleUpdateSuccess}
+              darkMode={darkMode}
+              isVisible={showModal}
+            />
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

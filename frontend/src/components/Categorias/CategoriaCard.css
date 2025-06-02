@@ -1,70 +1,251 @@
-/* src/components/Categorias/CategoriaCard.css */
+/* CategoriaCard.css */
 :root {
- /* Colores para modo claro */
-  --bg-color: #f5f7fa;
-  --text-color: #2c3e50;
-  --text-secondary: #7f8c8d;
-  --card-bg: white;
-  --header-bg: white;
-  --shadow-color: rgba(0, 0, 0, 0.08);
-  --shadow-hover: rgba(0, 0, 0, 0.12);
-  --theme-toggle-bg: #f0f0f0;
-  --theme-toggle-text: #333;
   --vinotinto: #862630;
-  --vinotinto-light: #a7303d;
-  --vinotinto-dark: #5c1a22;
-  --info-color: #17a2b8;
-  --info-hover: #138496;
-  --danger-color: #c0392b;
-  --danger-hover: #e74c3c;
-  --success-color: #28a745;
-  --success-hover: #218838;
-}
+  --vinotinto-claro: #9e2d3a;
+  --texto-claro: #ffffff;
+  --texto-oscuro: #333333;
+  --fondo-claro: #ffffff;
+  --fondo-oscuro: #1a1a2e;
+  --borde-claro: #e0e0e0;
+  --borde-oscuro: #333333;
 
-.dark-mode {
-  /* Colores para modo oscuro */
-  --bg-color: #1a1a2e;
-  --text-color: #e6e6e6;
-  --text-secondary: #b3b3b3;
-  --card-bg: #16213e;
-  --header-bg: #16213e;
-  --shadow-color: rgba(0, 0, 0, 0.3);
-  --shadow-hover: rgba(0, 0, 0, 0.5);
-  --theme-toggle-bg: #333;
-  --theme-toggle-text: #f0f0f0;
-  --info-color: #2d9cb3;
-  --danger-color: #d9534f;
-  --success-color: #5cb85c;
+  --vinotinto-primary: #8B2C5B;
+  --vinotinto-secondary: #A0336B;
+  --vinotinto-light: #B84A7A;
+  --vinotinto-lighter: #D16B9A;
+  --vinotinto-bg: #F8F4F6;
+  --vinotinto-border: #E8D4DC;
+  
+  --bg-color: #ffffff;
+  --text-color: #ffffff;
+  --text-muted: #4a4a4a;
+  --border-color: #d1d5db;
+  --input-bg: #ffffff;
+  --shadow-color: rgba(139, 44, 91, 0.2);
+  --error-color: #dc2626;
+  --success-color: #16a34a;
 }
 
 .categoria-card {
-    border: 1px solid rgba(134, 38, 48, 0.1);
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .categoria-card h3 {
-    margin-top: 0;
-  }
-  
-  .categoria-card button {
-    margin-right: 10px;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .categoria-card button:first-of-type {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .categoria-card button:last-of-type {
-    background-color: #dc3545;
-    color: white;
-  }
-  
+  background-color: var(--card-bg, #ffffff);
+  border-radius: 10px;
+  box-shadow: var(--shadow, 0 4px 6px rgba(0, 0, 0, 0.1));
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--border-color, #e0e0e0);
+  text-align: center;
+}
+
+.dark-mode .categoria-card {
+  background-color: var(--card-bg, #1e1e1e);
+  border-color: var(--border-color, #333333);
+}
+
+.categoria-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: var(--primary-color, #8B2C5B);
+}
+
+.card-title {
+  margin: 0;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border-color, #e0e0e0);
+  background-color: var(--card-bg, #ffffff);
+}
+
+.dark-mode .card-actions {
+  background-color: var(--card-bg, #1e1e1e);
+  border-color: var(--border-color, #333333);
+}
+
+.btn-edit, .btn-delete {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 6px;
+  color: var(--text-color, #333333);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.6rem 1rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: auto;
+  min-height: 36px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .btn-edit, 
+.dark-mode .btn-delete {
+  background: rgba(45, 45, 45, 0.9);
+  border-color: var(--border-color, #444444);
+  color: var(--text-color, #f7fafc);
+}
+
+.btn-edit:hover {
+  color:white !important;
+  background: linear-gradient(135deg, #A0336B 0%, #B84A7A 100%);
+  box-shadow: 0 8px 25px rgba(139, 44, 91, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-delete:hover {
+  color:white !important;
+  background: linear-gradient(135deg, #A0336B 0%, #B84A7A 100%);
+  box-shadow: 0 8px 25px rgba(139, 44, 91, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Estilos específicos para cada botón */
+.btn-edit {
+  background: #4a90e2;
+  color: white;
+  border-color: #357abd;
+}
+
+.btn-delete {
+  background: #ef4444;
+  color: white;
+  border-color: #dc2626;
+}
+
+.dark-mode .btn-edit {
+  background: #4a90e2;
+  color: white;
+  border-color: #357abd;
+}
+
+.dark-mode .btn-delete {
+  background: #ef4444;
+  color: white;
+  border-color: #dc2626;
+}
+
+/* Agregar tooltips más visibles */
+.btn-edit::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 1000;
+}
+
+.btn-delete::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 1000;
+}
+
+.btn-edit:hover::after,
+.btn-delete:hover::after {
+  opacity: 1;
+}
+
+/* Posicionamiento relativo para los tooltips */
+.card-actions {
+  position: relative;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-body h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--text-color, #333333);
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-bottom: 1px solid var(--border-color, #e0e0e0);
+  padding-bottom: 0.5rem;
+}
+
+.libros-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.libro-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color, #e0e0e0);
+}
+
+.libro-item:last-child {
+  border-bottom: none;
+}
+
+.libro-title {
+  font-weight: 500;
+  color: var(--text-color, #333333);
+}
+
+.libro-author {
+  font-size: 0.9rem;
+  color: var(--text-secondary, #666666);
+  margin-top: 0.25rem;
+}
+
+.no-libros {
+  color: var(--text-secondary, #666666);
+  font-style: italic;
+  margin: 0;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.dark-mode .card-body h4,
+.dark-mode .libro-title {
+  color: var(--text-color, #f7fafc);
+}
+
+.dark-mode .libro-author,
+.dark-mode .no-libros {
+  color: var(--text-secondary, #a0aec0);
+}
