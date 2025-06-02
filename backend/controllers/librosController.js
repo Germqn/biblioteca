@@ -9,15 +9,15 @@ exports.getLibros = async (req, res) => {
   try {
     const libros = await Libro.findAll({
       include: [
-        { 
-          model: Autor, 
+        {
+          model: Autor,
           as: 'autor',
-          attributes: ['id_autor', 'nombre', 'apellido'] 
+          attributes: ['id_autor', 'nombre', 'apellido']
         },
-        { 
-          model: Categoria, 
+        {
+          model: Categoria,
           as: 'categoria',
-          attributes: ['id_categoria', 'nombre_categoria'] 
+          attributes: ['id_categoria', 'nombre_categoria']
         }
       ],
       attributes: [
@@ -30,20 +30,20 @@ exports.getLibros = async (req, res) => {
           'https://covers.openlibrary.org/b/title/',
           REPLACE(REPLACE(REPLACE(titulo, ' ', '+'), ':', '%3A'), '/', '%2F'),
           '-M.jpg'
-        )`), 
-        'portada_generada']
+        )`),
+          'portada_generada']
       ]
     });
 
     const librosConPortadas = await Promise.all(libros.map(async libro => {
       const libroPlain = libro.get({ plain: true });
-      
+
       if (!libroPlain.portada_url) {
         try {
           const openLibResponse = await axios.get(
             `https://openlibrary.org/search.json?title=${encodeURIComponent(libroPlain.titulo)}&limit=1`
           );
-          
+
           if (openLibResponse.data.docs?.[0]?.cover_i) {
             libroPlain.portada_url = `https://covers.openlibrary.org/b/id/${openLibResponse.data.docs[0].cover_i}-M.jpg`;
           }
@@ -51,7 +51,7 @@ exports.getLibros = async (req, res) => {
           console.error("Error buscando portada:", error);
         }
       }
-      
+
       return {
         ...libroPlain,
         portada_url: libroPlain.portada_url || libroPlain.portada_generada
@@ -73,15 +73,15 @@ exports.getLibro = async (req, res) => {
   try {
     const libro = await Libro.findByPk(req.params.id, {
       include: [
-        { 
-          model: Autor, 
+        {
+          model: Autor,
           as: 'autor',
-          attributes: ['id_autor', 'nombre', 'apellido'] 
+          attributes: ['id_autor', 'nombre', 'apellido']
         },
-        { 
-          model: Categoria, 
+        {
+          model: Categoria,
           as: 'categoria',
-          attributes: ['id_categoria', 'nombre_categoria'] 
+          attributes: ['id_categoria', 'nombre_categoria']
         }
       ]
     });
@@ -97,7 +97,7 @@ exports.getLibro = async (req, res) => {
         const response = await axios.get(
           `https://openlibrary.org/search.json?title=${encodeURIComponent(libro.titulo)}&limit=1`
         );
-        
+
         if (response.data.docs?.[0]?.cover_i) {
           libro.portada_url = `https://covers.openlibrary.org/b/id/${response.data.docs[0].cover_i}-M.jpg`;
           await libro.save();
@@ -126,7 +126,7 @@ exports.createLibro = async (req, res) => {
 
   try {
     const { titulo, id_autor, id_categoria, anio_publicacion, cantidad_disponible, portada_url } = req.body;
-    
+
     const nuevoLibro = await Libro.create({
       titulo,
       id_autor: id_autor || null,

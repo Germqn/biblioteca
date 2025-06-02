@@ -211,12 +211,12 @@
   padding: 1rem;
   background: #f8fafc;
   border-radius: 8px;
-  border-left: 4px solid #3b82f6;
+  border-left: 4px solid hsl(352, 69%, 37%);
 }
 
 .libro-modal-content.dark-mode .libro-detail-item {
   background: #4a5568;
-  border-left-color: #63b3ed;
+  border-left-color: #b9304e;
 }
 
 .detail-label {

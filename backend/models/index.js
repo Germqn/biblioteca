@@ -12,7 +12,6 @@ fs.readdirSync(__dirname)
   })
   .forEach(file => {
     const model = require(path.join(__dirname, file));
-    // Get the model name from the filename (without .js extension)
     const modelName = file.charAt(0).toUpperCase() + file.slice(1, -3);
     db[modelName] = model;
   });

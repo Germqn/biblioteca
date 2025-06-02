@@ -1,8 +1,7 @@
 const express = require('express');
-const router = express.Router();  // Usa express.Router() en lugar de require('router')
+const router = express.Router();  
 const librosController = require('../controllers/librosController');
 
-// Asegúrate de que los métodos del controlador existen y son funciones
 router.get('/', librosController.getLibros);
 router.get('/:id', librosController.getLibro);
 router.post('/', librosController.createLibro);

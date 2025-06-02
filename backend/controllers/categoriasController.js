@@ -30,7 +30,7 @@ const buscarImagenCategoria = async (nombreCategoria) => {
     const color = colores[nombreCategoria.toLowerCase()] || '3498db';
     const iniciales = nombreCategoria.split(' ').map(w => w[0]).join('').toUpperCase();
     return `https://via.placeholder.com/300x200/${color}/ffffff?text=${iniciales}`;
-    
+
   } catch (error) {
     console.error("Error buscando imagen:", error);
     const iniciales = nombreCategoria.split(' ').map(w => w[0]).join('').toUpperCase();

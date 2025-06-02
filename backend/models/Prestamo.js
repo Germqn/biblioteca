@@ -33,7 +33,7 @@ const Prestamo = sequelize.define('Prestamo', {
   }
 }, {
   tableName: 'prestamos',
-  timestamps: false // No hay campos created_at, updated_at en la definición SQL
+  timestamps: false 
 });
 
 module.exports = Prestamo;

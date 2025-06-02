@@ -15,8 +15,24 @@ export default function CategoriasPage() {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+
+  // Inicializar darkMode igual que en LibrosPage
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem('darkMode');
+    return savedMode ? JSON.parse(savedMode) : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+
   const navigate = useNavigate();
+
+  // Efecto para aplicar el modo oscuro al body, igual que en LibrosPage
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+  }, [darkMode]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -109,6 +125,11 @@ export default function CategoriasPage() {
     setCategoriaEdit(null);
   };
 
+  // Función para toggle del modo oscuro, igual que en LibrosPage
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
   const librosPorCategoria = useMemo(() => {
     console.log('=== CREANDO MAPA DE LIBROS ===');
     console.log('Libros para mapear:', libros);
@@ -156,7 +177,7 @@ export default function CategoriasPage() {
         <div className="header-actions">
           <button
             className="btn btn-dark-mode"
-            onClick={() => setDarkMode(!darkMode)}
+            onClick={toggleDarkMode}
             aria-label={darkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
           >
             {darkMode ? (
@@ -167,7 +188,8 @@ export default function CategoriasPage() {
             ) : (
               <>
                 <FaMoon className="theme-icon" />
-                <span>Modo Oscuro</span></>
+                <span>Modo Oscuro</span>
+              </>
             )}
           </button>
           <button

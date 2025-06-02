@@ -30,7 +30,7 @@ export default function Redbook() {
       cardBg: "#ffffff",
       text: "#2c3e50",
       inputBg: "#fff",
-      inputBorder: "#ced4da",
+      inputBorder: "#2c3e50",
       buttonText: "#fff",
       linkColor: "#0d6efd",
       errorBg: "#f8d7da",
@@ -123,7 +123,7 @@ export default function Redbook() {
           <div className="mb-3">
             <label
               htmlFor="email"
-              style={{ color: currentColors.text }}
+              style={{ color: "#2c3e50" }}
               className="form-label"
             >
               Email
@@ -137,7 +137,7 @@ export default function Redbook() {
               className="form-control"
               style={{
                 backgroundColor: currentColors.inputBg,
-                color: currentColors.text,
+                color:"#2c3e50",
                 borderColor: currentColors.inputBorder,
               }}
             />

@@ -8,7 +8,7 @@ const Categoria = sequelize.define('Categoria', {
     primaryKey: true,
     autoIncrement: true
   },
-  nombre_categoria: { 
+  nombre_categoria: {
     type: DataTypes.STRING(100),
     allowNull: false
   }

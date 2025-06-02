@@ -20,7 +20,7 @@ const CategoriaCard = ({ categoria, libros, onEdit, onDelete, darkMode }) => {
   console.log('Libros recibidos:', libros);
   console.log('Cantidad de libros:', libros?.length || 0);
   console.log('Tipo de libros:', typeof libros, Array.isArray(libros));
-  
+
   // Log de cada libro individual
   if (libros && libros.length > 0) {
     libros.forEach((libro, index) => {
@@ -40,14 +40,14 @@ const CategoriaCard = ({ categoria, libros, onEdit, onDelete, darkMode }) => {
       <div className="card-header">
         <h3 className="card-title">{categoria.nombre_categoria}</h3>
       </div>
-      
+
       <div className="card-body">
         <h4>Libros en esta categoría:</h4>
         {libros && libros.length > 0 ? (
           <ul className="libros-list">
             {libros.map(libro => (
-              <li 
-                key={libro.id_libro} 
+              <li
+                key={libro.id_libro}
                 className="libro-item clickable"
                 onClick={() => handleLibroClick(libro)}
                 title="Clic para ver detalles del libro"
@@ -67,14 +67,14 @@ const CategoriaCard = ({ categoria, libros, onEdit, onDelete, darkMode }) => {
       </div>
 
       <div className="card-actions">
-        <button 
+        <button
           className="btn-edit"
           onClick={onEdit}
           title="Editar categoría"
         >
           Editar
         </button>
-        <button 
+        <button
           className="btn-delete"
           onClick={onDelete}
           title="Eliminar categoría"
@@ -85,7 +85,7 @@ const CategoriaCard = ({ categoria, libros, onEdit, onDelete, darkMode }) => {
 
       {/* Modal del libro */}
       {selectedLibro && (
-        <LibroModal 
+        <LibroModal
           libro={selectedLibro}
           onClose={handleCloseModal}
           darkMode={darkMode}
