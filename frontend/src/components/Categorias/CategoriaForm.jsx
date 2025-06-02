@@ -19,11 +19,11 @@ const CategoriaForm = ({ categoriaEdit, onSave, onCancel, onUpdateSuccess, darkM
     if (!nombre.trim() || isSubmitting) return;
 
     setIsSubmitting(true);
-    
+
     try {
       if (categoriaEdit) {
         const response = await axios.put(
-          `http://localhost:3001/api/categorias/${categoriaEdit.id_categoria}`, 
+          `http://localhost:3001/api/categorias/${categoriaEdit.id_categoria}`,
           { nombre_categoria: nombre }
         );
         onUpdateSuccess(response.data);
@@ -43,59 +43,59 @@ const CategoriaForm = ({ categoriaEdit, onSave, onCancel, onUpdateSuccess, darkM
   return (
     <div className={`categoria-form-overlay ${isVisible ? 'show' : ''}`}>
       <div className={`categoria-form-container ${darkMode ? 'dark-mode' : ''}`}>
-      <div className="form-header">
-        <h3 className="categoria-form-title">
-          {categoriaEdit ? 'Editar Categoría' : 'Nueva Categoría'}
-        </h3>
-        <button 
-          className="btn-close-form"
-          onClick={onCancel}
-        >
-          <i className="bi bi-x-lg"></i>
-        </button>
-      </div>
-      
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label className="form-label">Nombre de la categoría</label>
-          <input
-            type="text"
-            className="form-input"
-            placeholder="Ej: Ciencia Ficción"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
-            required
-            disabled={isSubmitting}
-          />
-        </div>
-        
-        <div className="form-actions">
-          <button 
-            type="submit" 
-            className="btn btn-crear-actualizar"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <>
-                <span className="loading-spinner"></span>
-                Procesando...
-              </>
-            ) : (
-              categoriaEdit ? 'Actualizar' : 'Crear'
-            )}
-          </button>
-          
-          <button 
-            type="button" 
-            className="btn btn-cancelar"
+        <div className="form-header">
+          <h3 className="categoria-form-title">
+            {categoriaEdit ? 'Editar Categoría' : 'Nueva Categoría'}
+          </h3>
+          <button
+            className="btn-close-form"
             onClick={onCancel}
-            disabled={isSubmitting}
           >
-            Cancelar
+            <i className="bi bi-x-lg"></i>
           </button>
         </div>
-      </form>
-    </div>
+
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label className="form-label">Nombre de la categoría</label>
+            <input
+              type="text"
+              className="form-input"
+              placeholder="Ej: Ciencia Ficción"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              required
+              disabled={isSubmitting}
+            />
+          </div>
+
+          <div className="form-actions">
+            <button
+              type="submit"
+              className="btn btn-crear-actualizar"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <span className="loading-spinner"></span>
+                  Procesando...
+                </>
+              ) : (
+                categoriaEdit ? 'Actualizar' : 'Crear'
+              )}
+            </button>
+
+            <button
+              type="button"
+              className="btn btn-cancelar"
+              onClick={onCancel}
+              disabled={isSubmitting}
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

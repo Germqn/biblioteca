@@ -6,7 +6,8 @@
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.95);
-    z-index: 9999; /* Asegura que esté por encima de todo */
+    z-index: 9999;
+    /* Asegura que esté por encima de todo */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -35,7 +36,7 @@
     --vinotinto-lighter: #D16B9A;
     --vinotinto-bg: #F8F4F6;
     --vinotinto-border: #E8D4DC;
-    
+
     --bg-color: #ffffff;
     --text-color: #ffffff;
     --text-muted: #4a4a4a;
@@ -55,7 +56,7 @@
         --vinotinto-lighter: #8B305C;
         --vinotinto-bg: #2A1A21;
         --vinotinto-border: #3D2A31;
-        
+
         --bg-color: #1a202c;
         --text-color: #f7fafc;
         --text-muted: #a0aec0;
@@ -75,7 +76,7 @@
     padding: 2.5rem;
     max-width: 520px;
     width: 100%;
-    box-shadow: 
+    box-shadow:
         0 25px 50px rgba(0, 0, 0, 0.6),
         0 0 0 1px rgba(255, 255, 255, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -92,6 +93,7 @@
         opacity: 0;
         transform: scale(0.8) translateY(50px);
     }
+
     to {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -99,7 +101,7 @@
 }
 
 .dark-mode .categoria-form-container {
-    box-shadow: 
+    box-shadow:
         0 25px 50px rgba(0, 0, 0, 0.8),
         0 0 0 1px rgba(255, 255, 255, 0.05),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -198,7 +200,7 @@
 .form-input:focus {
     outline: none;
     border-color: var(--vinotinto-primary);
-    box-shadow: 
+    box-shadow:
         0 0 0 4px rgba(139, 44, 91, 0.15),
         inset 0 2px 4px rgba(0, 0, 0, 0.05);
     transform: scale(1.01);
@@ -238,7 +240,7 @@
     position: relative !important;
     overflow: hidden !important;
     letter-spacing: 0.5px !important;
-    box-shadow: 
+    box-shadow:
         0 6px 20px rgba(22, 7, 235, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
@@ -247,7 +249,7 @@
     background: linear-gradient(135deg, var(--vinotinto-secondary), var(--vinotinto-light));
     transform: translateY(-3px);
     color: white !important;
-    box-shadow: 
+    box-shadow:
         0 8px 25px rgba(139, 44, 91, 0.5),
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
@@ -271,7 +273,7 @@
     position: relative !important;
     overflow: hidden !important;
     letter-spacing: 0.5px !important;
-    box-shadow: 
+    box-shadow:
         0 6px 20px rgba(22, 7, 235, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
@@ -279,7 +281,7 @@
 .btn-cancelar:hover {
     background: linear-gradient(135deg, var(--vinotinto-secondary), var(--vinotinto-light));
     transform: translateY(-3px);
-    box-shadow: 
+    box-shadow:
         0 8px 25px rgba(139, 44, 91, 0.5),
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
@@ -309,17 +311,17 @@
         margin: 0;
         max-width: calc(100vw - 2rem);
     }
-    
+
     .categoria-form-title {
         font-size: 1.5rem;
     }
-    
+
     .form-actions {
         flex-direction: column;
         align-items: center;
         gap: 1rem;
     }
-    
+
     .btn {
         width: 100%;
         max-width: 250px;
@@ -343,6 +345,13 @@
 }
 
 @keyframes borderGlow {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 1; }
+
+    0%,
+    100% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 1;
+    }
 }

@@ -10,13 +10,13 @@ const LibroModal = ({ libro, onClose, darkMode }) => {
 
   const modalContent = (
     <div className="libro-modal-backdrop fullscreen" onClick={onClose}>
-      <div 
+      <div
         className={`libro-modal-content fullscreen ${darkMode ? 'dark-mode' : ''}`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="libro-modal-header">
           <h2 className="libro-modal-title">{libro.titulo}</h2>
-          <button 
+          <button
             className="libro-modal-close"
             onClick={onClose}
             title="Cerrar"
@@ -24,13 +24,13 @@ const LibroModal = ({ libro, onClose, darkMode }) => {
             <i className="bi bi-x-lg"></i>
           </button>
         </div>
-        
+
         <div className="libro-modal-body fullscreen">
           <div className="libro-info-grid fullscreen">
             <div className="libro-portada-container fullscreen">
               {libro.portada_url ? (
-                <img 
-                  src={libro.portada_url} 
+                <img
+                  src={libro.portada_url}
                   alt={`Portada de ${libro.titulo}`}
                   className="libro-portada fullscreen"
                   onError={(e) => {
@@ -44,7 +44,7 @@ const LibroModal = ({ libro, onClose, darkMode }) => {
                 <span>Sin portada</span>
               </div>
             </div>
-            
+
             <div className="libro-details fullscreen">
               <div className="libro-detail-item">
                 <span className="detail-label">
@@ -55,7 +55,7 @@ const LibroModal = ({ libro, onClose, darkMode }) => {
                   {libro.autor?.nombre} {libro.autor?.apellido}
                 </span>
               </div>
-              
+
               <div className="libro-detail-item">
                 <span className="detail-label">
                   <i className="bi bi-calendar-fill"></i>
@@ -65,7 +65,7 @@ const LibroModal = ({ libro, onClose, darkMode }) => {
                   {libro.anio_publicacion}
                 </span>
               </div>
-              
+
               <div className="libro-detail-item">
                 <span className="detail-label">
                   <i className="bi bi-tag-fill"></i>
@@ -75,24 +75,24 @@ const LibroModal = ({ libro, onClose, darkMode }) => {
                   {libro.categoria?.nombre_categoria}
                 </span>
               </div>
-              
+
               <div className="libro-detail-item">
                 <span className="detail-label">
                   <i className="bi bi-stack"></i>
                   Cantidad disponible:
                 </span>
                 <span className={`detail-value ${libro.cantidad_disponible === 0 ? 'unavailable' : 'available'}`}>
-                  {libro.cantidad_disponible} 
-                  {libro.cantidad_disponible === 0 ? ' (No disponible)' : 
-                   libro.cantidad_disponible === 1 ? ' ejemplar' : ' ejemplares'}
+                  {libro.cantidad_disponible}
+                  {libro.cantidad_disponible === 0 ? ' (No disponible)' :
+                    libro.cantidad_disponible === 1 ? ' ejemplar' : ' ejemplares'}
                 </span>
               </div>
             </div>
           </div>
         </div>
-        
+
         <div className="libro-modal-footer">
-          <button 
+          <button
             className="btn-secondary"
             onClick={onClose}
           >

@@ -15,7 +15,7 @@
   --vinotinto-lighter: #D16B9A;
   --vinotinto-bg: #F8F4F6;
   --vinotinto-border: #E8D4DC;
-  
+
   --bg-color: #ffffff;
   --text-color: #ffffff;
   --text-muted: #4a4a4a;
@@ -76,7 +76,8 @@
   border-color: var(--border-color, #333333);
 }
 
-.btn-edit, .btn-delete {
+.btn-edit,
+.btn-delete {
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid var(--border-color, #e0e0e0);
   border-radius: 6px;
@@ -95,7 +96,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.dark-mode .btn-edit, 
+.dark-mode .btn-edit,
 .dark-mode .btn-delete {
   background: rgba(45, 45, 45, 0.9);
   border-color: var(--border-color, #444444);
@@ -103,14 +104,14 @@
 }
 
 .btn-edit:hover {
-  color:white !important;
+  color: white !important;
   background: linear-gradient(135deg, #A0336B 0%, #B84A7A 100%);
   box-shadow: 0 8px 25px rgba(139, 44, 91, 0.5);
   transform: translateY(-2px);
 }
 
 .btn-delete:hover {
-  color:white !important;
+  color: white !important;
   background: linear-gradient(135deg, #A0336B 0%, #B84A7A 100%);
   box-shadow: 0 8px 25px rgba(139, 44, 91, 0.5);
   transform: translateY(-2px);

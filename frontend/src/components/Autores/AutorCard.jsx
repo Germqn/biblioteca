@@ -18,7 +18,7 @@ export default function AutorCard({ autor, onEdit, onDelete }) {
           const pages = wikiData.query?.pages;
           const pageId = Object.keys(pages)[0];
           const thumbnail = pages[pageId]?.thumbnail?.source;
-          
+
           if (thumbnail) {
             setImageUrl(thumbnail);
             return;
@@ -30,7 +30,7 @@ export default function AutorCard({ autor, onEdit, onDelete }) {
           );
           const googleData = await googleResponse.json();
           const authorImage = googleData.items?.[0]?.volumeInfo?.imageLinks?.thumbnail;
-          
+
           if (authorImage) {
             setImageUrl(authorImage);
           }
@@ -76,11 +76,11 @@ export default function AutorCard({ autor, onEdit, onDelete }) {
           />
         )}
       </div>
-      
+
       <div className="autor-info">
         <h3 className="autor-name">{autor.nombre} {autor.apellido}</h3>
       </div>
-      
+
       <div className="autor-actions">
         <button className="btn-edit" onClick={() => onEdit(autor)}>
           <i className="bi bi-pencil"></i> Editar

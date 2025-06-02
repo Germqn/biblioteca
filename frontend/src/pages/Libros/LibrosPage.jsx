@@ -62,24 +62,24 @@ export default function LibrosPage() {
       await axios.patch(
         `http://localhost:3001/api/libros/${libroId}/portada`,
         { portada_url: coverUrl },
-        { 
+        {
           withCredentials: true,
           headers: {
             'Content-Type': 'application/json'
           }
         }
       );
-      
-      setLibros(prev => prev.map(libro => 
+
+      setLibros(prev => prev.map(libro =>
         libro.id_libro === libroId ? { ...libro, portada_url: coverUrl } : libro
       ));
-      
+
       setCarruselKey(prev => prev + 1);
       alert('Portada guardada correctamente');
     } catch (error) {
       console.error("Detalles del error:", error);
       let errorMessage = 'Error al guardar la portada';
-      
+
       if (error.response) {
         if (error.response.data?.errors) {
           errorMessage = error.response.data.errors.map(e => e.msg).join(', ');
@@ -87,9 +87,9 @@ export default function LibrosPage() {
           errorMessage = error.response.data.message;
         }
       }
-      
+
       alert(errorMessage);
-      }
+    }
   };
 
   const handleEditarLibro = (libro) => {
@@ -185,7 +185,7 @@ export default function LibrosPage() {
             onClick={toggleDarkMode}
             aria-label={darkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
           >
-          {darkMode ? (
+            {darkMode ? (
               <>
                 <FaSun className="theme-icon" />
                 <span>Modo Claro</span>

@@ -1,4 +1,7 @@
-html, body, #root, .libros-container {
+html,
+body,
+#root,
+.libros-container {
   background-color: var(--bg-color);
   min-height: 100vh;
 }
@@ -42,7 +45,8 @@ html, body, #root, .libros-container {
 }
 
 /* Estilos base mejorados */
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -91,7 +95,7 @@ body, html {
 }
 
 .btn-nuevo-libro {
-  background: linear-gradient(135deg, var(--vinotinto-primary), var(--vinotinto-secondary)) ;
+  background: linear-gradient(135deg, var(--vinotinto-primary), var(--vinotinto-secondary));
   color: white !important;
   border: none;
   padding: 1rem 2rem !important;
@@ -108,9 +112,9 @@ body, html {
   position: relative !important;
   overflow: hidden !important;
   letter-spacing: 0.5px !important;
-  box-shadow: 
-  0 6px 20px rgba(139, 44, 91, 0.4),
-  inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  box-shadow:
+    0 6px 20px rgba(139, 44, 91, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
 .btn-nuevo-libro:hover {
@@ -121,11 +125,12 @@ body, html {
 }
 
 /* Estilos unificados para todos los botones */
-.libros-header .header-actions .btn, /* Selector más específico para Nuevo Libro */
+.libros-header .header-actions .btn,
+/* Selector más específico para Nuevo Libro */
 .btn-back-visible,
 .theme-toggle,
 .btn-edit,
-.btn-delete{
+.btn-delete {
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-weight: 500;
@@ -143,19 +148,21 @@ body, html {
 }
 
 /* Hover unificado */
-.libros-header .header-actions .btn:hover, /* Hover específico para Nuevo Libro */
+.libros-header .header-actions .btn:hover,
+/* Hover específico para Nuevo Libro */
 .btn:hover,
 .btn-back-visible:hover,
 .theme-toggle:hover,
 .btn-edit:hover,
-.btn-delete:hover{
+.btn-delete:hover {
   transform: translateY(-2px) scale(1.05);
   box-shadow: 0 4px 8px var(--shadow-hover);
   animation: none;
 }
 
 /* Modo oscuro unificado */
-.dark-mode .libros-header .header-actions .btn, /* Modo oscuro específico para Nuevo Libro */
+.dark-mode .libros-header .header-actions .btn,
+/* Modo oscuro específico para Nuevo Libro */
 .dark-mode .btn,
 .dark-mode .btn-back-visible,
 .dark-mode .theme-toggle,
@@ -169,14 +176,15 @@ body, html {
   box-shadow: 0 2px 5px var(--shadow-color);
 }
 
-.dark-mode .libros-header .header-actions .btn:hover, /* Hover modo oscuro específico para Nuevo Libro */
+.dark-mode .libros-header .header-actions .btn:hover,
+/* Hover modo oscuro específico para Nuevo Libro */
 .dark-mode .btn:hover,
 .dark-mode .btn-back-visible:hover,
 .dark-mode .theme-toggle:hover,
 .dark-mode .btn-edit:hover,
 .dark-mode .btn-delete:hover,
 .dark-mode .btn-nuevo-libro:hover {
-  background-color: var(--theme-toggle-text) ;
+  background-color: var(--theme-toggle-text);
   color: white !important;
   border-color: var(--vinotinto-dark) !important;
   box-shadow: 0 4px 8px var(--shadow-hover);
@@ -188,6 +196,7 @@ body, html {
     border-color: var(--vinotinto);
     box-shadow: 0 2px 5px var(--shadow-color);
   }
+
   100% {
     border-color: var(--vinotinto-light);
     box-shadow: 0 4px 10px var(--shadow-hover);
@@ -199,9 +208,17 @@ body, html {
 }
 
 @keyframes borderPulse {
-  0% { border-color: var(--vinotinto); }
-  50% { border-color: var(--vinotinto-light); }
-  100% { border-color: var(--vinotinto); }
+  0% {
+    border-color: var(--vinotinto);
+  }
+
+  50% {
+    border-color: var(--vinotinto-light);
+  }
+
+  100% {
+    border-color: var(--vinotinto);
+  }
 }
 
 .header-actions {
@@ -298,8 +315,15 @@ body, html {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Mensaje cuando no hay libros */
@@ -394,7 +418,8 @@ body, html {
     gap: 0.5rem;
   }
 
-  .btn-edit, .btn-delete {
+  .btn-edit,
+  .btn-delete {
     width: 100%;
     text-align: center;
   }

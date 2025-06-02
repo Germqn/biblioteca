@@ -15,7 +15,7 @@
   --vinotinto-lighter: #D16B9A;
   --vinotinto-bg: #F8F4F6;
   --vinotinto-border: #E8D4DC;
-  
+
   --bg-color: #ffffff;
   --text-color: #ffffff;
   --text-muted: #4a4a4a;
@@ -75,8 +75,9 @@
 }
 
 /* ===== BOTÓN PRIMARIO ===== */
-.btn-agregar-autor { /* Selector más específico */
-  background: linear-gradient(135deg, var(--vinotinto-primary), var(--vinotinto-secondary)) ;
+.btn-agregar-autor {
+  /* Selector más específico */
+  background: linear-gradient(135deg, var(--vinotinto-primary), var(--vinotinto-secondary));
   color: white !important;
   border: none;
   padding: 1rem 2rem !important;
@@ -93,9 +94,9 @@
   position: relative !important;
   overflow: hidden !important;
   letter-spacing: 0.5px !important;
-  box-shadow: 
-  0 6px 20px rgba(139, 44, 91, 0.4),
-  inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  box-shadow:
+    0 6px 20px rgba(139, 44, 91, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
 .btn-agregar-autor:hover {
@@ -106,7 +107,8 @@
 }
 
 /* ===== BOTÓN SECUNDARIO ===== */
-.btn.btn-outline-secondary { /* Selector más específico */
+.btn.btn-outline-secondary {
+  /* Selector más específico */
   background-color: transparent;
   border-color: var(--vinotinto);
   color: var(--fondo-oscuro) !important;
@@ -165,8 +167,8 @@
   color: var(--texto-claro);
 }
 
-.dark-mode .btn.btn.btn-agregar-autor{
-  background: linear-gradient(135deg, var(--vinotinto-primary), var(--vinotinto-secondary)) ;
+.dark-mode .btn.btn.btn-agregar-autor {
+  background: linear-gradient(135deg, var(--vinotinto-primary), var(--vinotinto-secondary));
   color: white !important;
   border: none;
   padding: 1rem 2rem !important;
@@ -183,17 +185,17 @@
   position: relative !important;
   overflow: hidden !important;
   letter-spacing: 0.5px !important;
-  box-shadow: 
-  0 6px 20px rgba(139, 44, 91, 0.4),
-  inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  box-shadow:
+    0 6px 20px rgba(139, 44, 91, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
 .dark-mode .btn.btn-agregar-autor:hover {
   background: linear-gradient(135deg, var(--vinotinto-secondary), var(--vinotinto-light));
   transform: translateY(-3px);
-  box-shadow: 
-  0 8px 25px rgba(139, 44, 91, 0.5),
-  inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 8px 25px rgba(139, 44, 91, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .dark-mode .btn.btn-outline-secondary,
@@ -202,8 +204,8 @@
   border-color: var(--vinotinto) !important;
 }
 
-.dark-mode .btn.btn-outline-secondary:hover{
-  color:var(--vinotinto) !important;
+.dark-mode .btn.btn-outline-secondary:hover {
+  color: var(--vinotinto) !important;
 }
 
 
@@ -216,6 +218,7 @@
   0% {
     box-shadow: 0 2px 5px rgba(134, 38, 48, 0.3);
   }
+
   100% {
     box-shadow: 0 4px 10px rgba(134, 38, 48, 0.5);
   }

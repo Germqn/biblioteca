@@ -107,7 +107,7 @@ export default function AutoresPage() {
             )}
           </button>
           <button
-            className="btn btn-agregar-autor" 
+            className="btn btn-agregar-autor"
             onClick={() => {
               setAutorEdit(null);
               setMostrarFormulario(true);

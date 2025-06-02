@@ -16,7 +16,7 @@ const LibroForm = ({ initialLibro = {}, autores = [], categorias = [], onSave, o
     if (autores.length === 0 || categorias.length === 0) return;
 
     const isEditing = Boolean(initialLibro.id_libro);
-    
+
     const defaultValues = {
       titulo: '',
       id_autor: autores[0]?.id_autor ? String(autores[0].id_autor) : '',
@@ -34,14 +34,14 @@ const LibroForm = ({ initialLibro = {}, autores = [], categorias = [], onSave, o
     } : defaultValues);
 
     if (process.env.NODE_ENV === 'development') {
-      console.log(isEditing ? 'Datos iniciales de edición:' : 'Valores por defecto para nuevo libro:', 
+      console.log(isEditing ? 'Datos iniciales de edición:' : 'Valores por defecto para nuevo libro:',
         isEditing ? initialLibro : defaultValues);
     }
   }, [initialLibro, autores, categorias]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!formData.titulo.trim()) {
       alert('El título es requerido');
       return;
@@ -52,13 +52,13 @@ const LibroForm = ({ initialLibro = {}, autores = [], categorias = [], onSave, o
       id_autor: formData.id_autor ? Number(formData.id_autor) : null,
       id_categoria: formData.id_categoria ? Number(formData.id_categoria) : null
     };
-    
+
     onSave(dataToSave);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     setFormData(prev => ({
       ...prev,
       [name]: ['anio_publicacion', 'cantidad_disponible'].includes(name)
@@ -169,8 +169,8 @@ const LibroForm = ({ initialLibro = {}, autores = [], categorias = [], onSave, o
         >
           Cancelar
         </button>
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className="btn btn-actualizar-guardar"
           aria-label={initialLibro.id_libro ? 'Actualizar libro' : 'Guardar libro'}
         >

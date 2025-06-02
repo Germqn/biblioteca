@@ -22,11 +22,11 @@ const AutorForm = ({ initialAutor = {}, onSave, onCancel, isSubmitting = false, 
         <h3 className="autor-form-title">
           {initialAutor.id_autor ? 'Editar Autor' : 'Nuevo Autor'}
         </h3>
-        
+
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Nombre:</label>
-            <input 
+            <input
               type="text"
               value={nombre}
               onChange={e => setNombre(e.target.value)}
@@ -38,7 +38,7 @@ const AutorForm = ({ initialAutor = {}, onSave, onCancel, isSubmitting = false, 
 
           <div className="form-group">
             <label>Apellido:</label>
-            <input 
+            <input
               type="text"
               value={apellido}
               onChange={e => setApellido(e.target.value)}
@@ -51,8 +51,8 @@ const AutorForm = ({ initialAutor = {}, onSave, onCancel, isSubmitting = false, 
           {error && <div className="error-message">{error}</div>}
 
           <div className="form-actions">
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="btn btn-guardar"
               disabled={isSubmitting}
             >
@@ -65,10 +65,10 @@ const AutorForm = ({ initialAutor = {}, onSave, onCancel, isSubmitting = false, 
                 initialAutor.id_autor ? 'Actualizar' : 'Guardar'
               )}
             </button>
-            
+
             {onCancel && (
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="btn btn-cancelar"
                 onClick={onCancel}
                 disabled={isSubmitting}

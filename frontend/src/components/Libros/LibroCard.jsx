@@ -23,22 +23,22 @@ const PLACEHOLDER_IMAGE = `data:image/svg+xml;base64,${btoa(`
 // Función para convertir URLs relativas a absolutas
 const getAbsoluteImageUrl = (url) => {
   if (!url) return url;
-  
+
   // Si ya es una URL absoluta, retornar tal cual
   if (url.startsWith('http://') || url.startsWith('https://')) {
     return url;
   }
-  
+
   // Si es una URL con protocolo relativo (//example.com)
   if (url.startsWith('//')) {
     return window.location.protocol + url;
   }
-  
+
   // Si es una ruta relativa, convertir a absoluta
   if (url.startsWith('/')) {
     return window.location.origin + url;
   }
-  
+
   // Para rutas sin slash inicial
   return window.location.origin + '/' + url;
 };
@@ -54,7 +54,7 @@ const LibroCard = ({ libro, onEdit, onDelete, onSaveCover }) => {
       // 1. Intentar cargar portada_url si existe
       if (libro.portada_url) {
         const absoluteUrl = getAbsoluteImageUrl(libro.portada_url);
-        
+
         try {
           setLoadingImage(true);
           await testImage(absoluteUrl);
@@ -66,7 +66,7 @@ const LibroCard = ({ libro, onEdit, onDelete, onSaveCover }) => {
           // Continuar con búsqueda en APIs si falla
         }
       }
-      
+
       // 2. Buscar en APIs externas solo si no se ha intentado antes
       if (!attemptedSearch) {
         searchCoverFromAPIs();
@@ -80,7 +80,7 @@ const LibroCard = ({ libro, onEdit, onDelete, onSaveCover }) => {
         img.onload = () => resolve();
         img.onerror = () => reject();
         img.src = url;
-        
+
         // Timeout para no bloquear indefinidamente
         setTimeout(() => {
           if (!img.complete) reject();
@@ -105,7 +105,7 @@ const LibroCard = ({ libro, onEdit, onDelete, onSaveCover }) => {
     const searchCoverFromAPIs = async () => {
       setLoadingImage(true);
       setAttemptedSearch(true);
-      
+
       try {
         // Preparar términos de búsqueda
         const searchTerms = [
@@ -113,19 +113,19 @@ const LibroCard = ({ libro, onEdit, onDelete, onSaveCover }) => {
           libro.autor && `${libro.autor.nombre} ${libro.autor.apellido}`,
           libro.anio_publicacion
         ].filter(Boolean).join(' ');
-        
+
         // Variable para guardar la URL encontrada
         let foundCoverUrl = null;
-        
+
         // Intentar con OpenLibrary
         try {
           const openLibResponse = await fetch(
             `https://openlibrary.org/search.json?q=${encodeURIComponent(searchTerms)}&limit=1`
           );
-          
+
           const openLibData = await openLibResponse.json();
           const firstBook = openLibData.docs?.[0];
-          
+
           if (firstBook?.cover_i) {
             foundCoverUrl = `https://covers.openlibrary.org/b/id/${firstBook.cover_i}-M.jpg`;
             await testImage(foundCoverUrl);
@@ -133,33 +133,33 @@ const LibroCard = ({ libro, onEdit, onDelete, onSaveCover }) => {
         } catch (openLibError) {
           console.warn("Error con OpenLibrary:", openLibError);
         }
-        
+
         // Si no se encontró en OpenLibrary, intentar con Google Books
         if (!foundCoverUrl) {
           try {
             const googleResponse = await fetch(
               `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(searchTerms)}&maxResults=1`
             );
-            
+
             const googleData = await googleResponse.json();
             const firstItem = googleData.items?.[0];
-            
+
             if (firstItem?.volumeInfo?.imageLinks?.thumbnail) {
               foundCoverUrl = firstItem.volumeInfo.imageLinks.thumbnail
                 .replace('http://', 'https://')
                 .replace('zoom=1', 'zoom=2');
-              
+
               await testImage(foundCoverUrl);
             }
           } catch (googleError) {
             console.warn("Error con Google Books:", googleError);
           }
         }
-        
+
         // Si encontramos una portada válida
         if (foundCoverUrl) {
           setImageUrl(foundCoverUrl);
-          
+
           // Guardar la URL en la base de datos
           saveCoverToDatabase(foundCoverUrl);
         } else {

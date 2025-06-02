@@ -1,26 +1,32 @@
 .libros-carrusel-container .slick-dots li button:before {
   font-size: 10px;
-  color: #bdc3c7; /* light-gray */
+  color: #bdc3c7;
+  /* light-gray */
 }
 
 body.dark-mode .libros-carrusel-container .slick-dots li button:before {
-  color: #777; /* mid-gray */
+  color: #777;
+  /* mid-gray */
 }
 
 .libros-carrusel-container .slick-dots li.slick-active button:before {
-  color: #3498db; /* blue-500 */
+  color: #3498db;
+  /* blue-500 */
 }
 
 body.dark-mode .libros-carrusel-container .slick-dots li.slick-active button:before {
-  color: #a7303d; /* dark-red (vinotinto) */
+  color: #a7303d;
+  /* dark-red (vinotinto) */
 }
 
-.slick-slide > div { /* Ensure slides take full height for consistent card heights */
+.slick-slide>div {
+  /* Ensure slides take full height for consistent card heights */
   height: 100%;
   display: flex;
 }
 
 .slick-track {
   display: flex;
-  align-items: stretch; /* Makes sure all cards in a row stretch to the same height */
+  align-items: stretch;
+  /* Makes sure all cards in a row stretch to the same height */
 }

@@ -87,7 +87,7 @@ const LibrosCarrusel = ({ libros, onEdit, onDelete, maxRandomBooksToShow = 8 }) 
       },
       {
         breakpoint: 576,
-        settings: { 
+        settings: {
           slidesToShow: 1,
           arrows: librosParaMostrar.length > 1 // Ocultar flechas si solo hay un libro
         }

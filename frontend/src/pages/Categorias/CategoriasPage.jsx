@@ -26,26 +26,26 @@ export default function CategoriasPage() {
           getCategorias(),
           getLibros()
         ]);
-        
+
         // Logs para debugging
         console.log('=== DATOS CARGADOS ===');
         console.log('Raw categoriasData:', categoriasData);
         console.log('Raw librosData:', librosData);
-        
+
         const processedCategorias = Array.isArray(categoriasData?.data) ? categoriasData.data : [];
         const processedLibros = Array.isArray(librosData) ? librosData : [];
-        
+
         console.log('Categorías procesadas:', processedCategorias);
         console.log('Libros procesados:', processedLibros);
         console.log('Cantidad de categorías:', processedCategorias.length);
         console.log('Cantidad de libros:', processedLibros.length);
-        
+
         // Log de estructura de datos
         if (processedCategorias.length > 0) {
           console.log('Estructura de primera categoría:', processedCategorias[0]);
           console.log('Claves de categoría:', Object.keys(processedCategorias[0]));
         }
-        
+
         if (processedLibros.length > 0) {
           console.log('Estructura de primer libro:', processedLibros[0]);
           console.log('Claves de libro:', Object.keys(processedLibros[0]));
@@ -56,7 +56,7 @@ export default function CategoriasPage() {
           });
         }
         console.log('====================');
-        
+
         setCategorias(processedCategorias);
         setLibros(processedLibros);
         setError(null);
@@ -86,8 +86,8 @@ export default function CategoriasPage() {
   };
 
   const handleUpdateSuccess = (updatedCategoria) => {
-    setCategorias(prev => 
-      prev.map(cat => 
+    setCategorias(prev =>
+      prev.map(cat =>
         cat.id_categoria === updatedCategoria.id_categoria ? updatedCategoria : cat
       )
     );
@@ -112,17 +112,17 @@ export default function CategoriasPage() {
   const librosPorCategoria = useMemo(() => {
     console.log('=== CREANDO MAPA DE LIBROS ===');
     console.log('Libros para mapear:', libros);
-    
+
     const map = new Map();
-    
+
     libros.forEach((libro, index) => {
       console.log(`Procesando libro ${index + 1}:`, libro);
       console.log(`- Objeto categoria completo:`, libro.categoria);
       console.log(`- ID categoria del libro: ${libro.categoria?.id_categoria}`);
       console.log(`- Tipo de id_categoria:`, typeof libro.categoria?.id_categoria);
-      
+
       const categoriaId = libro.categoria?.id_categoria;
-      
+
       if (!map.has(categoriaId)) {
         map.set(categoriaId, []);
         console.log(`- Creada nueva entrada para categoría: ${categoriaId}`);
@@ -130,31 +130,31 @@ export default function CategoriasPage() {
       map.get(categoriaId).push(libro);
       console.log(`- Libro agregado a categoría: ${categoriaId}`);
     });
-    
+
     console.log('Mapa final:', map);
     console.log('Claves del mapa:', Array.from(map.keys()));
     map.forEach((librosArray, categoriaId) => {
       console.log(`Categoría ${categoriaId} tiene ${librosArray.length} libros:`, librosArray);
     });
     console.log('=============================');
-    
+
     return map;
   }, [libros]);
 
   return (
     <div className={`categorias-page ${darkMode ? 'dark-mode' : ''}`}>
       <div className="header-container">
-        <button 
+        <button
           onClick={() => navigate('/dashboard')}
           className="btn btn-outline-secondary"
         >
           <i className="bi bi-arrow-left me-2"></i>Regresar
         </button>
-        
+
         <h1 className="page-title">Categorías</h1>
-        
+
         <div className="header-actions">
-          <button 
+          <button
             className="btn btn-dark-mode"
             onClick={() => setDarkMode(!darkMode)}
             aria-label={darkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
@@ -170,7 +170,7 @@ export default function CategoriasPage() {
                 <span>Modo Oscuro</span></>
             )}
           </button>
-          <button 
+          <button
             className="btn btn-add"
             onClick={() => {
               setCategoriaEdit(null);
@@ -185,9 +185,9 @@ export default function CategoriasPage() {
       {successMessage && (
         <div className="alert alert-success alert-dismissible fade show">
           {successMessage}
-          <button 
-            type="button" 
-            className="btn-close" 
+          <button
+            type="button"
+            className="btn-close"
             onClick={() => setSuccessMessage(null)}
           ></button>
         </div>
@@ -196,9 +196,9 @@ export default function CategoriasPage() {
       {error && (
         <div className="alert alert-danger alert-dismissible fade show">
           {error}
-          <button 
-            type="button" 
-            className="btn-close" 
+          <button
+            type="button"
+            className="btn-close"
             onClick={() => setError(null)}
           ></button>
         </div>
@@ -219,7 +219,7 @@ export default function CategoriasPage() {
         <div className="categorias-grid">
           {categorias.map((categoria) => {
             const librosDeCategoria = librosPorCategoria.get(categoria.id_categoria) || [];
-            
+
             // Log específico para cada categoría
             console.log(`=== RENDERIZANDO CATEGORIA ${categoria.nombre_categoria} ===`);
             console.log('ID de categoría:', categoria.id_categoria);
@@ -229,10 +229,10 @@ export default function CategoriasPage() {
             console.log('Cantidad de libros:', librosDeCategoria.length);
             console.log('Todas las keys del mapa:', Array.from(librosPorCategoria.keys()));
             console.log('================================================');
-            
+
             return (
-              <CategoriaCard 
-                key={categoria.id_categoria} 
+              <CategoriaCard
+                key={categoria.id_categoria}
                 categoria={categoria}
                 libros={librosDeCategoria}
                 onEdit={() => {
@@ -250,7 +250,7 @@ export default function CategoriasPage() {
       {(showModal || categoriaEdit) && (
         <div className="modal-backdrop">
           <div className="modal-content">
-            <CategoriaForm 
+            <CategoriaForm
               categoriaEdit={categoriaEdit}
               onSave={handleCreateSuccess}
               onCancel={handleCancelForm}
