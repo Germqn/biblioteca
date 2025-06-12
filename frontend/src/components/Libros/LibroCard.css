@@ -1,67 +1,126 @@
-/* Variables y estilos base */
+/* LibroCard.css - Paleta Vinotinto Unificada */
+
+/* Variables CSS con paleta vinotinto */
 :root {
+  /* Colores vinotinto principales */
+  --wine-light: #a0506d;
+  --wine-medium: #7a3b52;
+  --wine-dark: #5d2e3f;
+  --wine-darker: #3d1e2a;
+  --wine-accent: #c4657a;
+
+  /* Gradientes principales */
+  --primary-gradient-light: linear-gradient(135deg, #c4657a 0%, #a0506d 100%);
+  --primary-gradient-dark: linear-gradient(135deg, #5d2e3f 0%, #3d1e2a 100%);
+
+  /* Gradientes de botones */
+  --button-gradient-light: linear-gradient(45deg, #a0506d, #7a3b52);
+  --button-gradient-dark: linear-gradient(45deg, #7a3b52, #5d2e3f);
+  --button-hover-light: linear-gradient(45deg, #7a3b52, #a0506d);
+  --button-hover-dark: linear-gradient(45deg, #5d2e3f, #7a3b52);
+
   /* Colores para modo claro */
-  --bg-color: #f5f7fa;
+  --bg-color: #f5f0f2;
   --text-color: #2c3e50;
   --text-secondary: #7f8c8d;
-  --card-bg: white;
+  --card-bg: rgba(255, 255, 255, 0.95);
   --header-bg: white;
-  --shadow-color: rgba(0, 0, 0, 0.08);
-  --shadow-hover: rgba(0, 0, 0, 0.12);
+  --shadow-color: rgba(160, 80, 109, 0.15);
+  --shadow-hover: rgba(160, 80, 109, 0.25);
   --theme-toggle-bg: #f0f0f0;
   --theme-toggle-text: #333;
-  --vinotinto: #862630;
-  --vinotinto-light: #a7303d;
-  --vinotinto-dark: #5c1a22;
-  --info-color: #17a2b8;
-  --info-hover: #138496;
+
+  /* Estados de botones */
+  --info-color: var(--wine-light);
+  --info-hover: var(--wine-medium);
   --danger-color: #c0392b;
   --danger-hover: #e74c3c;
   --success-color: #28a745;
   --success-hover: #218838;
+
+  /* Efectos de vidrio */
+  --glass-bg-light: rgba(255, 255, 255, 0.15);
+  --glass-bg-dark: rgba(0, 0, 0, 0.3);
+  --glass-border-light: rgba(160, 80, 109, 0.3);
+  --glass-border-dark: rgba(122, 59, 82, 0.4);
 }
 
 .dark-mode {
   /* Colores para modo oscuro */
-  --bg-color: #1a1a2e;
+  --bg-color: #1a1215;
   --text-color: #e6e6e6;
   --text-secondary: #b3b3b3;
-  --card-bg: #16213e;
+  --card-bg: rgba(22, 33, 62, 0.8);
   --header-bg: #16213e;
-  --shadow-color: rgba(0, 0, 0, 0.3);
-  --shadow-hover: rgba(0, 0, 0, 0.5);
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --shadow-hover: rgba(0, 0, 0, 0.6);
   --theme-toggle-bg: #333;
   --theme-toggle-text: #f0f0f0;
-  --info-color: #2d9cb3;
+  --info-color: var(--wine-accent);
   --danger-color: #d9534f;
   --success-color: #5cb85c;
 }
 
 /* Estructura principal de la tarjeta */
 .libro-card {
-  border: 1px solid rgba(134, 38, 48, 0.1);
-  border-radius: 12px;
+  border: 1px solid var(--glass-border-light);
+  border-radius: 20px;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
   background: var(--card-bg);
+  backdrop-filter: blur(15px);
   display: flex;
   flex-direction: column;
   height: 100%;
   min-height: 490px;
-  /* Altura mínima garantizada */
-  box-shadow: 0 4px 12px var(--shadow-color);
+  box-shadow: 0 8px 32px var(--shadow-color);
   position: relative;
 }
 
 body.dark-mode .libro-card {
-  border-color: rgba(134, 38, 48, 0.3);
-  box-shadow: 0 6px 18px var(--shadow-color);
+  border-color: var(--glass-border-dark);
+  background: var(--glass-bg-dark);
+  box-shadow: 0 8px 32px var(--shadow-color);
 }
 
 .libro-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 24px var(--shadow-hover);
-  border-color: var(--vinotinto);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 40px var(--shadow-hover);
+  border-color: var(--wine-light);
+}
+
+body.dark-mode .libro-card:hover {
+  border-color: var(--wine-medium);
+}
+
+/* Borde superior animado */
+.libro-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--primary-gradient-light);
+  background-size: 200% 100%;
+  animation: gradientFlow 4s linear infinite alternate;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  z-index: 1;
+}
+
+body.dark-mode .libro-card::before {
+  background: var(--primary-gradient-dark);
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
 }
 
 /* Contenedor de portada optimizado */
@@ -71,15 +130,16 @@ body.dark-mode .libro-card {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: linear-gradient(135deg, var(--glass-bg-light) 0%, rgba(196, 101, 122, 0.1) 100%);
   overflow: hidden;
   position: relative;
-  border-bottom: 1px solid rgba(134, 38, 48, 0.1);
+  border-bottom: 1px solid var(--glass-border-light);
+  margin-top: 4px;
 }
 
 body.dark-mode .libro-portada-container {
-  background: linear-gradient(135deg, #333 0%, #222 100%);
-  border-bottom: 1px solid rgba(134, 38, 48, 0.3);
+  background: linear-gradient(135deg, #2a1e23 0%, #3d1e2a 100%);
+  border-bottom: 1px solid var(--glass-border-dark);
 }
 
 .libro-portada {
@@ -88,12 +148,13 @@ body.dark-mode .libro-portada-container {
   height: auto;
   max-height: 90%;
   object-fit: contain;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s ease;
   padding: 1rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 }
 
 .libro-card:hover .libro-portada {
-  transform: scale(1.03);
+  transform: scale(1.05) rotate(-1deg);
 }
 
 /* Estados de carga y error */
@@ -111,55 +172,52 @@ body.dark-mode .libro-portada-container {
 }
 
 .portada-loading {
-  background: #f0f0f0;
+  background: var(--glass-bg-light);
   color: var(--text-secondary);
   animation: pulse 1.5s infinite;
 }
 
 .portada-error {
-  background: #f5f5f5;
+  background: var(--glass-bg-light);
   color: var(--text-secondary);
-  border: 1px dashed #ddd;
+  border: 1px dashed var(--glass-border-light);
 }
 
 body.dark-mode .portada-loading {
-  background: #444;
+  background: var(--glass-bg-dark);
 }
 
 body.dark-mode .portada-error {
-  background: #333;
-  border-color: #555;
+  background: var(--glass-bg-dark);
+  border-color: var(--glass-border-dark);
 }
 
 .portada-error-icon {
   font-size: 2rem;
   margin-bottom: 0.5rem;
+  color: var(--wine-light);
   filter: grayscale(30%);
 }
 
-/* Contenido informativo - Versión mejorada para títulos largos */
+/* Contenido informativo */
 .libro-info {
-  padding: 1.25rem;
+  padding: 1.5rem;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   min-height: 200px;
-  /* Altura mínima garantizada */
 }
 
 .libro-titulo {
-  margin: 0 0 0.5rem 0;
-  /* Manteniendo el margen original */
-  font-size: 1.15rem;
+  margin: 0 0 0.8rem 0;
+  font-size: 1.2rem;
   color: var(--text-color);
-  font-weight: 600;
-  line-height: 1.3;
+  font-weight: 700;
+  line-height: 1.4;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
-  /* Aumentado de 3 a 4 líneas */
   line-clamp: 4;
-  /* Estándar (compatibilidad futura) */
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-word;
@@ -167,21 +225,26 @@ body.dark-mode .portada-error {
   hyphens: auto;
   padding-right: 0.5rem;
   min-height: 4.2em;
-  /* Ajustado para no alterar demasiado la apariencia */
-  max-height: 5.2em;
-  /* Permite mostrar hasta 4 líneas */
+  max-height: 5.6em;
+  background: var(--primary-gradient-light);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-
 
 body.dark-mode .libro-titulo {
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  background: var(--primary-gradient-light);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
 }
 
-/* Textos secundarios ajustados */
+/* Textos secundarios */
 .libro-autor,
 .libro-categoria {
-  margin: 0.15rem 0;
-  font-size: 0.9rem;
+  margin: 0.2rem 0;
+  font-size: 0.95rem;
   color: var(--text-secondary);
   white-space: nowrap;
   overflow: hidden;
@@ -190,73 +253,118 @@ body.dark-mode .libro-titulo {
 
 .libro-autor {
   font-style: italic;
+  font-weight: 500;
 }
 
 .libro-categoria {
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--wine-medium);
+}
+
+body.dark-mode .libro-categoria {
+  color: var(--wine-light);
 }
 
 /* Detalles adicionales */
 .libro-detalles {
   margin-top: auto;
-  padding-top: 0.75rem;
-  font-size: 0.8rem;
+  padding-top: 1rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid rgba(134, 38, 48, 0.1);
+  border-top: 1px solid var(--glass-border-light);
 }
 
 body.dark-mode .libro-detalles {
-  border-top-color: rgba(134, 38, 48, 0.3);
+  border-top-color: var(--glass-border-dark);
 }
 
 /* Acciones mejoradas */
 .libro-actions {
-  padding: 0.8rem 1rem;
+  padding: 1rem;
   display: flex;
-  gap: 0.8rem;
-  border-top: 1px solid rgba(134, 38, 48, 0.1);
-  background: rgba(134, 38, 48, 0.03);
+  gap: 1rem;
+  border-top: 1px solid var(--glass-border-light);
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(10px);
 }
 
 body.dark-mode .libro-actions {
-  border-top-color: rgba(134, 38, 48, 0.3);
-  background: rgba(134, 38, 48, 0.1);
+  border-top-color: var(--glass-border-dark);
+  background: var(--glass-bg-dark);
 }
 
 /* Botones unificados */
 .btn-edit,
 .btn-delete {
-  border: 2px solid var(--vinotinto);
-  padding: 0.5rem 0.8rem;
-  border-radius: 20px;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 25px;
   font-size: 0.9rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
   flex: 1;
   transition: all 0.3s ease;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 2px 5px var(--shadow-color);
+  color: white;
+  position: relative;
+  overflow: hidden;
 }
 
 .btn-edit {
-  background-color: var(--info-color);
-  color: white;
+  background: var(--button-gradient-light);
 }
 
 .btn-delete {
-  background-color: var(--danger-color);
-  color: white;
+  background: linear-gradient(45deg, #c0392b, #e74c3c);
+}
+
+body.dark-mode .btn-edit {
+  background: var(--button-gradient-dark);
+}
+
+body.dark-mode .btn-delete {
+  background: linear-gradient(45deg, #d9534f, #c0392b);
+}
+
+.btn-edit::before,
+.btn-delete::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+}
+
+.btn-edit:hover::before,
+.btn-delete:hover::before {
+  left: 100%;
 }
 
 .btn-edit:hover,
 .btn-delete:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px var(--shadow-hover);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(160, 80, 109, 0.3);
+}
+
+.btn-edit:hover {
+  background: var(--button-hover-light);
+}
+
+.btn-delete:hover {
+  background: linear-gradient(45deg, #e74c3c, #c0392b);
+}
+
+body.dark-mode .btn-edit:hover {
+  background: var(--button-hover-dark);
 }
 
 /* Ocultar acciones en carrusel */
@@ -287,24 +395,20 @@ body.dark-mode .libro-actions {
   }
 
   .libro-info {
-    padding: 1rem;
+    padding: 1.2rem;
     min-height: 180px;
   }
 
   .libro-titulo {
     font-size: 1.1rem;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
-    /* WebKit */
     line-clamp: 3;
-    /* Estándar (compatibilidad futura) */
     min-height: 3.2em;
     max-height: 4em;
   }
 
   .libro-actions {
-    padding: 0.7rem;
+    padding: 0.8rem;
   }
 }
 
@@ -316,7 +420,7 @@ body.dark-mode .libro-actions {
 
   .btn-edit,
   .btn-delete {
-    padding: 0.4rem 0.6rem;
+    padding: 0.6rem 1rem;
     font-size: 0.85rem;
   }
 }

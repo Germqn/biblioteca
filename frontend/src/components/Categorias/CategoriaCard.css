@@ -1,208 +1,189 @@
-/* CategoriaCard.css */
+/* CategoriaCard.css - Paleta Vinotinto Unificada */
+
+/* Variables CSS con paleta vinotinto unificada */
 :root {
-  --vinotinto: #862630;
-  --vinotinto-claro: #9e2d3a;
-  --texto-claro: #ffffff;
-  --texto-oscuro: #333333;
-  --fondo-claro: #ffffff;
-  --fondo-oscuro: #1a1a2e;
-  --borde-claro: #e0e0e0;
-  --borde-oscuro: #333333;
+  /* Colores vinotinto principales */
+  --wine-light: #a0506d;
+  --wine-medium: #7a3b52;
+  --wine-dark: #5d2e3f;
+  --wine-darker: #3d1e2a;
+  --wine-accent: #c4657a;
 
-  --vinotinto-primary: #8B2C5B;
-  --vinotinto-secondary: #A0336B;
-  --vinotinto-light: #B84A7A;
-  --vinotinto-lighter: #D16B9A;
-  --vinotinto-bg: #F8F4F6;
-  --vinotinto-border: #E8D4DC;
+  /* Gradientes principales */
+  --primary-gradient-light: linear-gradient(135deg, #c4657a 0%, #a0506d 100%);
+  --primary-gradient-dark: linear-gradient(135deg, #5d2e3f 0%, #3d1e2a 100%);
 
-  --bg-color: #ffffff;
-  --text-color: #ffffff;
-  --text-muted: #4a4a4a;
-  --border-color: #d1d5db;
+  /* Gradientes de botones */
+  --button-gradient-light: linear-gradient(45deg, #a0506d, #7a3b52);
+  --button-gradient-dark: linear-gradient(45deg, #7a3b52, #5d2e3f);
+  --button-hover-light: linear-gradient(45deg, #7a3b52, #a0506d);
+  --button-hover-dark: linear-gradient(45deg, #5d2e3f, #7a3b52);
+
+  /* Colores para modo claro */
+  --bg-color: #f5f0f2;
+  --text-color: #2c3e50;
+  --text-secondary: #7f8c8d;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --header-bg: white;
+  --shadow-color: rgba(160, 80, 109, 0.15);
+  --shadow-hover: rgba(160, 80, 109, 0.25);
+
+  /* Estados de botones */
+  --info-color: var(--wine-light);
+  --info-hover: var(--wine-medium);
+  --danger-color: #c0392b;
+  --danger-hover: #e74c3c;
+  --success-color: #28a745;
+  --success-hover: #218838;
+
+  /* Efectos de vidrio */
+  --glass-bg-light: rgba(255, 255, 255, 0.15);
+  --glass-bg-dark: rgba(0, 0, 0, 0.3);
+  --glass-border-light: rgba(160, 80, 109, 0.3);
+  --glass-border-dark: rgba(122, 59, 82, 0.4);
+
+  /* Bordes y sombras */
+  --border-color: var(--glass-border-light);
   --input-bg: #ffffff;
-  --shadow-color: rgba(139, 44, 91, 0.2);
   --error-color: #dc2626;
   --success-color: #16a34a;
 }
 
+.dark-mode {
+  /* Colores para modo oscuro */
+  --bg-color: #1a1215;
+  --text-color: #e6e6e6;
+  --text-secondary: #b3b3b3;
+  --card-bg: rgba(22, 33, 62, 0.8);
+  --header-bg: #16213e;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --shadow-hover: rgba(0, 0, 0, 0.6);
+  --border-color: var(--glass-border-dark);
+  --info-color: var(--wine-accent);
+  --danger-color: #d9534f;
+  --success-color: #5cb85c;
+}
+
+/* Estructura principal de la tarjeta de categoría */
 .categoria-card {
-  background-color: var(--card-bg, #ffffff);
-  border-radius: 10px;
-  box-shadow: var(--shadow, 0 4px 6px rgba(0, 0, 0, 0.1));
+  border: 1px solid var(--glass-border-light);
+  border-radius: 20px;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid var(--border-color, #e0e0e0);
+  transition: all 0.4s ease;
+  background: var(--card-bg);
+  backdrop-filter: blur(15px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px var(--shadow-color);
+  position: relative;
   text-align: center;
 }
 
-.dark-mode .categoria-card {
-  background-color: var(--card-bg, #1e1e1e);
-  border-color: var(--border-color, #333333);
+body.dark-mode .categoria-card {
+  border-color: var(--glass-border-dark);
+  background: var(--glass-bg-dark);
+  box-shadow: 0 8px 32px var(--shadow-color);
 }
 
 .categoria-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 40px var(--shadow-hover);
+  border-color: var(--wine-light);
 }
 
+body.dark-mode .categoria-card:hover {
+  border-color: var(--wine-medium);
+}
+
+/* Borde superior animado */
+.categoria-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--primary-gradient-light);
+  background-size: 200% 100%;
+  animation: gradientFlow 4s linear infinite alternate;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  z-index: 1;
+}
+
+body.dark-mode .categoria-card::before {
+  background: var(--primary-gradient-dark);
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Header de la tarjeta */
 .card-header {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem 1.5rem;
-  background-color: var(--primary-color, #8B2C5B);
+  padding: 1.5rem;
+  background: var(--primary-gradient-light);
+  margin-top: 4px;
+  position: relative;
+}
+
+body.dark-mode .card-header {
+  background: var(--primary-gradient-dark);
 }
 
 .card-title {
   margin: 0;
-  color: white;
+  color: white !important;
   font-size: 1.25rem;
-  font-weight: 600;
-}
-
-.card-actions {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem 1.5rem;
-  border-top: 1px solid var(--border-color, #e0e0e0);
-  background-color: var(--card-bg, #ffffff);
-}
-
-.dark-mode .card-actions {
-  background-color: var(--card-bg, #1e1e1e);
-  border-color: var(--border-color, #333333);
-}
-
-.btn-edit,
-.btn-delete {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid var(--border-color, #e0e0e0);
-  border-radius: 6px;
-  color: var(--text-color, #333333);
-  cursor: pointer;
-  font-size: 0.8rem;
-  font-weight: 500;
-  padding: 0.6rem 1rem;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: auto;
-  min-height: 36px;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.dark-mode .btn-edit,
-.dark-mode .btn-delete {
-  background: rgba(45, 45, 45, 0.9);
-  border-color: var(--border-color, #444444);
-  color: var(--text-color, #f7fafc);
-}
-
-.btn-edit:hover {
-  color: white !important;
-  background: linear-gradient(135deg, #A0336B 0%, #B84A7A 100%);
-  box-shadow: 0 8px 25px rgba(139, 44, 91, 0.5);
-  transform: translateY(-2px);
-}
-
-.btn-delete:hover {
-  color: white !important;
-  background: linear-gradient(135deg, #A0336B 0%, #B84A7A 100%);
-  box-shadow: 0 8px 25px rgba(139, 44, 91, 0.5);
-  transform: translateY(-2px);
-}
-
-/* Estilos específicos para cada botón */
-.btn-edit {
-  background: #4a90e2;
-  color: white;
-  border-color: #357abd;
-}
-
-.btn-delete {
-  background: #ef4444;
-  color: white;
-  border-color: #dc2626;
-}
-
-.dark-mode .btn-edit {
-  background: #4a90e2;
-  color: white;
-  border-color: #357abd;
-}
-
-.dark-mode .btn-delete {
-  background: #ef4444;
-  color: white;
-  border-color: #dc2626;
-}
-
-/* Agregar tooltips más visibles */
-.btn-edit::after {
-  content: attr(title);
-  position: absolute;
-  bottom: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-  z-index: 1000;
-}
-
-.btn-delete::after {
-  content: attr(title);
-  position: absolute;
-  bottom: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-  z-index: 1000;
-}
-
-.btn-edit:hover::after,
-.btn-delete:hover::after {
-  opacity: 1;
-}
-
-/* Posicionamiento relativo para los tooltips */
-.card-actions {
-  position: relative;
-}
-
+/* Cuerpo de la tarjeta */
 .card-body {
   padding: 1.5rem;
+  flex-grow: 1;
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(10px);
+}
+
+body.dark-mode .card-body {
+  background: var(--glass-bg-dark);
 }
 
 .card-body h4 {
   margin-top: 0;
   margin-bottom: 1rem;
-  color: var(--text-color, #333333);
+  color: var(--text-color);
   font-size: 1.1rem;
-  font-weight: 500;
-  border-bottom: 1px solid var(--border-color, #e0e0e0);
+  font-weight: 600;
+  border-bottom: 2px solid var(--glass-border-light);
   padding-bottom: 0.5rem;
+  background: var(--primary-gradient-light);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
+body.dark-mode .card-body h4 {
+  border-bottom-color: var(--glass-border-dark);
+  background: var(--primary-gradient-light);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Lista de libros */
 .libros-list {
   list-style: none;
   padding: 0;
@@ -212,41 +193,256 @@
 .libro-item {
   display: flex;
   flex-direction: column;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--border-color, #e0e0e0);
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--glass-border-light);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 
-.libro-item:last-child {
-  border-bottom: none;
+body.dark-mode .libro-item {
+  border-color: var(--glass-border-dark);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.libro-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary-gradient-light);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.libro-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px var(--shadow-hover);
+  border-color: var(--wine-light);
+}
+
+.libro-item:hover::before {
+  transform: scaleX(1);
+}
+
+body.dark-mode .libro-item:hover {
+  border-color: var(--wine-medium);
 }
 
 .libro-title {
-  font-weight: 500;
-  color: var(--text-color, #333333);
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  background: var(--primary-gradient-light);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .libro-author {
   font-size: 0.9rem;
-  color: var(--text-secondary, #666666);
-  margin-top: 0.25rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  font-weight: 500;
 }
 
 .no-libros {
-  color: var(--text-secondary, #666666);
+  color: var(--text-secondary);
   font-style: italic;
   margin: 0;
+  padding: 1rem;
+  text-align: center;
+  background: var(--glass-bg-light);
+  border-radius: 12px;
+  border: 1px dashed var(--glass-border-light);
 }
 
+body.dark-mode .no-libros {
+  background: var(--glass-bg-dark);
+  border-color: var(--glass-border-dark);
+}
+
+/* Acciones de la tarjeta */
+.card-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  border-top: 1px solid var(--glass-border-light);
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+
+body.dark-mode .card-actions {
+  border-top-color: var(--glass-border-dark);
+  background: var(--glass-bg-dark);
+}
+
+/* Botones unificados */
+.btn-edit,
+.btn-delete {
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex: 1;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(160, 80, 109, 0.2);
+}
+
+.btn-edit {
+  background: var(--button-gradient-light);
+}
+
+.btn-delete {
+  background: linear-gradient(45deg, #c0392b, #e74c3c);
+}
+
+body.dark-mode .btn-edit {
+  background: var(--button-gradient-dark);
+}
+
+body.dark-mode .btn-delete {
+  background: linear-gradient(45deg, #d9534f, #c0392b);
+}
+
+.btn-edit::before,
+.btn-delete::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+}
+
+.btn-edit:hover::before,
+.btn-delete:hover::before {
+  left: 100%;
+}
+
+.btn-edit:hover,
+.btn-delete:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(160, 80, 109, 0.4);
+}
+
+.btn-edit:hover {
+  background: var(--button-hover-light);
+}
+
+.btn-delete:hover {
+  background: linear-gradient(45deg, #e74c3c, #c0392b);
+}
+
+body.dark-mode .btn-edit:hover {
+  background: var(--button-hover-dark);
+}
+
+/* Tooltips mejorados */
+.btn-edit::after,
+.btn-delete::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--wine-light);
+}
+
+.btn-edit:hover::after,
+.btn-delete:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-5px);
+}
+
+/* Estados de clic */
 .clickable {
   cursor: pointer;
 }
 
-.dark-mode .card-body h4,
-.dark-mode .libro-title {
-  color: var(--text-color, #f7fafc);
+.libro-item:active {
+  transform: translateY(-1px) scale(0.98);
 }
 
-.dark-mode .libro-author,
-.dark-mode .no-libros {
-  color: var(--text-secondary, #a0aec0);
+/* Animaciones adicionales */
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-body {
+    padding: 1.2rem;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+  }
+
+  .card-actions {
+    padding: 0.8rem;
+  }
+
+  .btn-edit,
+  .btn-delete {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-header {
+    padding: 1rem;
+  }
+
+  .btn-edit,
+  .btn-delete {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+  }
 }

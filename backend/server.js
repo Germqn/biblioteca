@@ -25,8 +25,20 @@ app.get('/api', (req, res) => {
   res.json({ status: 'API funcionando', timestamp: new Date() });
 });
 
+
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path} - ${new Date().toISOString()}`);
+  next();
+});
 // Rutas API
-app.use('/api/Redbook', require('./routes/auth'));
+try {
+  const authRoutes = require('./routes/auth');
+  console.log('Auth routes loaded successfully');
+  app.use('/auth', authRoutes);
+} catch (error) {
+  console.error('Error loading auth routes:', error);
+}
+
 app.use('/api/libros', librosRoutes);
 app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/autores', autorRoutes);

@@ -1,3 +1,79 @@
+/* LibroModal.css - Paleta Vinotinto Unificada */
+
+/* Variables CSS heredadas del dashboard */
+:root {
+  /* Colores vinotinto principales */
+  --wine-light: #a0506d;
+  --wine-medium: #7a3b52;
+  --wine-dark: #5d2e3f;
+  --wine-darker: #3d1e2a;
+
+  /* Gradientes principales */
+  --primary-gradient-light: linear-gradient(135deg, #c4657a 0%, #a0506d 100%);
+  --primary-gradient-dark: linear-gradient(135deg, #5d2e3f 0%, #3d1e2a 100%);
+
+  /* Gradientes de botones */
+  --button-gradient-light: linear-gradient(45deg, #a0506d, #7a3b52);
+  --button-gradient-dark: linear-gradient(45deg, #7a3b52, #5d2e3f);
+  --button-hover-light: linear-gradient(45deg, #7a3b52, #a0506d);
+  --button-hover-dark: linear-gradient(45deg, #5d2e3f, #7a3b52);
+
+  /* Colores de texto */
+  --light-text: #2c3e50;
+  --dark-text: #e6e6e6;
+  --wine-accent: #a0506d;
+  --wine-accent-dark: #7a3b52;
+
+  /* Efectos de vidrio */
+  --glass-bg-light: rgba(255, 255, 255, 0.15);
+  --glass-bg-dark: rgba(0, 0, 0, 0.3);
+  --glass-border-light: rgba(160, 80, 109, 0.3);
+  --glass-border-dark: rgba(122, 59, 82, 0.4);
+
+  /* Sombras */
+  --shadow-light: 0 8px 32px 0 rgba(160, 80, 109, 0.2);
+  --shadow-dark: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  --shadow-hover-light: 0 15px 40px rgba(160, 80, 109, 0.3);
+  --shadow-hover-dark: 0 15px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Animaciones */
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes gentleFloat {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes subtleGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 /* Modal backdrop que ocupa toda la pantalla */
 .libro-modal-backdrop {
   position: fixed;
@@ -5,12 +81,32 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(15px);
+  transition: all 0.3s ease;
+}
+
+.libro-modal-backdrop::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: 200% 200%;
+  animation: subtleGradient 20s ease infinite;
+  z-index: -1;
+}
+
+body:not(.dark-mode) .libro-modal-backdrop::before {
+  background: linear-gradient(-45deg, rgba(245, 240, 242, 0.9), rgba(232, 213, 218, 0.9), rgba(212, 165, 179, 0.9), rgba(196, 101, 122, 0.9));
+}
+
+body.dark-mode .libro-modal-backdrop::before {
+  background: linear-gradient(-45deg, rgba(26, 18, 21, 0.95), rgba(42, 30, 35, 0.95), rgba(61, 30, 42, 0.95), rgba(93, 46, 63, 0.95));
 }
 
 .libro-modal-backdrop.fullscreen {
@@ -19,15 +115,30 @@
 
 /* Contenedor principal del modal */
 .libro-modal-content {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
   max-width: 800px;
   max-height: 90vh;
   width: 90%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  backdrop-filter: blur(20px);
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+body:not(.dark-mode) .libro-modal-content {
+  background: var(--glass-bg-light);
+  color: var(--light-text);
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--glass-border-light);
+}
+
+body.dark-mode .libro-modal-content {
+  background: var(--glass-bg-dark);
+  color: var(--dark-text);
+  box-shadow: var(--shadow-dark);
+  border: 1px solid var(--glass-border-dark);
 }
 
 .libro-modal-content.fullscreen {
@@ -38,9 +149,31 @@
   border-radius: 0;
 }
 
-.libro-modal-content.dark-mode {
-  background: #2d3748;
-  color: white;
+/* Borde superior animado */
+.libro-modal-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-size: 200% 100%;
+  animation: gradientFlow 6s linear infinite;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  z-index: 1;
+}
+
+body:not(.dark-mode) .libro-modal-content::before {
+  background: var(--button-gradient-light);
+}
+
+body.dark-mode .libro-modal-content::before {
+  background: var(--button-gradient-dark);
+}
+
+.libro-modal-content.fullscreen::before {
+  border-radius: 0;
 }
 
 /* Header del modal */
@@ -48,52 +181,59 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1.5rem 2rem;
-  border-bottom: 1px solid #e2e8f0;
-  background: #f8fafc;
-}
-
-.libro-modal-content.dark-mode .libro-modal-header {
-  background: #1a202c;
-  border-bottom-color: #4a5568;
+  padding: 2rem;
+  position: relative;
+  z-index: 2;
+  margin-top: 4px;
 }
 
 .libro-modal-title {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: 700;
   margin: 0;
-  color: #2d3748;
-  transition: color 0.2s;
   text-align: center;
+  background: var(--primary-gradient-light);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: none;
 }
 
-.libro-modal-content.dark-mode .libro-modal-title {
-  color: white;
+body.dark-mode .libro-modal-title {
+  background: var(--primary-gradient-dark);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 .libro-modal-close {
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
   background: none;
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
   padding: 0.5rem;
-  border-radius: 6px;
-  color: #64748b;
-  transition: all 0.2s;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  color: var(--wine-medium);
 }
 
 .libro-modal-close:hover {
-  background: #e2e8f0;
-  color: #dc2626;
+  transform: translateY(-50%) scale(1.1);
+  color: var(--wine-light);
+  background: var(--glass-bg-light);
 }
 
-.libro-modal-content.dark-mode .libro-modal-close {
-  color: #a0aec0;
+body.dark-mode .libro-modal-close {
+  color: var(--wine-light);
 }
 
-.libro-modal-content.dark-mode .libro-modal-close:hover {
-  background: #4a5568;
-  color: #fed7d7;
+body.dark-mode .libro-modal-close:hover {
+  color: var(--wine-accent);
+  background: var(--glass-bg-dark);
 }
 
 /* Body del modal */
@@ -110,7 +250,7 @@
 /* Grid de información del libro */
 .libro-info-grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr; /* Más espacio para la portada */
+  grid-template-columns: 1.2fr 1fr;
   gap: 3rem;
   height: 100%;
 }
@@ -118,7 +258,7 @@
 .libro-info-grid.fullscreen {
   gap: 4rem;
   min-height: calc(100vh - 200px);
-  align-items: stretch; /* Para que ambas columnas tengan la misma altura */
+  align-items: stretch;
 }
 
 /* Contenedor de la portada */
@@ -134,23 +274,27 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  padding: 1rem; /* Pequeño padding para que no toque los bordes */
+  padding: 1rem;
 }
 
 .libro-portada {
   max-width: 100%;
   height: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
   transition: transform 0.3s ease;
+  filter: drop-shadow(0 8px 16px rgba(160, 80, 109, 0.2));
+}
+
+body.dark-mode .libro-portada {
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
 }
 
 .libro-portada.fullscreen {
-  width: 100%; /* Usar todo el ancho disponible */
-  height: 100%; /* Usar toda la altura disponible */
-  max-height: calc(100vh - 200px); /* Usar casi toda la pantalla menos header y footer */
-  min-height: 600px; /* Altura mínima más grande */
-  object-fit: contain; /* Asegura que la imagen se mantenga proporcionada */
+  width: 100%;
+  height: 100%;
+  max-height: calc(100vh - 200px);
+  min-height: 600px;
+  object-fit: contain;
 }
 
 .libro-portada:hover {
@@ -160,36 +304,46 @@
 .libro-portada-placeholder {
   width: 200px;
   height: 280px;
-  background: #f1f5f9;
-  border: 2px dashed #cbd5e1;
-  border-radius: 8px;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #64748b;
   font-size: 0.9rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+body:not(.dark-mode) .libro-portada-placeholder {
+  background: var(--glass-bg-light);
+  border: 2px dashed var(--wine-light);
+  color: var(--wine-medium);
+}
+
+body.dark-mode .libro-portada-placeholder {
+  background: var(--glass-bg-dark);
+  border: 2px dashed var(--wine-accent);
+  color: var(--wine-light);
 }
 
 .libro-portada-placeholder.fullscreen {
-  width: 400px; /* Aumentado de 300px a 400px */
-  height: 500px; /* Aumentado de 400px a 500px */
-  font-size: 1.4rem; /* Aumentado el tamaño de la fuente */
+  width: 400px;
+  height: 500px;
+  font-size: 1.4rem;
 }
 
 .libro-portada-placeholder i {
   font-size: 3rem;
   margin-bottom: 1rem;
+  color: var(--wine-medium);
+}
+
+body.dark-mode .libro-portada-placeholder i {
+  color: var(--wine-light);
 }
 
 .libro-portada-placeholder.fullscreen i {
-  font-size: 6rem; /* Aumentado de 5rem a 6rem */
-}
-
-.libro-modal-content.dark-mode .libro-portada-placeholder {
-  background: #4a5568;
-  border-color: #718096;
-  color: #a0aec0;
+  font-size: 6rem;
 }
 
 /* Detalles del libro */
@@ -208,77 +362,162 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 1rem;
-  background: #f8fafc;
-  border-radius: 8px;
-  border-left: 4px solid hsl(352, 69%, 37%);
+  padding: 1.5rem;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-.libro-modal-content.dark-mode .libro-detail-item {
-  background: #4a5568;
-  border-left-color: #b9304e;
+body:not(.dark-mode) .libro-detail-item {
+  background: var(--glass-bg-light);
+  border: 1px solid var(--glass-border-light);
+  box-shadow: 0 4px 12px rgba(160, 80, 109, 0.1);
+}
+
+body.dark-mode .libro-detail-item {
+  background: var(--glass-bg-dark);
+  border: 1px solid var(--glass-border-dark);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.libro-detail-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--button-gradient-light);
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+body.dark-mode .libro-detail-item::before {
+  background: var(--button-gradient-dark);
+}
+
+.libro-detail-item:hover {
+  transform: translateX(5px);
+}
+
+body:not(.dark-mode) .libro-detail-item:hover {
+  box-shadow: 0 8px 20px rgba(160, 80, 109, 0.2);
+  border-color: var(--wine-light);
+}
+
+body.dark-mode .libro-detail-item:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border-color: var(--wine-medium);
 }
 
 .detail-label {
   font-weight: 600;
-  color: #475569;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.9rem;
+  color: var(--wine-medium);
 }
 
-.libro-modal-content.dark-mode .detail-label {
-  color: #e2e8f0;
+body.dark-mode .detail-label {
+  color: var(--wine-light);
 }
 
 .detail-value {
   font-size: 1.1rem;
-  color: #1e293b;
   padding-left: 1.5rem;
+  font-weight: 500;
 }
 
-.libro-modal-content.dark-mode .detail-value {
-  color: white;
+body:not(.dark-mode) .detail-value {
+  color: var(--light-text);
+}
+
+body.dark-mode .detail-value {
+  color: var(--dark-text);
 }
 
 .detail-value.available {
-  color: #059669;
-  font-weight: 500;
+  color: #10b981;
+  font-weight: 600;
 }
 
 .detail-value.unavailable {
-  color: #dc2626;
-  font-weight: 500;
+  color: #ef4444;
+  font-weight: 600;
 }
 
 /* Footer del modal */
 .libro-modal-footer {
-  padding: 1.5rem 2rem;
-  border-top: 1px solid #e2e8f0;
+  padding: 2rem;
   display: flex;
   justify-content: flex-end;
-  background: #f8fafc;
+  position: relative;
 }
 
-.libro-modal-content.dark-mode .libro-modal-footer {
-  background: #1a202c;
-  border-top-color: #4a5568;
+.libro-modal-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 2rem;
+  right: 2rem;
+  height: 1px;
+  background: var(--glass-border-light);
+}
+
+body.dark-mode .libro-modal-footer::before {
+  background: var(--glass-border-dark);
 }
 
 .btn-secondary {
-  background: #6b7280;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 6px;
-  font-weight: 500;
+  padding: 0.75rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.3s ease;
+  border: none;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+body:not(.dark-mode) .btn-secondary {
+  background: var(--button-gradient-light);
+}
+
+body.dark-mode .btn-secondary {
+  background: var(--button-gradient-dark);
+}
+
+.btn-secondary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-secondary:hover::before {
+  left: 100%;
 }
 
 .btn-secondary:hover {
-  background: #4b5563;
+  transform: translateY(-2px) scale(1.02);
+}
+
+body:not(.dark-mode) .btn-secondary:hover {
+  background: var(--button-hover-light);
+  box-shadow: var(--shadow-hover-light);
+}
+
+body.dark-mode .btn-secondary:hover {
+  background: var(--button-hover-dark);
+  box-shadow: var(--shadow-hover-dark);
 }
 
 /* Responsivo */
@@ -287,54 +526,62 @@
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-  
+
   .libro-info-grid.fullscreen {
     gap: 2rem;
   }
-  
+
   .libro-modal-body.fullscreen {
     padding: 1rem 2rem;
   }
-  
+
   .libro-portada.fullscreen {
-    width: 100%; /* Usar todo el ancho en móviles también */
-    max-height: 70vh; /* Un poco más de altura en móviles */
-    min-height: 400px; /* Altura mínima en móviles */
+    width: 100%;
+    max-height: 70vh;
+    min-height: 400px;
   }
-  
+
   .libro-portada-placeholder.fullscreen {
-    width: 300px; /* Aumentado de 250px a 300px */
-    height: 400px; /* Aumentado de 350px a 400px */
+    width: 300px;
+    height: 400px;
+  }
+
+  .libro-modal-title {
+    font-size: 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
   .libro-modal-header {
-    padding: 1rem;
+    padding: 1.5rem 1rem;
   }
-  
+
   .libro-modal-body {
     padding: 1rem;
   }
-  
+
   .libro-modal-body.fullscreen {
     padding: 1rem;
   }
-  
+
   .libro-modal-footer {
     padding: 1rem;
   }
-  
+
   .libro-modal-title {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
-  
+
   .libro-portada.fullscreen {
-    min-height: 300px; /* Altura mínima en pantallas muy pequeñas */
+    min-height: 300px;
   }
-  
+
   .libro-portada-placeholder.fullscreen {
     width: 280px;
     height: 380px;
+  }
+
+  .libro-modal-close {
+    right: 1rem;
   }
 }

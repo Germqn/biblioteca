@@ -1,3 +1,5 @@
+
+// App.js (Actualizado)
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Redbook.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
@@ -15,7 +17,11 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
+            {/* Rutas públicas */}
             <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            
+            {/* Rutas protegidas */}
             <Route
                 path="/dashboard"
                 element={

@@ -1,4 +1,4 @@
-/* CategoriaForm.css - Paleta Vinotinto Unificada con Overlay Mejorado */
+/* UsuariosForm.css - Paleta Vinotinto Unificada con Overlay Mejorado */
 
 /* Variables CSS con paleta vinotinto */
 :root {
@@ -31,7 +31,7 @@
 }
 
 /* Overlay del formulario - MEJORADO */
-.categoria-form-overlay {
+.usuarios-form-overlay {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -51,12 +51,12 @@
     box-sizing: border-box !important;
 }
 
-.categoria-form-overlay.show {
+.usuarios-form-overlay.show {
     opacity: 1 !important;
     visibility: visible !important;
 }
 
-body.dark-mode .categoria-form-overlay {
+body.dark-mode .usuarios-form-overlay {
     background: rgba(0, 0, 0, 0.9) !important;
     backdrop-filter: blur(15px) !important;
     -webkit-backdrop-filter: blur(15px) !important;
@@ -83,7 +83,7 @@ body.modal-open {
 }
 
 /* Contenedor del formulario - MEJORADO */
-.categoria-form {
+.usuarios-form {
     background: var(--glass-bg-light) !important;
     backdrop-filter: blur(25px) !important;
     -webkit-backdrop-filter: blur(25px) !important;
@@ -101,7 +101,7 @@ body.modal-open {
     transform-origin: center !important;
 }
 
-body.dark-mode .categoria-form {
+body.dark-mode .usuarios-form {
     background: var(--glass-bg-dark) !important;
     color: #e9ecef !important;
     border-color: var(--glass-border-dark) !important;
@@ -122,7 +122,7 @@ body.dark-mode .categoria-form {
 }
 
 /* Botón de cerrar (X) - NUEVO */
-.categoria-form-close {
+.usuarios-form-close {
     position: absolute !important;
     top: 15px !important;
     right: 20px !important;
@@ -141,23 +141,23 @@ body.dark-mode .categoria-form {
     z-index: 10 !important;
 }
 
-.categoria-form-close:hover {
+.usuarios-form-close:hover {
     background: rgba(160, 80, 109, 0.1) !important;
     color: var(--wine-dark) !important;
     transform: scale(1.1) !important;
 }
 
-body.dark-mode .categoria-form-close {
+body.dark-mode .usuarios-form-close {
     color: var(--wine-accent) !important;
 }
 
-body.dark-mode .categoria-form-close:hover {
+body.dark-mode .usuarios-form-close:hover {
     background: rgba(196, 101, 122, 0.2) !important;
     color: #fff !important;
 }
 
 /* Borde superior animado */
-.categoria-form::before {
+.usuarios-form::before {
     content: '';
     position: absolute;
     top: 0;
@@ -171,7 +171,7 @@ body.dark-mode .categoria-form-close:hover {
     border-top-right-radius: 25px;
 }
 
-body.dark-mode .categoria-form::before {
+body.dark-mode .usuarios-form::before {
     background: var(--primary-gradient-dark);
 }
 
@@ -186,7 +186,7 @@ body.dark-mode .categoria-form::before {
 }
 
 /* Título del formulario */
-.categoria-form-title {
+.usuarios-form-title {
     display: block;
     margin-bottom: 2rem;
     font-weight: 800;
@@ -201,7 +201,7 @@ body.dark-mode .categoria-form::before {
     position: relative;
 }
 
-body.dark-mode .categoria-form-title {
+body.dark-mode .usuarios-form-title {
     background: var(--primary-gradient-light);
     background-clip: text;
     -webkit-background-clip: text;
@@ -209,12 +209,12 @@ body.dark-mode .categoria-form-title {
 }
 
 /* Espaciado de grupos de formulario */
-.categoria-form .form-group {
+.usuarios-form .form-group {
     margin-bottom: 1.8rem;
 }
 
 /* Etiquetas del formulario */
-.categoria-form .form-group label {
+.usuarios-form .form-group label {
     display: block;
     margin-bottom: 0.7rem;
     font-weight: 700;
@@ -227,7 +227,7 @@ body.dark-mode .categoria-form-title {
     letter-spacing: 0.5px;
 }
 
-body.dark-mode .categoria-form .form-group label {
+body.dark-mode .usuarios-form .form-group label {
     background: var(--primary-gradient-light);
     background-clip: text;
     -webkit-background-clip: text;
@@ -235,7 +235,8 @@ body.dark-mode .categoria-form .form-group label {
 }
 
 /* Controles del formulario */
-.categoria-form .form-group input[type="text"] {
+.usuarios-form .form-group input[type="text"],
+.usuarios-form .form-group input[type="email"] {
     width: 100%;
     padding: 1rem 1.2rem;
     border: 2px solid var(--glass-border-light);
@@ -248,36 +249,47 @@ body.dark-mode .categoria-form .form-group label {
     box-sizing: border-box;
 }
 
-body.dark-mode .categoria-form .form-group input[type="text"] {
+body.dark-mode .usuarios-form .form-group input[type="text"],
+body.dark-mode .usuarios-form .form-group input[type="email"] {
     background: rgba(44, 62, 80, 0.8);
     color: #e9ecef;
     border-color: var(--glass-border-dark);
 }
 
-.categoria-form .form-group input[type="text"]:focus {
+.usuarios-form .form-group input[type="text"]:focus,
+.usuarios-form .form-group input[type="email"]:focus {
     outline: none;
     border-color: var(--wine-light);
     box-shadow: 0 0 0 4px rgba(160, 80, 109, 0.2);
     transform: translateY(-2px);
 }
 
-body.dark-mode .categoria-form .form-group input[type="text"]:focus {
+body.dark-mode .usuarios-form .form-group input[type="text"]:focus,
+body.dark-mode .usuarios-form .form-group input[type="email"]:focus {
     border-color: var(--wine-accent);
     box-shadow: 0 0 0 4px rgba(196, 101, 122, 0.3);
 }
 
-.categoria-form .form-group input[type="text"]::placeholder {
+.usuarios-form .form-group input[type="text"]::placeholder,
+.usuarios-form .form-group input[type="email"]::placeholder {
     color: var(--wine-medium);
     opacity: 0.7;
     font-style: italic;
 }
 
-body.dark-mode .categoria-form .form-group input[type="text"]::placeholder {
+body.dark-mode .usuarios-form .form-group input[type="text"]::placeholder,
+body.dark-mode .usuarios-form .form-group input[type="email"]::placeholder {
     color: var(--wine-accent);
     opacity: 0.6;
 }
 
-/* Mensaje de error */
+/* Inputs con error */
+.usuarios-form .form-group input.error {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.2);
+}
+
+/* Mensaje de error general */
 .error-message {
     background: linear-gradient(45deg, #e74c3c, #c0392b);
     color: white;
@@ -289,6 +301,25 @@ body.dark-mode .categoria-form .form-group input[type="text"]::placeholder {
     text-align: center;
     box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
     animation: errorShake 0.5s ease-in-out;
+}
+
+/* Mensaje de error por campo */
+.field-error-message {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    animation: errorFadeIn 0.3s ease-in-out;
+}
+
+body.dark-mode .field-error-message {
+    background: rgba(231, 76, 60, 0.2);
+    color: #ff6b6b;
+    border-color: rgba(231, 76, 60, 0.4);
 }
 
 @keyframes errorShake {
@@ -307,6 +338,18 @@ body.dark-mode .categoria-form .form-group input[type="text"]::placeholder {
     }
 }
 
+@keyframes errorFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Contenedor de acciones */
 .form-actions {
     display: flex;
@@ -317,8 +360,8 @@ body.dark-mode .categoria-form .form-group input[type="text"]::placeholder {
 }
 
 /* Botones principales */
-.categoria-form .btn-guardar,
-.categoria-form .btn-cancelar {
+.usuarios-form .btn-guardar,
+.usuarios-form .btn-cancelar {
     background: var(--button-gradient-light);
     color: white !important;
     border: none;
@@ -340,15 +383,15 @@ body.dark-mode .categoria-form .form-group input[type="text"]::placeholder {
     box-shadow: 0 8px 25px rgba(160, 80, 109, 0.4) !important;
 }
 
-body.dark-mode .categoria-form .btn-guardar,
-body.dark-mode .categoria-form .btn-cancelar {
+body.dark-mode .usuarios-form .btn-guardar,
+body.dark-mode .usuarios-form .btn-cancelar {
     background: var(--button-gradient-dark);
     box-shadow: 0 8px 25px rgba(122, 59, 82, 0.5) !important;
 }
 
 /* Efecto shimmer en botones */
-.categoria-form .btn-guardar::before,
-.categoria-form .btn-cancelar::before {
+.usuarios-form .btn-guardar::before,
+.usuarios-form .btn-cancelar::before {
     content: '';
     position: absolute;
     top: 0;
@@ -359,49 +402,49 @@ body.dark-mode .categoria-form .btn-cancelar {
     transition: left 0.6s ease;
 }
 
-.categoria-form .btn-guardar:hover::before,
-.categoria-form .btn-cancelar:hover::before {
+.usuarios-form .btn-guardar:hover::before,
+.usuarios-form .btn-cancelar:hover::before {
     left: 100%;
 }
 
-.categoria-form .btn-guardar:hover,
-.categoria-form .btn-cancelar:hover {
+.usuarios-form .btn-guardar:hover,
+.usuarios-form .btn-cancelar:hover {
     transform: translateY(-3px) scale(1.02);
     box-shadow: 0 12px 30px rgba(160, 80, 109, 0.5) !important;
 }
 
-body.dark-mode .categoria-form .btn-guardar:hover,
-body.dark-mode .categoria-form .btn-cancelar:hover {
+body.dark-mode .usuarios-form .btn-guardar:hover,
+body.dark-mode .usuarios-form .btn-cancelar:hover {
     background: var(--button-hover-dark);
     box-shadow: 0 12px 30px rgba(122, 59, 82, 0.6) !important;
 }
 
 /* Botón cancelar específico */
-.categoria-form .btn-cancelar {
+.usuarios-form .btn-cancelar {
     background: linear-gradient(45deg, #95a5a6, #7f8c8d);
 }
 
-.categoria-form .btn-cancelar:hover {
+.usuarios-form .btn-cancelar:hover {
     background: linear-gradient(45deg, #7f8c8d, #95a5a6);
 }
 
-body.dark-mode .categoria-form .btn-cancelar {
+body.dark-mode .usuarios-form .btn-cancelar {
     background: linear-gradient(45deg, #555, #666);
 }
 
-body.dark-mode .categoria-form .btn-cancelar:hover {
+body.dark-mode .usuarios-form .btn-cancelar:hover {
     background: linear-gradient(45deg, #666, #555);
 }
 
 /* Botones deshabilitados */
-.categoria-form .btn:disabled {
+.usuarios-form .btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none !important;
     box-shadow: 0 4px 15px rgba(160, 80, 109, 0.2) !important;
 }
 
-.categoria-form .btn:disabled:hover {
+.usuarios-form .btn:disabled:hover {
     transform: none !important;
     box-shadow: 0 4px 15px rgba(160, 80, 109, 0.2) !important;
 }
@@ -427,26 +470,26 @@ body.dark-mode .categoria-form .btn-cancelar:hover {
 }
 
 /* Estilos de scroll personalizados */
-.categoria-form::-webkit-scrollbar {
+.usuarios-form::-webkit-scrollbar {
     width: 8px;
 }
 
-.categoria-form::-webkit-scrollbar-track {
+.usuarios-form::-webkit-scrollbar-track {
     background: rgba(160, 80, 109, 0.1);
     border-radius: 10px;
 }
 
-.categoria-form::-webkit-scrollbar-thumb {
+.usuarios-form::-webkit-scrollbar-thumb {
     background: var(--wine-light);
     border-radius: 10px;
 }
 
-.categoria-form::-webkit-scrollbar-thumb:hover {
+.usuarios-form::-webkit-scrollbar-thumb:hover {
     background: var(--wine-medium);
 }
 
 /* Efecto de enfoque en el overlay */
-.categoria-form-overlay:focus-within .categoria-form {
+.usuarios-form-overlay:focus-within .usuarios-form {
     transform: scale(1.01);
     box-shadow: var(--shadow-light),
         0 0 50px rgba(160, 80, 109, 0.3);
@@ -454,11 +497,11 @@ body.dark-mode .categoria-form .btn-cancelar:hover {
 
 /* Responsive mejorado */
 @media (max-width: 768px) {
-    .categoria-form-overlay {
+    .usuarios-form-overlay {
         padding: 15px !important;
     }
 
-    .categoria-form {
+    .usuarios-form {
         padding: 2rem !important;
         max-height: 90vh !important;
         width: 100% !important;
@@ -468,36 +511,186 @@ body.dark-mode .categoria-form .btn-cancelar:hover {
         flex-direction: column;
     }
 
-    .categoria-form .btn-guardar,
-    .categoria-form .btn-cancelar {
+    .usuarios-form .btn-guardar,
+    .usuarios-form .btn-cancelar {
         width: 100%;
         margin-bottom: 0.5rem;
     }
 }
 
+/* Continuación desde @media (max-width: 480px) */
 @media (max-width: 480px) {
-    .categoria-form-overlay {
+    .usuarios-form-overlay {
         padding: 10px !important;
     }
 
-    .categoria-form {
+    .usuarios-form {
         padding: 1.5rem !important;
         border-radius: 20px !important;
         max-height: 95vh !important;
     }
 
-    .categoria-form-title {
-        font-size: 1.5rem;
+    .usuarios-form-title {
+        font-size: 1.5rem !important;
+        margin-bottom: 1.5rem !important;
     }
 
-    .categoria-form .form-group input[type="text"] {
-        padding: 0.8rem 1rem;
-        font-size: 0.95rem;
+    .usuarios-form .form-group {
+        margin-bottom: 1.5rem !important;
     }
 
-    .categoria-form .btn-guardar,
-    .categoria-form .btn-cancelar {
-        padding: 0.8rem 1.5rem !important;
+    .usuarios-form .form-group input[type="text"],
+    .usuarios-form .form-group input[type="email"] {
+        padding: 0.9rem 1rem !important;
+        font-size: 0.95rem !important;
+    }
+
+    .usuarios-form .btn-guardar,
+    .usuarios-form .btn-cancelar {
+        padding: 0.9rem 1.5rem !important;
         font-size: 1rem !important;
+        min-width: auto !important;
+    }
+
+    .usuarios-form-close {
+        top: 10px !important;
+        right: 15px !important;
+        font-size: 1.8rem !important;
+        width: 35px !important;
+        height: 35px !important;
+    }
+}
+
+/* Animaciones adicionales */
+@keyframes pulseButton {
+    0% {
+        box-shadow: 0 0 0 0 rgba(160, 80, 109, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(160, 80, 109, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(160, 80, 109, 0);
+    }
+}
+
+/* Efecto de pulso en botón principal */
+.usuarios-form .btn-guardar:focus {
+    animation: pulseButton 1.5s infinite;
+}
+
+/* Efecto de validación exitosa */
+.usuarios-form .form-group.success input {
+    border-color: #27ae60 !important;
+    box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.2) !important;
+}
+
+.usuarios-form .form-group.success::after {
+    content: '✓';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #27ae60;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* Transiciones suaves para cambios de tema */
+.usuarios-form,
+.usuarios-form * {
+    transition: background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease !important;
+}
+
+/* Mejoras de accesibilidad */
+.usuarios-form:focus-within {
+    outline: 2px solid var(--wine-accent);
+    outline-offset: 4px;
+}
+
+.usuarios-form .form-group input:focus {
+    outline: none;
+}
+
+/* Indicador de carga en overlay */
+.usuarios-form-overlay.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    margin: -25px 0 0 -25px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid var(--wine-accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 10001;
+}
+
+/* Optimización de rendimiento */
+.usuarios-form-overlay,
+.usuarios-form {
+    will-change: transform, opacity;
+}
+
+/* Soporte para modo alto contraste */
+@media (prefers-contrast: high) {
+    .usuarios-form {
+        border: 3px solid var(--wine-dark) !important;
+    }
+
+    .usuarios-form .form-group input[type="text"],
+    .usuarios-form .form-group input[type="email"] {
+        border: 3px solid var(--wine-medium) !important;
+    }
+
+    .usuarios-form .btn-guardar,
+    .usuarios-form .btn-cancelar {
+        border: 2px solid var(--wine-darker) !important;
+    }
+}
+
+/* Soporte para reducción de movimiento */
+@media (prefers-reduced-motion: reduce) {
+
+    .usuarios-form-overlay,
+    .usuarios-form,
+    .usuarios-form *,
+    .usuarios-form::before {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .usuarios-form .btn-guardar:hover,
+    .usuarios-form .btn-cancelar:hover {
+        transform: none !important;
+    }
+}
+
+/* Estilos para impresión */
+@media print {
+    .usuarios-form-overlay {
+        display: none !important;
+    }
+}
+
+/* Último ajuste para navegadores antiguos */
+@supports not (backdrop-filter: blur(12px)) {
+    .usuarios-form-overlay {
+        background: rgba(26, 18, 21, 0.95) !important;
+    }
+
+    .usuarios-form {
+        background: rgba(255, 255, 255, 0.98) !important;
+    }
+
+    body.dark-mode .usuarios-form {
+        background: rgba(22, 33, 62, 0.98) !important;
     }
 }

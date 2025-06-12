@@ -1,0 +1,513 @@
+/* PrestamoCard.css - Paleta Vinotinto Unificada */
+
+/* Variables CSS heredadas del dashboard */
+:root {
+  /* Colores vinotinto principales */
+  --wine-light: #a0506d;
+  --wine-medium: #7a3b52;
+  --wine-dark: #5d2e3f;
+  --wine-darker: #3d1e2a;
+
+  /* Gradientes principales */
+  --primary-gradient-light: linear-gradient(135deg, #c4657a 0%, #a0506d 100%);
+  --primary-gradient-dark: linear-gradient(135deg, #5d2e3f 0%, #3d1e2a 100%);
+
+  /* Gradientes de botones */
+  --button-gradient-light: linear-gradient(45deg, #a0506d, #7a3b52);
+  --button-gradient-dark: linear-gradient(45deg, #7a3b52, #5d2e3f);
+  --button-hover-light: linear-gradient(45deg, #7a3b52, #a0506d);
+  --button-hover-dark: linear-gradient(45deg, #5d2e3f, #7a3b52);
+
+  /* Colores de texto */
+  --light-text: #2c3e50;
+  --dark-text: #e6e6e6;
+  --wine-accent: #a0506d;
+  --wine-accent-dark: #7a3b52;
+
+  /* Efectos de vidrio */
+  --glass-bg-light: rgba(255, 255, 255, 0.15);
+  --glass-bg-dark: rgba(0, 0, 0, 0.3);
+  --glass-border-light: rgba(160, 80, 109, 0.3);
+  --glass-border-dark: rgba(122, 59, 82, 0.4);
+
+  /* Sombras */
+  --shadow-light: 0 8px 32px 0 rgba(160, 80, 109, 0.2);
+  --shadow-dark: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  --shadow-hover-light: 0 15px 40px rgba(160, 80, 109, 0.3);
+  --shadow-hover-dark: 0 15px 40px rgba(0, 0, 0, 0.5);
+
+  /* Colores de estado */
+  --success-light: #27ae60;
+  --success-dark: #2ecc71;
+  --warning-light: #f39c12;
+  --warning-dark: #e67e22;
+  --danger-light: #e74c3c;
+  --danger-dark: #c0392b;
+}
+
+/* Animaciones */
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Tarjeta principal del préstamo */
+.prestamo-card {
+  border-radius: 20px;
+  padding: 1.5rem;
+  transition: all 0.4s ease;
+  position: relative;
+  backdrop-filter: blur(15px);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+/* Estilos base para modo claro */
+body:not(.dark-mode) .prestamo-card {
+  background: var(--glass-bg-light);
+  color: var(--light-text);
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--glass-border-light);
+}
+
+/* Estilos base para modo oscuro */
+body.dark-mode .prestamo-card {
+  background: var(--glass-bg-dark);
+  color: var(--dark-text);
+  box-shadow: var(--shadow-dark);
+  border: 1px solid var(--glass-border-dark);
+}
+
+.prestamo-card.dark {
+  background: var(--glass-bg-dark);
+  color: var(--dark-text);
+  box-shadow: var(--shadow-dark);
+  border: 1px solid var(--glass-border-dark);
+}
+
+.prestamo-card:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+
+body:not(.dark-mode) .prestamo-card:hover {
+  box-shadow: var(--shadow-hover-light);
+  border-color: var(--wine-light);
+}
+
+body.dark-mode .prestamo-card:hover,
+.prestamo-card.dark:hover {
+  box-shadow: var(--shadow-hover-dark);
+  border-color: var(--wine-medium);
+}
+
+/* Borde superior animado según estado */
+.prestamo-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-size: 200% 100%;
+  animation: gradientFlow 4s linear infinite alternate;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+/* Estados de la tarjeta */
+.prestamo-card.status-activo::before {
+  background: var(--button-gradient-light);
+}
+
+.prestamo-card.status-proximo-vencer::before {
+  background: linear-gradient(45deg, var(--warning-light), #f1c40f);
+}
+
+.prestamo-card.status-vencido::before {
+  background: linear-gradient(45deg, var(--danger-light), #ff6b6b);
+  animation-duration: 2s;
+}
+
+.prestamo-card.status-devuelto::before {
+  background: linear-gradient(45deg, var(--success-light), #58d68d);
+}
+
+body.dark-mode .prestamo-card.status-activo::before,
+.prestamo-card.dark.status-activo::before {
+  background: var(--button-gradient-dark);
+}
+
+body.dark-mode .prestamo-card.status-proximo-vencer::before,
+.prestamo-card.dark.status-proximo-vencer::before {
+  background: linear-gradient(45deg, var(--warning-dark), #f4d03f);
+}
+
+body.dark-mode .prestamo-card.status-vencido::before,
+.prestamo-card.dark.status-vencido::before {
+  background: linear-gradient(45deg, var(--danger-dark), #ec7063);
+}
+
+body.dark-mode .prestamo-card.status-devuelto::before,
+.prestamo-card.dark.status-devuelto::before {
+  background: linear-gradient(45deg, var(--success-dark), #7dcea0);
+}
+
+/* Encabezado del préstamo */
+.prestamo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  margin-top: 4px;
+}
+
+.prestamo-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.3rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  backdrop-filter: blur(10px);
+}
+
+
+.status-activo .prestamo-status {
+  background: rgba(160, 80, 109, 0.1);
+  color: var(--wine-medium);
+  border: 1px solid rgba(160, 80, 109, 0.2);
+}
+
+.status-proximo-vencer .prestamo-status {
+  background: rgba(243, 156, 18, 0.1);
+  color: var(--warning-light);
+  border: 1px solid rgba(243, 156, 18, 0.2);
+}
+
+.status-vencido .prestamo-status {
+  background: rgba(231, 76, 60, 0.1);
+  color: var(--danger-light);
+  border: 1px solid rgba(231, 76, 60, 0.2);
+}
+
+.status-devuelto .prestamo-status {
+  background: rgba(39, 174, 96, 0.1);
+  color: var(--success-light);
+  border: 1px solid rgba(39, 174, 96, 0.2);
+}
+
+body.dark-mode .status-activo .prestamo-status,
+.prestamo-card.dark.status-activo .prestamo-status {
+  color: var(--wine-light);
+}
+
+body.dark-mode .status-proximo-vencer .prestamo-status,
+.prestamo-card.dark.status-proximo-vencer .prestamo-status {
+  color: var(--warning-dark);
+}
+
+body.dark-mode .status-vencido .prestamo-status,
+.prestamo-card.dark.status-vencido .prestamo-status {
+  color: var(--danger-dark);
+}
+
+body.dark-mode .status-devuelto .prestamo-status,
+.prestamo-card.dark.status-devuelto .prestamo-status {
+  color: var(--success-dark);
+}
+
+.status-icon {
+  font-size: 1rem;
+}
+
+.status-icon.warning {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Acciones del préstamo */
+.prestamo-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-action {
+  padding: 0.5rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  color: white;
+}
+
+.btn-action::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: left 0.3s ease;
+}
+
+.btn-action:hover::before {
+  left: 100%;
+}
+
+.btn-action:hover {
+  transform: translateY(-2px) scale(1.1);
+}
+
+.btn-devolver {
+  background: linear-gradient(45deg, var(--success-light), #58d68d);
+}
+
+.btn-devolver:hover {
+  background: linear-gradient(45deg, #58d68d, var(--success-light));
+  box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+}
+
+.btn-edit {
+  background: var(--button-gradient-light);
+}
+
+body:not(.dark-mode) .btn-edit:hover {
+  background: var(--button-hover-light);
+  box-shadow: 0 4px 15px rgba(160, 80, 109, 0.3);
+}
+
+body.dark-mode .btn-edit,
+.prestamo-card.dark .btn-edit {
+  background: var(--button-gradient-dark);
+}
+
+body.dark-mode .btn-edit:hover,
+.prestamo-card.dark .btn-edit:hover {
+  background: var(--button-hover-dark);
+  box-shadow: 0 4px 15px rgba(122, 59, 82, 0.4);
+}
+
+.btn-delete {
+  background: linear-gradient(45deg, var(--danger-light), #ff6b6b);
+}
+
+.btn-delete:hover {
+  background: linear-gradient(45deg, #ff6b6b, var(--danger-light));
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+/* Cuerpo del préstamo */
+.prestamo-body {
+  margin-bottom: 1.5rem;
+}
+
+.prestamo-info {
+  display: grid;
+  gap: 1rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+body:not(.dark-mode) .info-item {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(160, 80, 109, 0.1);
+}
+
+body.dark-mode .info-item,
+.prestamo-card.dark .info-item {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(122, 59, 82, 0.2);
+}
+
+.info-item:hover {
+  transform: translateX(5px);
+}
+
+body:not(.dark-mode) .info-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(160, 80, 109, 0.2);
+}
+
+body.dark-mode .info-item:hover,
+.prestamo-card.dark .info-item:hover {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(122, 59, 82, 0.3);
+}
+
+.info-icon {
+  font-size: 1.2rem;
+  min-width: 1.5rem;
+  color: var(--wine-medium);
+}
+
+body.dark-mode .info-icon,
+.prestamo-card.dark .info-icon {
+  color: var(--wine-light);
+}
+
+.info-icon.success {
+  color: var(--success-light);
+}
+
+body.dark-mode .info-icon.success,
+.prestamo-card.dark .info-icon.success {
+  color: var(--success-dark);
+}
+
+.info-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.info-content label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-content span {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.fecha-vencida {
+  color: var(--danger-light) !important;
+  font-weight: 700;
+}
+
+body.dark-mode .fecha-vencida,
+.prestamo-card.dark .fecha-vencida {
+  color: var(--danger-dark) !important;
+}
+
+.fecha-devolucion {
+  color: var(--success-light) !important;
+  font-weight: 600;
+}
+
+body.dark-mode .fecha-devolucion,
+.prestamo-card.dark .fecha-devolucion {
+  color: var(--success-dark) !important;
+}
+
+/* Pie del préstamo */
+.prestamo-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid;
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+body:not(.dark-mode) .prestamo-footer {
+  border-color: rgba(160, 80, 109, 0.1);
+}
+
+body.dark-mode .prestamo-footer,
+.prestamo-card.dark .prestamo-footer {
+  border-color: rgba(122, 59, 82, 0.2);
+}
+
+.prestamo-id {
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+}
+
+.libro-autor {
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .prestamo-card {
+    padding: 1rem;
+  }
+
+  .prestamo-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .prestamo-actions {
+    justify-content: center;
+  }
+
+  .prestamo-footer {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .info-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .info-content {
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .prestamo-status {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .btn-action {
+    padding: 0.4rem;
+    font-size: 0.8rem;
+  }
+
+  .info-icon {
+    font-size: 1rem;
+  }
+}

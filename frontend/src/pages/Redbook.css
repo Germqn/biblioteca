@@ -1,0 +1,494 @@
+/* Redbook.css - Versión Mejorada */
+
+/* Variables CSS para colores vinotinto */
+:root {
+  /* Colores vinotinto */
+  --wine-light: #a0506d;
+  --wine-medium: #7a3b52;
+  --wine-dark: #5d2e3f;
+  --wine-darker: #3d1e2a;
+
+  /* Gradientes principales */
+  --primary-gradient-light: linear-gradient(135deg, #c4657a 0%, #a0506d 100%);
+  --primary-gradient-dark: linear-gradient(135deg, #5d2e3f 0%, #3d1e2a 100%);
+
+  /* Gradientes de botones */
+  --button-gradient-light: linear-gradient(45deg, #a0506d, #7a3b52);
+  --button-gradient-dark: linear-gradient(45deg, #7a3b52, #5d2e3f);
+  --button-hover-light: linear-gradient(45deg, #7a3b52, #a0506d);
+  --button-hover-dark: linear-gradient(45deg, #5d2e3f, #7a3b52);
+
+  /* Colores de texto */
+  --light-text: #2c3e50;
+  --dark-text: #e6e6e6;
+  --wine-accent: #a0506d;
+  --wine-accent-dark: #7a3b52;
+
+  /* Efectos de vidrio */
+  --glass-bg-light: rgba(255, 255, 255, 0.15);
+  --glass-bg-dark: rgba(0, 0, 0, 0.3);
+  --glass-border-light: rgba(160, 80, 109, 0.3);
+  --glass-border-dark: rgba(122, 59, 82, 0.4);
+
+  /* Sombras */
+  --shadow-light: 0 8px 32px 0 rgba(160, 80, 109, 0.2);
+  --shadow-dark: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* Animaciones suaves (reducidas) */
+@keyframes gentleFloat {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes subtleGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes softPulse {
+
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-3px);
+  }
+
+  75% {
+    transform: translateX(3px);
+  }
+}
+
+/* Contenedor principal */
+.redbook-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease;
+}
+
+.redbook-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: 200% 200%;
+  animation: subtleGradient 20s ease infinite;
+  z-index: 1;
+}
+
+.redbook-container.light::before {
+  background: linear-gradient(-45deg, #f5f0f2, #e8d5da, #d4a5b3, #c4657a);
+}
+
+.redbook-container.dark::before {
+  background: linear-gradient(-45deg, #1a1215, #2a1e23, #3d1e2a, #5d2e3f);
+}
+
+/* Partículas flotantes más sutiles */
+.redbook-container::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(160, 80, 109, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(122, 59, 82, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(93, 46, 63, 0.1) 0%, transparent 50%);
+  animation: gentleFloat 8s ease-in-out infinite;
+  z-index: 2;
+}
+
+/* Tarjeta principal */
+.redbook-card {
+  width: 420px;
+  padding: 2.5rem;
+  border-radius: 20px;
+  position: relative;
+  backdrop-filter: blur(15px);
+  transition: all 0.4s ease;
+  z-index: 10;
+}
+
+.redbook-card.light {
+  background: var(--glass-bg-light);
+  color: var(--light-text);
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--glass-border-light);
+}
+
+.redbook-card.dark {
+  background: var(--glass-bg-dark);
+  color: var(--dark-text);
+  box-shadow: var(--shadow-dark);
+  border: 1px solid var(--glass-border-dark);
+}
+
+.redbook-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Botón de cambio de modo */
+.mode-toggle-btn {
+  position: absolute;
+  top: 1px;
+  right: 15px;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: white;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.mode-toggle-btn.light {
+  background: var(--button-gradient-light);
+}
+
+.mode-toggle-btn.dark {
+  background: var(--button-gradient-dark);
+}
+
+.mode-toggle-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.mode-toggle-btn:hover::before {
+  left: 100%;
+}
+
+.mode-toggle-btn.light:hover {
+  background: var(--button-hover-light);
+  transform: scale(1.03);
+  box-shadow: 0 5px 15px rgba(160, 80, 109, 0.3);
+}
+
+.mode-toggle-btn.dark:hover {
+  background: var(--button-hover-dark);
+  transform: scale(1.03);
+  box-shadow: 0 5px 15px rgba(122, 59, 82, 0.4);
+}
+
+/* Título */
+.redbook-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  position: relative;
+  animation: softPulse 3s ease-in-out infinite;
+}
+
+.redbook-title.light {
+  background: linear-gradient(45deg, var(--wine-medium), var(--wine-light));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.redbook-title.dark {
+  background: linear-gradient(45deg, var(--wine-light), var(--wine-medium));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.redbook-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+.redbook-title.light::after {
+  background: var(--button-gradient-light);
+}
+
+.redbook-title.dark::after {
+  background: var(--button-gradient-dark);
+}
+
+/* Mensaje de error */
+.error-message {
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid var(--wine-medium);
+  background: rgba(160, 80, 109, 0.1);
+  color: var(--wine-medium);
+  backdrop-filter: blur(10px);
+  animation: shake 0.4s ease-in-out;
+}
+
+/* Formulario */
+.redbook-form {
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+/* Labels */
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.form-label.light {
+  color: var(--light-text);
+}
+
+.form-label.dark {
+  color: var(--dark-text);
+}
+
+/* Campos de entrada */
+.form-input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.form-input.light {
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--light-text);
+  border-color: rgba(160, 80, 109, 0.2);
+}
+
+.form-input.dark {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--dark-text);
+  border-color: rgba(122, 59, 82, 0.3);
+}
+
+.form-input:focus {
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.form-input.light:focus {
+  border-color: var(--wine-medium);
+  box-shadow: 0 8px 20px rgba(160, 80, 109, 0.2);
+}
+
+.form-input.dark:focus {
+  border-color: var(--wine-light);
+  box-shadow: 0 8px 20px rgba(122, 59, 82, 0.3);
+}
+
+.form-input::placeholder {
+  color: rgba(160, 80, 109, 0.6);
+}
+
+/* Botón de envío */
+.submit-btn {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.submit-btn.light {
+  background: var(--button-gradient-light);
+}
+
+.submit-btn.dark {
+  background: var(--button-gradient-dark);
+}
+
+.submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.submit-btn:hover::before {
+  left: 100%;
+}
+
+.submit-btn.light:hover {
+  background: var(--button-hover-light);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(160, 80, 109, 0.3);
+}
+
+.submit-btn.dark:hover {
+  background: var(--button-hover-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(122, 59, 82, 0.4);
+}
+
+.submit-btn:active {
+  transform: translateY(0px);
+}
+
+/* Sección de registro */
+.register-section {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(160, 80, 109, 0.2);
+}
+
+.register-text {
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+.register-text.light {
+  color: var(--light-text);
+}
+
+.register-text.dark {
+  color: var(--dark-text);
+}
+
+.register-link {
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.register-link.light {
+  background: linear-gradient(45deg, var(--wine-medium), var(--wine-light));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.register-link.dark {
+  background: linear-gradient(45deg, var(--wine-light), var(--wine-medium));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.register-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  transition: width 0.3s ease;
+}
+
+.register-link.light::after {
+  background: var(--button-gradient-light);
+}
+
+.register-link.dark::after {
+  background: var(--button-gradient-dark);
+}
+
+.register-link:hover::after {
+  width: 100%;
+}
+
+.register-link:hover {
+  transform: translateY(-1px);
+}
+
+/* Responsividad */
+@media (max-width: 480px) {
+  .redbook-card {
+    width: 90vw;
+    padding: 2rem;
+  }
+
+  .redbook-title {
+    font-size: 2rem;
+  }
+
+  .mode-toggle-btn {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+  }
+}

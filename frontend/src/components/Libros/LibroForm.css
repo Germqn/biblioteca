@@ -1,160 +1,329 @@
-/* LibroForm.css */
+/* LibroForm.css - Paleta Vinotinto Unificada con Overlay Mejorado */
+
+/* Variables CSS con paleta vinotinto */
+:root {
+  /* Colores vinotinto principales */
+  --wine-light: #a0506d;
+  --wine-medium: #7a3b52;
+  --wine-dark: #5d2e3f;
+  --wine-darker: #3d1e2a;
+  --wine-accent: #c4657a;
+
+  /* Gradientes principales */
+  --primary-gradient-light: linear-gradient(135deg, #c4657a 0%, #a0506d 100%);
+  --primary-gradient-dark: linear-gradient(135deg, #5d2e3f 0%, #3d1e2a 100%);
+
+  /* Gradientes de botones */
+  --button-gradient-light: linear-gradient(45deg, #a0506d, #7a3b52);
+  --button-gradient-dark: linear-gradient(45deg, #7a3b52, #5d2e3f);
+  --button-hover-light: linear-gradient(45deg, #7a3b52, #a0506d);
+  --button-hover-dark: linear-gradient(45deg, #5d2e3f, #7a3b52);
+
+  /* Efectos de vidrio */
+  --glass-bg-light: rgba(255, 255, 255, 0.95);
+  --glass-bg-dark: rgba(22, 33, 62, 0.95);
+  --glass-border-light: rgba(160, 80, 109, 0.3);
+  --glass-border-dark: rgba(122, 59, 82, 0.4);
+
+  /* Sombras */
+  --shadow-light: 0 15px 35px rgba(160, 80, 109, 0.3);
+  --shadow-dark: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+/* Overlay del formulario - MEJORADO */
 .libro-form-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  /* Fondo oscuro semitransparente */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  /* Asegura que esté por encima de otros elementos */
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(26, 18, 21, 0.85) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: 9999 !important;
+  animation: fadeInOverlay 0.4s ease-out !important;
+  padding: 20px !important;
+  box-sizing: border-box !important;
 }
 
 body.dark-mode .libro-form-overlay {
-  background-color: rgba(0, 0, 0, 0.8);
-  /* Fondo oscuro más intenso */
+  background: rgba(0, 0, 0, 0.9) !important;
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
 }
 
+/* Prevenir scroll del body cuando el modal está abierto */
+body.modal-open {
+  overflow: hidden !important;
+  height: 100vh !important;
+}
+
+@keyframes fadeInOverlay {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+/* Contenedor del formulario - MEJORADO */
 .libro-form-container {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 600px;
+  background: var(--glass-bg-light) !important;
+  backdrop-filter: blur(25px) !important;
+  -webkit-backdrop-filter: blur(25px) !important;
+  padding: 2.5rem !important;
+  border-radius: 25px !important;
+  box-shadow: var(--shadow-light), 
+              0 0 0 1px rgba(255, 255, 255, 0.2) inset !important;
+  width: 100% !important;
+  max-width: 650px !important;
+  max-height: 85vh !important;
+  overflow-y: auto !important;
+  border: 2px solid var(--glass-border-light) !important;
+  position: relative !important;
+  animation: slideInModal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  transform-origin: center !important;
 }
 
 body.dark-mode .libro-form-container {
-  background-color: #343a40;
-  /* Gris oscuro */
-  color: #e9ecef;
-  border: 1px solid #555;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  background: var(--glass-bg-dark) !important;
+  color: #e9ecef !important;
+  border-color: var(--glass-border-dark) !important;
+  box-shadow: var(--shadow-dark), 
+              0 0 0 1px rgba(255, 255, 255, 0.1) inset !important;
 }
 
+@keyframes slideInModal {
+  from {
+    transform: translateY(-100px) scale(0.8) !important;
+    opacity: 0 !important;
+  }
+  to {
+    transform: translateY(0) scale(1) !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Botón de cerrar (X) - NUEVO */
+.libro-form-close {
+  position: absolute !important;
+  top: 15px !important;
+  right: 20px !important;
+  background: none !important;
+  border: none !important;
+  font-size: 2rem !important;
+  color: var(--wine-medium) !important;
+  cursor: pointer !important;
+  width: 40px !important;
+  height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+  transition: all 0.3s ease !important;
+  z-index: 10 !important;
+}
+
+.libro-form-close:hover {
+  background: rgba(160, 80, 109, 0.1) !important;
+  color: var(--wine-dark) !important;
+  transform: scale(1.1) !important;
+}
+
+body.dark-mode .libro-form-close {
+  color: var(--wine-accent) !important;
+}
+
+body.dark-mode .libro-form-close:hover {
+  background: rgba(196, 101, 122, 0.2) !important;
+  color: #fff !important;
+}
+
+/* Borde superior animado */
+.libro-form-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--primary-gradient-light);
+  background-size: 200% 100%;
+  animation: gradientFlow 4s linear infinite alternate;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+
+body.dark-mode .libro-form-container::before {
+  background: var(--primary-gradient-dark);
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Espaciado de elementos */
 .libro-form-container .mb-3 {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
 }
 
+/* Etiquetas del formulario */
 .libro-form-container .form-label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-  color: #333;
+  margin-bottom: 0.7rem;
+  font-weight: 700;
+  font-size: 1rem;
+  background: var(--primary-gradient-light);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 body.dark-mode .libro-form-container .form-label {
-  color: #f8f9fa;
+  background: var(--primary-gradient-light);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
+/* Controles del formulario */
 .libro-form-container .form-control,
 .libro-form-container .form-select {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
+  padding: 1rem 1.2rem;
+  border: 2px solid var(--glass-border-light);
+  border-radius: 15px;
   font-size: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  color: var(--wine-darker);
 }
 
 body.dark-mode .libro-form-container .form-control,
 body.dark-mode .libro-form-container .form-select {
-  background-color: #444;
-  /* Gris más oscuro */
-  color: #eee;
-  border-color: #666;
+  background: rgba(44, 62, 80, 0.8);
+  color: #e9ecef;
+  border-color: var(--glass-border-dark);
 }
 
 .libro-form-container .form-control:focus,
 .libro-form-container .form-select:focus {
-  background-color: #444;
-  /* Gris más oscuro */
-  color: #eee;
-  border-color: #666;
+  outline: none;
+  border-color: var(--wine-light);
+  box-shadow: 0 0 0 4px rgba(160, 80, 109, 0.2);
+  transform: translateY(-2px);
 }
 
 body.dark-mode .libro-form-container .form-control:focus,
 body.dark-mode .libro-form-container .form-select:focus {
-  background-color: #444;
-  /* Gris más oscuro */
-  color: #eee;
-  border-color: #666;
+  border-color: var(--wine-accent);
+  box-shadow: 0 0 0 4px rgba(196, 101, 122, 0.3);
 }
 
-
+/* Botones principales */
 .libro-form-container .btn-actualizar-guardar,
-.libro-form-container .btn-secondary {
-  background: linear-gradient(135deg, var(--vinotinto-primary), var(--vinotinto-secondary));
+.libro-form-container .btn-outline-secondary {
+  background: var(--button-gradient-light);
   color: white !important;
   border: none;
-  padding: 1rem 2rem !important;
-  border-radius: 4rem !important;
-  font-size: 1rem !important;
-  font-weight: 500 !important;
+  padding: 1rem 2.5rem !important;
+  border-radius: 25px !important;
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
   cursor: pointer;
   transition: all 0.3s ease !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 0.5rem !important;
-  min-width: 140px !important;
+  gap: 0.7rem !important;
+  min-width: 160px !important;
   position: relative !important;
   overflow: hidden !important;
   letter-spacing: 0.5px !important;
-  box-shadow:
-    0 6px 20px rgba(139, 44, 91, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 8px 25px rgba(160, 80, 109, 0.4) !important;
 }
 
-.libro-form-container .btn-actualizar-guardar:hover {
-  background: linear-gradient(135deg, var(--vinotinto-secondary), var(--vinotinto-light));
-  transform: translateY(-3px);
-  box-shadow:
-    0 8px 25px rgba(139, 44, 91, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+body.dark-mode .libro-form-container .btn-actualizar-guardar,
+body.dark-mode .libro-form-container .btn-outline-secondary {
+  background: var(--button-gradient-dark);
+  box-shadow: 0 8px 25px rgba(122, 59, 82, 0.5) !important;
 }
 
-body.dark-mode .libro-form-container .btn-actualizar-guardar {
-  background-color: #5c1a22;
+/* Efecto shimmer en botones */
+.libro-form-container .btn-actualizar-guardar::before,
+.libro-form-container .btn-outline-secondary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s ease;
 }
 
-body.dark-mode .libro-form-container .btn-actualizar-guardar:hover {
-  background: linear-gradient(135deg, var(--vinotinto-secondary), var(--vinotinto-light));
-  transform: translateY(-3px);
-  box-shadow:
-    0 8px 25px rgba(139, 44, 91, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+.libro-form-container .btn-actualizar-guardar:hover::before,
+.libro-form-container .btn-outline-secondary:hover::before {
+  left: 100%;
 }
 
-.libro-form-container .btn-secondary {
-  background-color: #a7303d;
+.libro-form-container .btn-actualizar-guardar:hover,
+.libro-form-container .btn-outline-secondary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(160, 80, 109, 0.5) !important;
 }
 
-body.dark-mode .libro-form-container .btn-secondary {
-  background-color: #5c1a22;
-  color: #f5f7fa;
+body.dark-mode .libro-form-container .btn-actualizar-guardar:hover,
+body.dark-mode .libro-form-container .btn-outline-secondary:hover {
+  background: var(--button-hover-dark);
+  box-shadow: 0 12px 30px rgba(122, 59, 82, 0.6) !important;
+}
+
+/* Botón secundario específico */
+.libro-form-container .btn-outline-secondary {
+  background: linear-gradient(45deg, #95a5a6, #7f8c8d);
 }
 
 .libro-form-container .btn-secondary:hover {
-  background-color: #a7303d;
+  background: linear-gradient(45deg, #7f8c8d, #95a5a6);
+}
+
+body.dark-mode .libro-form-container .btn-secondary {
+  background: linear-gradient(45deg, #555, #666);
 }
 
 body.dark-mode .libro-form-container .btn-secondary:hover {
-  background-color: #5c1a22;
+  background: linear-gradient(45deg, #666, #555);
 }
 
+/* Flexbox para botones */
 .libro-form-container .d-flex {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .libro-form-container .justify-content-end {
   justify-content: flex-end;
 }
 
+/* Grid system */
 .libro-form-container .row {
   display: flex;
   flex-wrap: wrap;
@@ -169,11 +338,100 @@ body.dark-mode .libro-form-container .btn-secondary:hover {
   padding-left: 15px;
 }
 
+/* Texto auxiliar */
 .libro-form-container .text-muted {
-  font-size: 0.875rem;
-  color: #262727 !important;
+  font-size: 0.9rem;
+  color: var(--wine-medium) !important;
+  font-style: italic;
+  margin-top: 0.5rem;
 }
 
 body.dark-mode .libro-form-container .text-muted {
-  color: #f5f7fa !important;
+  color: var(--wine-accent) !important;
+}
+
+/* Estilos de scroll personalizados */
+.libro-form-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.libro-form-container::-webkit-scrollbar-track {
+  background: rgba(160, 80, 109, 0.1);
+  border-radius: 10px;
+}
+
+.libro-form-container::-webkit-scrollbar-thumb {
+  background: var(--wine-light);
+  border-radius: 10px;
+}
+
+.libro-form-container::-webkit-scrollbar-thumb:hover {
+  background: var(--wine-medium);
+}
+
+/* Efecto de enfoque en el overlay */
+.libro-form-overlay:focus-within .libro-form-container {
+  transform: scale(1.01);
+  box-shadow: var(--shadow-light), 
+              0 0 50px rgba(160, 80, 109, 0.3);
+}
+
+/* Responsive mejorado */
+@media (max-width: 768px) {
+  .libro-form-overlay {
+    padding: 15px !important;
+  }
+  
+  .libro-form-container {
+    padding: 2rem !important;
+    max-height: 90vh !important;
+    width: 100% !important;
+  }
+
+  .libro-form-container .col-md-6 {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .libro-form-container .d-flex {
+    flex-direction: column;
+  }
+
+  .libro-form-container .btn-actualizar-guardar,
+  .libro-form-container .btn-secondary {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .libro-form-overlay {
+    padding: 10px !important;
+  }
+  
+  .libro-form-container {
+    padding: 1.5rem !important;
+    border-radius: 20px !important;
+    max-height: 95vh !important;
+  }
+
+  .libro-form-container .form-control,
+  .libro-form-container .form-select {
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .libro-form-container .btn-actualizar-guardar,
+  .libro-form-container .btn-secondary {
+    padding: 0.8rem 1.5rem !important;
+    font-size: 1rem !important;
+  }
+  
+  .libro-form-close {
+    top: 10px !important;
+    right: 15px !important;
+    font-size: 1.5rem !important;
+    width: 35px !important;
+    height: 35px !important;
+  }
 }

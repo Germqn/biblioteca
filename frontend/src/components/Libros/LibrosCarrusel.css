@@ -1,25 +1,53 @@
+/* Carrusel de Libros - Paleta Vinotinto Unificada */
+
 .libros-carrusel-container .slick-dots li button:before {
   font-size: 10px;
-  color: #bdc3c7;
-  /* light-gray */
+  transition: all 0.3s ease;
 }
 
+/* Modo claro - puntos normales */
+body:not(.dark-mode) .libros-carrusel-container .slick-dots li button:before {
+  color: #a0506d; /* wine-light */
+  opacity: 0.5;
+}
+
+/* Modo oscuro - puntos normales */
 body.dark-mode .libros-carrusel-container .slick-dots li button:before {
-  color: #777;
-  /* mid-gray */
+  color: #7a3b52; /* wine-medium */
+  opacity: 0.6;
 }
 
-.libros-carrusel-container .slick-dots li.slick-active button:before {
-  color: #3498db;
-  /* blue-500 */
+/* Modo claro - punto activo */
+body:not(.dark-mode) .libros-carrusel-container .slick-dots li.slick-active button:before {
+  color: #7a3b52; /* wine-medium */
+  opacity: 1;
+  transform: scale(1.2);
+  text-shadow: 0 0 8px rgba(122, 59, 82, 0.4);
 }
 
+/* Modo oscuro - punto activo */
 body.dark-mode .libros-carrusel-container .slick-dots li.slick-active button:before {
-  color: #a7303d;
-  /* dark-red (vinotinto) */
+  color: #a0506d; /* wine-light */
+  opacity: 1;
+  transform: scale(1.2);
+  text-shadow: 0 0 8px rgba(160, 80, 109, 0.5);
 }
 
-.slick-slide>div {
+/* Hover effects para mejor interactividad */
+body:not(.dark-mode) .libros-carrusel-container .slick-dots li button:hover:before {
+  color: #7a3b52; /* wine-medium */
+  opacity: 0.8;
+  transform: scale(1.1);
+}
+
+body.dark-mode .libros-carrusel-container .slick-dots li button:hover:before {
+  color: #a0506d; /* wine-light */
+  opacity: 0.9;
+  transform: scale(1.1);
+}
+
+/* Estructura del carrusel - mantener funcionalidad */
+.slick-slide > div {
   /* Ensure slides take full height for consistent card heights */
   height: 100%;
   display: flex;
@@ -29,4 +57,50 @@ body.dark-mode .libros-carrusel-container .slick-dots li.slick-active button:bef
   display: flex;
   align-items: stretch;
   /* Makes sure all cards in a row stretch to the same height */
+}
+
+/* Animación adicional para los puntos activos */
+.libros-carrusel-container .slick-dots li.slick-active button:before {
+  animation: gentlePulse 2s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1.2);
+  }
+  50% { 
+    opacity: 0.8; 
+    transform: scale(1.15);
+  }
+}
+
+/* Contenedor de puntos - mejoras visuales */
+.libros-carrusel-container .slick-dots {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding: 0;
+}
+
+.libros-carrusel-container .slick-dots li {
+  margin: 0 0.25rem;
+  transition: all 0.3s ease;
+}
+
+.libros-carrusel-container .slick-dots li button {
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+/* Efecto sutil de fondo para el botón */
+body:not(.dark-mode) .libros-carrusel-container .slick-dots li.slick-active button {
+  background: rgba(122, 59, 82, 0.1);
+}
+
+body.dark-mode .libros-carrusel-container .slick-dots li.slick-active button {
+  background: rgba(160, 80, 109, 0.15);
 }

@@ -1,91 +1,182 @@
-html,
-body,
-#root,
-.libros-container {
-  background-color: var(--bg-color);
-  min-height: 100vh;
-}
+/* LibrosPage.css - Paleta Vinotinto Unificada */
 
+/* Variables CSS heredadas del dashboard */
 :root {
-  /* Light mode colors */
-  --bg-color: #f5f7fa;
-  --text-color: #2c3e50;
-  --text-secondary: #7f8c8d;
-  --card-bg: white;
-  --header-bg: white;
-  --shadow-color: rgba(0, 0, 0, 0.08);
-  --shadow-hover: rgba(0, 0, 0, 0.12);
-  --theme-toggle-bg: #f0f0f0;
-  --theme-toggle-text: #333;
-  --vinotinto: #862630;
-  --vinotinto-light: #a7303d;
-  --vinotinto-dark: #5c1a22;
-  --info-color: #333;
-  --info-hover: #333;
-  --danger-color: #862630;
-  --danger-hover: #e74c3c;
-  --success-color: #28a745;
-  --success-hover: #218838;
+  /* Colores vinotinto principales */
+  --wine-light: #a0506d;
+  --wine-medium: #7a3b52;
+  --wine-dark: #5d2e3f;
+  --wine-darker: #3d1e2a;
+
+  /* Gradientes principales */
+  --primary-gradient-light: linear-gradient(135deg, #c4657a 0%, #a0506d 100%);
+  --primary-gradient-dark: linear-gradient(135deg, #5d2e3f 0%, #3d1e2a 100%);
+
+  /* Gradientes de botones */
+  --button-gradient-light: linear-gradient(45deg, #a0506d, #7a3b52);
+  --button-gradient-dark: linear-gradient(45deg, #7a3b52, #5d2e3f);
+  --button-hover-light: linear-gradient(45deg, #7a3b52, #a0506d);
+  --button-hover-dark: linear-gradient(45deg, #5d2e3f, #7a3b52);
+
+  /* Colores de texto */
+  --light-text: #2c3e50;
+  --dark-text: #e6e6e6;
+  --wine-accent: #a0506d;
+  --wine-accent-dark: #7a3b52;
+
+  /* Efectos de vidrio */
+  --glass-bg-light: rgba(255, 255, 255, 0.15);
+  --glass-bg-dark: rgba(0, 0, 0, 0.3);
+  --glass-border-light: rgba(160, 80, 109, 0.3);
+  --glass-border-dark: rgba(122, 59, 82, 0.4);
+
+  /* Sombras */
+  --shadow-light: 0 8px 32px 0 rgba(160, 80, 109, 0.2);
+  --shadow-dark: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  --shadow-hover-light: 0 15px 40px rgba(160, 80, 109, 0.3);
+  --shadow-hover-dark: 0 15px 40px rgba(0, 0, 0, 0.5);
 }
 
-.dark-mode {
-  /* Dark mode colors */
-  --bg-color: #1a1a2e;
-  --text-color: #e6e6e6;
-  --text-secondary: #b3b3b3;
-  --card-bg: #16213e;
-  --header-bg: #16213e;
-  --shadow-color: rgba(0, 0, 0, 0.3);
-  --shadow-hover: rgba(0, 0, 0, 0.5);
-  --theme-toggle-bg: #333;
-  --theme-toggle-text: #f0f0f0;
-  --info-color: #2d9cb3;
-  --danger-color: #d9534f;
-  --success-color: #5cb85c;
+/* Animaciones heredadas del dashboard */
+@keyframes gentleFloat {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
-/* Estilos base mejorados */
-body,
-html {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  height: 100%;
-  background-color: var(--bg-color);
-  color: var(--text-color);
+@keyframes subtleGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-#root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
 }
 
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Contenedor principal de libros */
 .libros-container {
-  flex: 1;
+  min-height: 100vh;
   padding: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease;
+  background-attachment: fixed;
 }
 
+.libros-container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: 200% 200%;
+  animation: subtleGradient 20s ease infinite;
+  z-index: 1;
+}
+
+.libros-container:not(.dark-mode)::before {
+  background: linear-gradient(-45deg, #f5f0f2, #e8d5da, #d4a5b3, #c4657a);
+}
+
+.libros-container.dark-mode::before {
+  background: linear-gradient(-45deg, #1a1215, #2a1e23, #3d1e2a, #5d2e3f);
+}
+
+/* Partículas flotantes */
+.libros-container::after {
+  content: '';
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(160, 80, 109, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(122, 59, 82, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(93, 46, 63, 0.1) 0%, transparent 50%);
+  animation: gentleFloat 8s ease-in-out infinite;
+  z-index: 2;
+}
+
+/* Encabezado de libros */
 .libros-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  transition: all 0.4s ease;
   position: relative;
-  color: var(--text-color);
-  padding-bottom: 1.5rem;
-  border-bottom: 2px solid var(--vinotinto);
-  animation: borderPulse 3s infinite;
-  flex-wrap: wrap;
-  gap: 1rem;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.libros-container:not(.dark-mode) .libros-header {
+  background: var(--glass-bg-light);
+  color: var(--light-text);
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--glass-border-light);
+}
+
+.libros-container.dark-mode .libros-header {
+  background: var(--glass-bg-dark);
+  color: var(--dark-text);
+  box-shadow: var(--shadow-dark);
+  border: 1px solid var(--glass-border-dark);
+}
+
+.libros-header:hover {
+  transform: translateY(-2px);
+}
+
+/* Línea brillante debajo del encabezado */
+.libros-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--button-gradient-light);
+  background-size: 200% 100%;
+  animation: gradientFlow 6s linear infinite;
+  border-radius: 0 0 20px 20px;
+}
+
+.libros-container.dark-mode .libros-header::after {
+  background: var(--button-gradient-dark);
 }
 
 .header-title-container {
@@ -94,333 +185,472 @@ html {
   gap: 1rem;
 }
 
-.btn-nuevo-libro {
-  background: linear-gradient(135deg, var(--vinotinto-primary), var(--vinotinto-secondary));
-  color: white !important;
-  border: none;
-  padding: 1rem 2rem !important;
-  border-radius: 4rem !important;
-  font-size: 1rem !important;
-  font-weight: 500 !important;
-  cursor: pointer;
-  transition: all 0.3s ease !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 0.5rem !important;
-  min-width: 140px !important;
-  position: relative !important;
-  overflow: hidden !important;
-  letter-spacing: 0.5px !important;
-  box-shadow:
-    0 6px 20px rgba(139, 44, 91, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+.header-title-container h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0;
+  background: var(--button-gradient-light);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: var(--dark);
 }
 
-.btn-nuevo-libro:hover {
-  background-color: var(--vinotinto-claro);
-  color: var(--texto-claro) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(134, 38, 48, 0.4);
-}
 
-/* Estilos unificados para todos los botones */
-.libros-header .header-actions .btn,
-/* Selector más específico para Nuevo Libro */
-.btn-back-visible,
-.theme-toggle,
-.btn-edit,
-.btn-delete {
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-weight: 500;
-  font-size: 0.9rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid var(--vinotinto);
-  background-color: var(--theme-toggle-bg);
-  color: var(--theme-toggle-text);
-  box-shadow: 0 2px 5px var(--shadow-color);
-  animation: buttonPulse 2s infinite alternate;
-}
+.libros-container.dark-mode .header-title-container h2 {
+  background: var(--button-gradient-dark);
+  background-clip: text;
+  -webkit-background-clip: text;
 
-/* Hover unificado */
-.libros-header .header-actions .btn:hover,
-/* Hover específico para Nuevo Libro */
-.btn:hover,
-.btn-back-visible:hover,
-.theme-toggle:hover,
-.btn-edit:hover,
-.btn-delete:hover {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 4px 8px var(--shadow-hover);
-  animation: none;
-}
-
-/* Modo oscuro unificado */
-.dark-mode .libros-header .header-actions .btn,
-/* Modo oscuro específico para Nuevo Libro */
-.dark-mode .btn,
-.dark-mode .btn-back-visible,
-.dark-mode .theme-toggle,
-.dark-mode .btn-edit,
-.dark-mode .btn-delete,
-.dark-mode .btn-nuevo-libro {
-  background-color: var(--theme-toggle-bg);
-  color: var(--theme-toggle-text);
-  border: 2px solid var(--vinotinto);
-  border-color: var(--vinotinto) !important;
-  box-shadow: 0 2px 5px var(--shadow-color);
-}
-
-.dark-mode .libros-header .header-actions .btn:hover,
-/* Hover modo oscuro específico para Nuevo Libro */
-.dark-mode .btn:hover,
-.dark-mode .btn-back-visible:hover,
-.dark-mode .theme-toggle:hover,
-.dark-mode .btn-edit:hover,
-.dark-mode .btn-delete:hover,
-.dark-mode .btn-nuevo-libro:hover {
-  background-color: var(--theme-toggle-text);
-  color: white !important;
-  border-color: var(--vinotinto-dark) !important;
-  box-shadow: 0 4px 8px var(--shadow-hover);
-}
-
-/* Animación pulsante */
-@keyframes buttonPulse {
-  0% {
-    border-color: var(--vinotinto);
-    box-shadow: 0 2px 5px var(--shadow-color);
-  }
-
-  100% {
-    border-color: var(--vinotinto-light);
-    box-shadow: 0 4px 10px var(--shadow-hover);
-  }
-}
-
-.theme-icon {
-  font-size: 1rem;
-}
-
-@keyframes borderPulse {
-  0% {
-    border-color: var(--vinotinto);
-  }
-
-  50% {
-    border-color: var(--vinotinto-light);
-  }
-
-  100% {
-    border-color: var(--vinotinto);
-  }
 }
 
 .header-actions {
   display: flex;
   gap: 1rem;
   align-items: center;
+  flex-wrap: wrap;
 }
 
-/* Grilla de libros mejorada */
-.libros-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+/* BOTONES UNIFICADOS - Todos con el mismo estilo base */
+
+.btn-back-visible,
+.btn-nuevo-libro,
+.theme-toggle {
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 25px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  font-size: 0.9rem;
+  border: none;
+  color: var(--dark-text) !important;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  min-width: 120px;
+  text-align: center;
+  backdrop-filter: blur(10px);
 }
 
+/* Gradientes de fondo para modo claro */
+.libros-container:not(.dark-mode) .btn-back-visible,
+.libros-container:not(.dark-mode) .btn-nuevo-libro,
+.libros-container:not(.dark-mode) .theme-toggle {
+  background: var(--button-gradient-light);
+  box-shadow: var(--shadow-light);
+}
+
+/* Gradientes de fondo para modo oscuro */
+.libros-container.dark-mode .btn-back-visible,
+.libros-container.dark-mode .btn-nuevo-libro,
+.libros-container.dark-mode .theme-toggle {
+  background: var(--button-gradient-dark);
+  box-shadow: var(--shadow-dark);
+}
+
+/* Efecto shimmer unificado para todos los botones */
+.btn-back-visible::before,
+.btn-nuevo-libro::before,
+.theme-toggle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+  z-index: 1;
+  font-weight: bold;
+}
+
+/* Activar efecto shimmer en hover para todos */
+.btn-back-visible:hover::before,
+.btn-nuevo-libro:hover::before,
+.theme-toggle:hover::before {
+  left: 100%;
+}
+
+/* Estados hover unificados */
+.btn-back-visible:hover,
+.btn-nuevo-libro:hover,
+.theme-toggle:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Hover gradients para modo claro */
+.libros-container:not(.dark-mode) .btn-back-visible:hover,
+.libros-container:not(.dark-mode) .btn-nuevo-libro:hover,
+.libros-container:not(.dark-mode) .theme-toggle:hover {
+  background: var(--button-hover-light);
+  box-shadow: var(--shadow-hover-light);
+  font-weight: bold;
+}
+
+/* Hover gradients para modo oscuro */
+.libros-container.dark-mode .btn-back-visible:hover,
+.libros-container.dark-mode .btn-nuevo-libro:hover,
+.libros-container.dark-mode .theme-toggle:hover {
+  background: var(--button-hover-dark);
+  box-shadow: var(--shadow-hover-dark);
+  font-weight: bold;
+}
+
+/* Asegurar que el texto esté por encima del efecto shimmer */
+.btn-back-visible span,
+.btn-nuevo-libro span,
+.theme-toggle span,
+.btn-back-visible .theme-icon,
+.btn-nuevo-libro .theme-icon,
+.theme-toggle .theme-icon {
+  position: relative;
+  z-index: 2;
+}
+
+/* Animación específica para el icono del tema */
+.theme-icon {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover .theme-icon {
+  transform: rotate(15deg) scale(1.1);
+}
+
+/* Estados activos/focus unificados */
+.btn-back-visible:active,
+.btn-nuevo-libro:active,
+.theme-toggle:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-back-visible:focus,
+.btn-nuevo-libro:focus,
+.theme-toggle:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(160, 80, 109, 0.3);
+}
+
+/* Grid de libros */
 .libros-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
   padding: 0;
-  margin-bottom: 2rem;
+  position: relative;
+  z-index: 10;
 }
 
 .libro-item {
-  background: var(--card-bg);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px var(--shadow-color);
   transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  color: var(--text-color);
-  position: relative;
-  border: 1px solid rgba(134, 38, 48, 0.1);
-  height: 100%;
 }
 
 .libro-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 24px var(--shadow-hover);
-  border-color: var(--vinotinto);
 }
 
-
-.libro-autor,
-.libro-categoria {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  margin: 0 1.5rem 0.3rem 1.5rem;
-}
-
-.libro-acciones {
-  display: flex;
-  gap: 0.5rem;
-  margin: 1.5rem;
-  margin-top: auto;
-}
-
-.btn-edit {
-  background-color: var(--info-color);
-  color: white;
-}
-
-.btn-delete {
-  background-color: var(--danger-color);
-  color: white;
-}
-
-/* Formulario overlay mejorado */
+/* Overlay del formulario */
 .libro-form-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  backdrop-filter: blur(5px);
+  padding: 2rem;
 }
 
 .libro-form-container {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 2rem;
-  width: 90%;
   max-width: 600px;
+  width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.3s ease;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  position: relative;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.libros-container:not(.dark-mode) .libro-form-container {
+  background: var(--glass-bg-light);
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--glass-border-light);
 }
 
-/* Mensaje cuando no hay libros */
+.libros-container.dark-mode .libro-form-container {
+  background: var(--glass-bg-dark);
+  box-shadow: var(--shadow-dark);
+  border: 1px solid var(--glass-border-dark);
+}
+
+/* Mensaje de no libros */
 .no-libros {
   grid-column: 1 / -1;
   text-align: center;
-  padding: 2rem;
+  padding: 3rem;
+  position: relative;
+  z-index: 10;
 }
 
-.no-libros .alert {
-  background: var(--card-bg);
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px var(--shadow-color);
-  display: inline-block;
+.alert {
+  padding: 1.5rem 2rem;
+  border-radius: 15px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+  border: none;
 }
 
-/* Carrusel */
+.libros-container:not(.dark-mode) .alert-info {
+  background: var(--glass-bg-light);
+  color: var(--light-text);
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--glass-border-light);
+}
+
+.libros-container.dark-mode .alert-info {
+  background: var(--glass-bg-dark);
+  color: var(--dark-text);
+  box-shadow: var(--shadow-dark);
+  border: 1px solid var(--glass-border-dark);
+}
+
+/* Ajustes adicionales para LibrosPage.css - Fix para el carrusel */
+
+/* Asegurar que el contenido tenga el z-index correcto */
+.libros-container>* {
+  position: relative;
+  z-index: 10;
+}
+
+/* Específicamente para el carrusel */
 .libros-carrusel-container {
-  margin-bottom: 2.5rem;
+  position: relative;
+  z-index: 15 !important;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  transition: all 0.4s ease;
 }
 
-/* Scroll personalizado */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+.libros-container:not(.dark-mode) .libros-carrusel-container {
+  background: var(--glass-bg-light);
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--glass-border-light);
 }
 
-::-webkit-scrollbar-track {
-  background: var(--bg-color);
+.libros-container.dark-mode .libros-carrusel-container {
+  background: var(--glass-bg-dark);
+  box-shadow: var(--shadow-dark);
+  border: 1px solid var(--glass-border-dark);
 }
 
-::-webkit-scrollbar-thumb {
-  background: var(--vinotinto);
-  border-radius: 4px;
+.libros-carrusel-container:hover {
+  transform: translateY(-2px);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--vinotinto-light);
+/* Título del carrusel si existe */
+.libros-carrusel-container h3,
+.libros-carrusel-container .carrusel-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 700;
+  background: var(--button-gradient-light);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
-/* Responsive mejorado */
+.libros-container.dark-mode .libros-carrusel-container h3,
+.libros-container.dark-mode .libros-carrusel-container .carrusel-title {
+  background: var(--button-gradient-dark);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+/* Asegurar que las partículas de fondo no interfieran */
+.libros-container::after {
+  z-index: 2 !important;
+}
+
+.libros-container::before {
+  z-index: 1 !important;
+}
+
+/* Estilos para el slick carousel */
+.libros-carrusel-container .slick-slider {
+  position: relative;
+  z-index: 10;
+}
+
+.libros-carrusel-container .slick-list {
+  position: relative;
+  z-index: 10;
+}
+
+.libros-carrusel-container .slick-track {
+  position: relative;
+  z-index: 10;
+}
+
+/* Flechas del carrusel */
+.libros-carrusel-container .slick-prev,
+.libros-carrusel-container .slick-next {
+  z-index: 20 !important;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.libros-carrusel-container .slick-prev {
+  left: -60px;
+}
+
+.libros-carrusel-container .slick-next {
+  right: -60px;
+}
+
+.libros-carrusel-container .slick-prev:before,
+.libros-carrusel-container .slick-next:before {
+  font-size: 20px;
+  opacity: 1;
+}
+
+.libros-container:not(.dark-mode) .libros-carrusel-container .slick-prev:before,
+.libros-container:not(.dark-mode) .libros-carrusel-container .slick-next:before {
+  color: var(--wine-medium);
+}
+
+.libros-container.dark-mode .libros-carrusel-container .slick-prev:before,
+.libros-container.dark-mode .libros-carrusel-container .slick-next:before {
+  color: var(--wine-light);
+}
+
+.libros-carrusel-container .slick-prev:hover,
+.libros-carrusel-container .slick-next:hover {
+  transform: scale(1.1);
+}
+
+/* Puntos de navegación */
+.libros-carrusel-container .slick-dots {
+  position: relative;
+  z-index: 15;
+  bottom: -40px;
+}
+
+/* Responsive para las flechas */
 @media (max-width: 768px) {
-  .libros-container {
-    padding: 1.5rem;
+  .libros-carrusel-container .slick-prev {
+    left: -30px;
   }
 
-  .libros-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-    padding-bottom: 1rem;
+  .libros-carrusel-container .slick-next {
+    right: -30px;
   }
 
-  .header-title-container {
-    width: 100%;
-    justify-content: flex-start;
-  }
-
-  .header-actions {
-    width: 100%;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-
-  .libros-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .libros-header .header-actions .btn,
-  .btn-back-visible,
-  .theme-toggle,
-  .btn-edit,
-  .btn-delete {
-    padding: 0.5rem 1rem;
-    font-size: 0.85rem;
+  .libros-carrusel-container .slick-prev,
+  .libros-carrusel-container .slick-next {
+    width: 40px;
+    height: 40px;
   }
 }
 
 @media (max-width: 480px) {
+
+  .libros-carrusel-container .slick-prev,
+  .libros-carrusel-container .slick-next {
+    display: none !important;
+  }
+
+  .libros-carrusel-container {
+    padding: 1rem;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .libros-container {
+    padding: 1.5rem;
+  }
+
+  .header-title-container h2 {
+    font-size: 2rem;
+  }
+
+  .libros-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
   .libros-container {
     padding: 1rem;
   }
 
-  .libro-form-container {
-    width: 95%;
-    padding: 1.5rem;
-  }
-
-  .libro-acciones {
+  .libros-header {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1.5rem;
+    text-align: center;
   }
 
-  .btn-edit,
-  .btn-delete {
+  .header-title-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .header-actions {
     width: 100%;
-    text-align: center;
+    justify-content: center;
+  }
+
+  .header-title-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .libros-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .libro-form-overlay {
+    padding: 1rem;
+  }
+
+  /* Botones en móvil - mantener consistencia */
+  .btn-back-visible,
+  .btn-nuevo-libro,
+  .theme-toggle {
+    min-width: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-title-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .btn-back-visible,
+  .btn-nuevo-libro,
+  .theme-toggle {
+    width: 100%;
+    max-width: 250px;
+    justify-content: center;
+    min-width: unset;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    width: 100%;
   }
 }

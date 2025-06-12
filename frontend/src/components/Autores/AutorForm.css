@@ -1,367 +1,502 @@
- /* Reset básico */
- * {
-     margin: 0;
-     padding: 0;
-     box-sizing: border-box;
- }
+/* AutorForm.css - Paleta Vinotinto Unificada con Overlay Mejorado */
 
- body {
-     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-     min-height: 100vh;
- }
+/* Variables CSS con paleta vinotinto */
+:root {
+    /* Colores vinotinto principales */
+    --wine-light: #a0506d;
+    --wine-medium: #7a3b52;
+    --wine-dark: #5d2e3f;
+    --wine-darker: #3d1e2a;
+    --wine-accent: #c4657a;
 
- /* Página de fondo simulada */
- .main-content {
-     padding: 2rem;
-     color: white;
-     text-align: center;
- }
+    /* Gradientes principales */
+    --primary-gradient-light: linear-gradient(135deg, #c4657a 0%, #a0506d 100%);
+    --primary-gradient-dark: linear-gradient(135deg, #5d2e3f 0%, #3d1e2a 100%);
 
- .show-form-btn {
-     background: rgba(255, 255, 255, 0.2);
-     color: white !important;
-     border: 2px solid rgba(255, 255, 255, 0.3);
-     padding: 1rem 2rem;
-     border-radius: 10px;
-     cursor: pointer;
-     font-size: 1.1rem;
-     font-weight: 600;
-     transition: all 0.3s ease;
-     backdrop-filter: blur(10px);
- }
+    /* Gradientes de botones */
+    --button-gradient-light: linear-gradient(45deg, #a0506d, #7a3b52);
+    --button-gradient-dark: linear-gradient(45deg, #7a3b52, #5d2e3f);
+    --button-hover-light: linear-gradient(45deg, #7a3b52, #a0506d);
+    --button-hover-dark: linear-gradient(45deg, #5d2e3f, #7a3b52);
 
- .show-form-btn:hover {
-     background: rgba(255, 255, 255, 0.3);
-     transform: translateY(-2px);
- }
+    /* Efectos de vidrio */
+    --glass-bg-light: rgba(255, 255, 255, 0.95);
+    --glass-bg-dark: rgba(22, 33, 62, 0.95);
+    --glass-border-light: rgba(160, 80, 109, 0.3);
+    --glass-border-dark: rgba(122, 59, 82, 0.4);
 
- /* OVERLAY - CRÍTICO PARA CENTRADO Y SUPERPOSICIÓN */
- .autor-form-overlay {
-     position: fixed;
-     top: 0;
-     left: 0;
-     width: 100vw;
-     height: 100vh;
-     background-color: rgba(0, 0, 0, 0.95);
-     z-index: 9999;
-     /* Asegura que esté por encima de todo */
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     padding: 1rem;
-     opacity: 0;
-     visibility: hidden;
-     transition: all 0.3s ease;
- }
+    /* Sombras */
+    --shadow-light: 0 15px 35px rgba(160, 80, 109, 0.3);
+    --shadow-dark: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
 
- .autor-form-overlay.show {
-     opacity: 1;
-     visibility: visible;
- }
+/* Overlay del formulario - MEJORADO */
+.autor-form-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(26, 18, 21, 0.85) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 9999 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: all 0.4s ease-out !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+}
 
+.autor-form-overlay.show {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
 
- /* Variables CSS para colores vinotinto */
- :root {
-     --vinotinto-primary: #8B2C5B;
-     --vinotinto-secondary: #A0336B;
-     --vinotinto-light: #B84A7A;
-     --vinotinto-lighter: #D16B9A;
-     --vinotinto-bg: #F8F4F6;
-     --vinotinto-border: #E8D4DC;
+body.dark-mode .autor-form-overlay {
+    background: rgba(0, 0, 0, 0.9) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+}
 
-     --bg-color: #ffffff;
-     --text-color: #ffffff;
-     --text-muted: #4a4a4a;
-     --border-color: #d1d5db;
-     --input-bg: #ffffff;
-     --shadow-color: rgba(139, 44, 91, 0.2);
-     --error-color: #dc2626;
-     --success-color: #16a34a;
- }
+/* Prevenir scroll del body cuando el modal está abierto */
+body.modal-open {
+    overflow: hidden !important;
+    height: 100vh !important;
+}
 
- /* Modo oscuro */
- @media (prefers-color-scheme: dark) {
-     :root {
-         --vinotinto-primary: #5A1B3A;
-         --vinotinto-secondary: #6B2244;
-         --vinotinto-light: #7A2950;
-         --vinotinto-lighter: #8B305C;
-         --vinotinto-bg: #2A1A21;
-         --vinotinto-border: #3D2A31;
+@keyframes fadeInOverlay {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+        -webkit-backdrop-filter: blur(0px);
+    }
 
-         --bg-color: #1a202c;
-         --text-color: #f7fafc;
-         --text-muted: #a0aec0;
-         --border-color: #4a5568;
-         --input-bg: #2d3748;
-         --shadow-color: rgba(90, 27, 58, 0.4);
-         --error-color: #fca5a5;
-         --success-color: #86efac;
-     }
+    to {
+        opacity: 1;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+}
 
-     .autor-form-overlay {
-         background-color: rgba(0, 0, 0, 0.479);
-     }
- }
+/* Contenedor del formulario - MEJORADO */
+.autor-form {
+    background: var(--glass-bg-light) !important;
+    backdrop-filter: blur(25px) !important;
+    -webkit-backdrop-filter: blur(25px) !important;
+    padding: 2.5rem !important;
+    border-radius: 25px !important;
+    box-shadow: var(--shadow-light),
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset !important;
+    width: 100% !important;
+    max-width: 520px !important;
+    max-height: 85vh !important;
+    overflow-y: auto !important;
+    border: 2px solid var(--glass-border-light) !important;
+    position: relative !important;
+    animation: slideInModal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    transform-origin: center !important;
+}
 
- /* Contenedor principal del formulario */
- .autor-form {
-     background-color: var(--bg-color);
-     border: 3px solid var(--vinotinto-border);
-     border-radius: 16px;
-     padding: 2.5rem;
-     max-width: 520px;
-     width: 100%;
-     box-shadow:
-         0 25px 50px rgba(0, 0, 0, 0.6),
-         0 0 0 1px rgba(255, 255, 255, 0.1),
-         inset 0 1px 0 rgba(255, 255, 255, 0.2);
-     transition: all 0.3s ease;
-     position: relative;
-     color: var(--text-color);
-     backdrop-filter: blur(20px);
-     /* Animación de entrada */
-     animation: modalAppear 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
- }
+body.dark-mode .autor-form {
+    background: var(--glass-bg-dark) !important;
+    color: #e9ecef !important;
+    border-color: var(--glass-border-dark) !important;
+    box-shadow: var(--shadow-dark),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset !important;
+}
 
- @keyframes modalAppear {
-     from {
-         opacity: 0;
-         transform: scale(0.8) translateY(50px);
-     }
+@keyframes slideInModal {
+    from {
+        transform: translateY(-100px) scale(0.8) !important;
+        opacity: 0 !important;
+    }
 
-     to {
-         opacity: 1;
-         transform: scale(1) translateY(0);
-     }
- }
+    to {
+        transform: translateY(0) scale(1) !important;
+        opacity: 1 !important;
+    }
+}
 
- @media (prefers-color-scheme: dark) {
-     .autor-form {
-         box-shadow:
-             0 25px 50px rgba(0, 0, 0, 0.8),
-             0 0 0 1px rgba(255, 255, 255, 0.05),
-             inset 0 1px 0 rgba(255, 255, 255, 0.1);
-     }
- }
+/* Botón de cerrar (X) - NUEVO */
+.autor-form-close {
+    position: absolute !important;
+    top: 15px !important;
+    right: 20px !important;
+    background: none !important;
+    border: none !important;
+    font-size: 2rem !important;
+    color: var(--wine-medium) !important;
+    cursor: pointer !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    transition: all 0.3s ease !important;
+    z-index: 10 !important;
+}
 
- /* Título del formulario */
- .autor-form-title {
-     color: white !important;
-     font-size: 1.75rem;
-     font-weight: 800;
-     text-align: center;
-     margin-bottom: 2rem;
-     position: relative;
-     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
- }
+.autor-form-close:hover {
+    background: rgba(160, 80, 109, 0.1) !important;
+    color: var(--wine-dark) !important;
+    transform: scale(1.1) !important;
+}
 
- @media (prefers-color-scheme: dark) {
-     .autor-form-title {
-         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-     }
- }
+body.dark-mode .autor-form-close {
+    color: var(--wine-accent) !important;
+}
 
- .autor-form-title::after {
-     color: white !important;
-     display: block;
-     width: 150px;
-     height: 4px;
-     background: linear-gradient(90deg, var(--vinotinto-primary), var(--vinotinto-secondary), var(--vinotinto-light));
-     border-radius: 2px;
-     margin: 0.75rem auto 0;
-     box-shadow: 0 2px 8px rgba(22, 7, 235, 0.4);
- }
+body.dark-mode .autor-form-close:hover {
+    background: rgba(196, 101, 122, 0.2) !important;
+    color: #fff !important;
+}
 
- /* Grupos de formulario */
- .form-group {
-     margin-bottom: 1.5rem;
-     color: var(--text-color) !important;
- }
+/* Borde superior animado */
+.autor-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-gradient-light);
+    background-size: 200% 100%;
+    animation: gradientFlow 4s linear infinite alternate;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
 
- .form-group label {
-     display: block;
-     color: white !important;
-     font-weight: 700;
-     font-size: 1rem;
-     margin-bottom: 0.75rem;
-     transition: color 0.2s ease;
- }
+body.dark-mode .autor-form::before {
+    background: var(--primary-gradient-dark);
+}
 
- /* Inputs */
- .form-group input[type="text"] {
-     width: 100%;
-     padding: 1rem 1.25rem;
-     border: 2px solid var(--border-color);
-     border-radius: 10px;
-     background-color: var(--input-bg);
-     color: var(--text-color);
-     font-size: 1rem;
-     font-weight: 500;
-     transition: all 0.3s ease;
-     box-sizing: border-box;
-     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
- }
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% 50%;
+    }
 
- .form-group input[type="text"]:focus {
-     outline: none;
-     border-color: var(--vinotinto-primary);
-     box-shadow:
-         0 0 0 4px rgba(139, 44, 91, 0.15),
-         inset 0 2px 4px rgba(0, 0, 0, 0.05);
-     transform: scale(1.01);
- }
+    100% {
+        background-position: 100% 50%;
+    }
+}
 
- .form-group input[type="text"]::placeholder {
-     color: var(--text-muted);
-     opacity: 0.8;
-     font-style: italic;
- }
+/* Título del formulario */
+.autor-form-title {
+    display: block;
+    margin-bottom: 2rem;
+    font-weight: 800;
+    font-size: 1.75rem;
+    background: var(--primary-gradient-light);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    position: relative;
+}
 
- /* Contenedor de acciones */
- .form-actions {
-     display: flex;
-     gap: 1.25rem;
-     justify-content: center;
-     margin-top: 2.5rem;
-     flex-wrap: wrap;
- }
+body.dark-mode .autor-form-title {
+    background: var(--primary-gradient-light);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
- /* Botones base */
- .btn {
-     padding: 1rem 2rem !important;
-     border: none !important;
-     border-radius: 4rem !important;
-     font-size: 1rem !important;
-     font-weight: 700;
-     cursor: pointer;
-     transition: all 0.3s ease;
-     display: inline-flex;
-     align-items: center;
-     justify-content: center;
-     gap: 0.5rem;
-     min-width: 140px;
-     position: relative;
-     overflow: hidden;
-     text-transform: uppercase;
-     letter-spacing: 0.5px;
-     color: white !important;
- }
+/* Espaciado de grupos de formulario */
+.autor-form .form-group {
+    margin-bottom: 1.8rem;
+}
 
- /* Botón primario */
- .btn-guardar {
-     background: linear-gradient(135deg, var(--vinotinto-primary), var(--vinotinto-secondary));
-     color: white !important;
-     border: none;
-     padding: 1rem 2rem !important;
-     border-radius: 4rem !important;
-     font-size: 1rem !important;
-     font-weight: 500 !important;
-     cursor: pointer;
-     transition: all 0.3s ease !important;
-     display: inline-flex !important;
-     align-items: center !important;
-     justify-content: center !important;
-     gap: 0.5rem !important;
-     min-width: 140px !important;
-     position: relative !important;
-     overflow: hidden !important;
-     letter-spacing: 0.5px !important;
-     box-shadow:
-         0 6px 20px rgba(22, 7, 235, 0.4),
-         inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
- }
+/* Etiquetas del formulario */
+.autor-form .form-group label {
+    display: block;
+    margin-bottom: 0.7rem;
+    font-weight: 700;
+    font-size: 1rem;
+    background: var(--primary-gradient-light);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
- .btn-guardar:hover {
-     background: linear-gradient(135deg, var(--vinotinto-secondary), var(--vinotinto-light));
-     transform: translateY(-3px);
-     color: white !important;
-     box-shadow:
-         0 8px 25px rgba(139, 44, 91, 0.5),
-         inset 0 1px 0 rgba(255, 255, 255, 0.3);
- }
+body.dark-mode .autor-form .form-group label {
+    background: var(--primary-gradient-light);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
- /* Botón secundario */
- .btn-cancelar {
-     background: linear-gradient(135deg, var(--vinotinto-primary), var(--vinotinto-secondary));
-     color: white !important;
-     border: none;
-     padding: 1rem 2rem !important;
-     border-radius: 4rem !important;
-     font-size: 1rem !important;
-     font-weight: 500 !important;
-     cursor: pointer;
-     transition: all 0.3s ease !important;
-     display: inline-flex !important;
-     align-items: center !important;
-     justify-content: center !important;
-     gap: 0.5rem !important;
-     min-width: 140px !important;
-     position: relative !important;
-     overflow: hidden !important;
-     letter-spacing: 0.5px !important;
-     box-shadow:
-         0 6px 20px rgba(22, 7, 235, 0.4),
-         inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
- }
+/* Controles del formulario */
+.autor-form .form-group input[type="text"] {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    border: 2px solid var(--glass-border-light);
+    border-radius: 15px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    color: var(--wine-darker);
+    box-sizing: border-box;
+}
 
- .btn-cancelar:hover {
-     background: linear-gradient(135deg, var(--vinotinto-secondary), var(--vinotinto-light));
-     transform: translateY(-3px);
-     box-shadow:
-         0 8px 25px rgba(139, 44, 91, 0.5),
-         inset 0 1px 0 rgba(255, 255, 255, 0.3);
- }
+body.dark-mode .autor-form .form-group input[type="text"] {
+    background: rgba(44, 62, 80, 0.8);
+    color: #e9ecef;
+    border-color: var(--glass-border-dark);
+}
 
- /* Responsive */
- @media (max-width: 768px) {
-     .autor-form {
-         padding: 2rem;
-         margin: 0;
-         max-width: calc(100vw - 2rem);
-     }
+.autor-form .form-group input[type="text"]:focus {
+    outline: none;
+    border-color: var(--wine-light);
+    box-shadow: 0 0 0 4px rgba(160, 80, 109, 0.2);
+    transform: translateY(-2px);
+}
 
-     .autor-form-title {
-         font-size: 1.5rem;
-     }
+body.dark-mode .autor-form .form-group input[type="text"]:focus {
+    border-color: var(--wine-accent);
+    box-shadow: 0 0 0 4px rgba(196, 101, 122, 0.3);
+}
 
-     .form-actions {
-         flex-direction: column;
-         align-items: center;
-         gap: 1rem;
-     }
+.autor-form .form-group input[type="text"]::placeholder {
+    color: var(--wine-medium);
+    opacity: 0.7;
+    font-style: italic;
+}
 
-     .btn {
-         width: 100%;
-         max-width: 250px;
-     }
- }
+body.dark-mode .autor-form .form-group input[type="text"]::placeholder {
+    color: var(--wine-accent);
+    opacity: 0.6;
+}
 
- /* Efectos adicionales para resaltar el formulario */
- .autor-form::before {
-     content: '';
-     color: white !important;
-     position: absolute;
-     top: -2px;
-     left: -2px;
-     right: -2px;
-     bottom: -2px;
-     background: linear-gradient(45deg, var(--vinotinto-primary), var(--vinotinto-secondary), var(--vinotinto-light), var(--vinotinto-primary));
-     border-radius: 18px;
-     z-index: -1;
-     opacity: 0.7;
-     animation: borderGlow 3s ease-in-out infinite;
- }
+/* Mensaje de error */
+.error-message {
+    background: linear-gradient(45deg, #e74c3c, #c0392b);
+    color: white;
+    padding: 0.8rem 1.2rem;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+    animation: errorShake 0.5s ease-in-out;
+}
 
- @keyframes borderGlow {
+@keyframes errorShake {
 
-     0%,
-     100% {
-         opacity: 0.7;
-     }
+    0%,
+    100% {
+        transform: translateX(0);
+    }
 
-     50% {
-         opacity: 1;
-     }
- }
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+/* Contenedor de acciones */
+.form-actions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+}
+
+/* Botones principales */
+.autor-form .btn-guardar,
+.autor-form .btn-cancelar {
+    background: var(--button-gradient-light);
+    color: white !important;
+    border: none;
+    padding: 1rem 2.5rem !important;
+    border-radius: 25px !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    cursor: pointer;
+    transition: all 0.3s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.7rem !important;
+    min-width: 160px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 8px 25px rgba(160, 80, 109, 0.4) !important;
+}
+
+body.dark-mode .autor-form .btn-guardar,
+body.dark-mode .autor-form .btn-cancelar {
+    background: var(--button-gradient-dark);
+    box-shadow: 0 8px 25px rgba(122, 59, 82, 0.5) !important;
+}
+
+/* Efecto shimmer en botones */
+.autor-form .btn-guardar::before,
+.autor-form .btn-cancelar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+}
+
+.autor-form .btn-guardar:hover::before,
+.autor-form .btn-cancelar:hover::before {
+    left: 100%;
+}
+
+.autor-form .btn-guardar:hover,
+.autor-form .btn-cancelar:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(160, 80, 109, 0.5) !important;
+}
+
+body.dark-mode .autor-form .btn-guardar:hover,
+body.dark-mode .autor-form .btn-cancelar:hover {
+    background: var(--button-hover-dark);
+    box-shadow: 0 12px 30px rgba(122, 59, 82, 0.6) !important;
+}
+
+/* Botón cancelar específico */
+.autor-form .btn-cancelar {
+    background: var(--button-hover-dark);
+}
+
+.autor-form .btn-cancelar:hover {
+    background: var(--button-hover-dark);
+}
+
+body.dark-mode .autor-form .btn-cancelar {
+    background: var(--button-hover-dark);
+}
+
+body.dark-mode .autor-form .btn-cancelar:hover {
+    background: var(--button-hover-dark);
+}
+
+/* Botones deshabilitados */
+.autor-form .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: 0 4px 15px rgba(160, 80, 109, 0.2) !important;
+}
+
+.autor-form .btn:disabled:hover {
+    transform: none !important;
+    box-shadow: 0 4px 15px rgba(160, 80, 109, 0.2) !important;
+}
+
+/* Spinner de carga */
+.loading-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Estilos de scroll personalizados */
+.autor-form::-webkit-scrollbar {
+    width: 8px;
+}
+
+.autor-form::-webkit-scrollbar-track {
+    background: rgba(160, 80, 109, 0.1);
+    border-radius: 10px;
+}
+
+.autor-form::-webkit-scrollbar-thumb {
+    background: var(--wine-light);
+    border-radius: 10px;
+}
+
+.autor-form::-webkit-scrollbar-thumb:hover {
+    background: var(--wine-medium);
+}
+
+/* Efecto de enfoque en el overlay */
+.autor-form-overlay:focus-within .autor-form {
+    transform: scale(1.01);
+    box-shadow: var(--shadow-light),
+        0 0 50px rgba(160, 80, 109, 0.3);
+}
+
+/* Responsive mejorado */
+@media (max-width: 768px) {
+    .autor-form-overlay {
+        padding: 15px !important;
+    }
+
+    .autor-form {
+        padding: 2rem !important;
+        max-height: 90vh !important;
+        width: 100% !important;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .autor-form .btn-guardar,
+    .autor-form .btn-cancelar {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .autor-form-overlay {
+        padding: 10px !important;
+    }
+
+    .autor-form {
+        padding: 1.5rem !important;
+        border-radius: 20px !important;
+        max-height: 95vh !important;
+    }
+
+    .autor-form-title {
+        font-size: 1.5rem;
+    }
+
+    .autor-form .form-group input[type="text"] {
+        padding: 0.8rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    .autor-form .btn-guardar,
+    .autor-form .btn-cancelar {
+        padding: 0.8rem 1.5rem !important;
+        font-size: 1rem !important;
+    }
+}

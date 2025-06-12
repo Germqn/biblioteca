@@ -1,51 +1,201 @@
-/* ===== VARIABLES ===== */
+/* autorespage.css - Paleta Vinotinto Unificada */
+
+/* Variables CSS heredadas del dashboard */
 :root {
-  --vinotinto: #862630;
-  --vinotinto-claro: #9e2d3a;
-  --texto-claro: #ffffff;
-  --texto-oscuro: #333333;
-  --fondo-claro: #ffffff;
-  --fondo-oscuro: #1a1a2e;
-  --borde-claro: #e0e0e0;
-  --borde-oscuro: #333333;
+  /* Colores vinotinto principales */
+  --wine-light: #a0506d;
+  --wine-medium: #7a3b52;
+  --wine-dark: #5d2e3f;
+  --wine-darker: #3d1e2a;
 
-  --vinotinto-primary: #8B2C5B;
-  --vinotinto-secondary: #A0336B;
-  --vinotinto-light: #B84A7A;
-  --vinotinto-lighter: #D16B9A;
-  --vinotinto-bg: #F8F4F6;
-  --vinotinto-border: #E8D4DC;
+  /* Gradientes principales */
+  --primary-gradient-light: linear-gradient(135deg, #c4657a 0%, #a0506d 100%);
+  --primary-gradient-dark: linear-gradient(135deg, #5d2e3f 0%, #3d1e2a 100%);
 
-  --bg-color: #ffffff;
-  --text-color: #ffffff;
-  --text-muted: #4a4a4a;
-  --border-color: #d1d5db;
-  --input-bg: #ffffff;
-  --shadow-color: rgba(139, 44, 91, 0.2);
-  --error-color: #dc2626;
-  --success-color: #16a34a;
+  /* Gradientes de botones */
+  --button-gradient-light: linear-gradient(45deg, #a0506d, #7a3b52);
+  --button-gradient-dark: linear-gradient(45deg, #7a3b52, #5d2e3f);
+  --button-hover-light: linear-gradient(45deg, #7a3b52, #a0506d);
+  --button-hover-dark: linear-gradient(45deg, #5d2e3f, #7a3b52);
+
+  /* Colores de texto */
+  --light-text: #2c3e50;
+  --dark-text: #e6e6e6;
+  --wine-accent: #a0506d;
+  --wine-accent-dark: #7a3b52;
+
+  /* Efectos de vidrio */
+  --glass-bg-light: rgba(255, 255, 255, 0.15);
+  --glass-bg-dark: rgba(0, 0, 0, 0.3);
+  --glass-border-light: rgba(160, 80, 109, 0.3);
+  --glass-border-dark: rgba(122, 59, 82, 0.4);
+
+  /* Sombras */
+  --shadow-light: 0 8px 32px 0 rgba(160, 80, 109, 0.2);
+  --shadow-dark: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  --shadow-hover-light: 0 15px 40px rgba(160, 80, 109, 0.3);
+  --shadow-hover-dark: 0 15px 40px rgba(0, 0, 0, 0.5);
+
+  /* Fondos */
+  --bg-light: #f5f0f2;
+  --bg-dark: #1a1215;
 }
 
+/* Animaciones heredadas */
+@keyframes gentleFloat {
 
-/* ===== ESTILOS PARA EL CONTENEDOR ===== */
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes subtleGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Contenedor principal */
 .container,
 .container-fluid {
   width: 100%;
   min-height: 100vh;
   padding: 2rem;
-  transition: background-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease;
+  background-attachment: fixed;
 }
 
+.container::before,
+.container-fluid::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: 200% 200%;
+  animation: subtleGradient 20s ease infinite;
+  z-index: 1;
+}
+
+body:not(.dark-mode) .container::before,
+body:not(.dark-mode) .container-fluid::before {
+  background: linear-gradient(-45deg, #f5f0f2, #e8d5da, #d4a5b3, #c4657a);
+}
+
+body.dark-mode .container::before,
+body.dark-mode .container-fluid::before {
+  background: linear-gradient(-45deg, #1a1215, #2a1e23, #3d1e2a, #5d2e3f);
+}
+
+/* Partículas flotantes */
+.container::after,
+.container-fluid::after {
+  content: '';
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(160, 80, 109, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(122, 59, 82, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(93, 46, 63, 0.1) 0%, transparent 50%);
+  animation: gentleFloat 8s ease-in-out infinite;
+  z-index: 2;
+}
+
+/* Dark mode para contenedor */
 .dark-mode {
-  background-color: var(--fondo-oscuro) !important;
-  color: var(--texto-claro) !important;
+  background-color: var(--bg-dark) !important;
+  color: var(--dark-text) !important;
 }
 
-.dark-mode .container {
-  background-color: var(--fondo-oscuro);
+/* Header de página */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 10;
 }
 
-/* ===== RESET Y ESTILOS BASE DE BOTONES ===== */
+body:not(.dark-mode) .page-header {
+  background: var(--glass-bg-light);
+  color: var(--light-text);
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--glass-border-light);
+}
+
+body.dark-mode .page-header {
+  background: var(--glass-bg-dark);
+  color: var(--dark-text);
+  box-shadow: var(--shadow-dark);
+  border: 1px solid var(--glass-border-dark);
+}
+
+.page-header:hover {
+  transform: translateY(-2px);
+}
+
+/* Línea brillante debajo del header */
+.page-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--button-gradient-light);
+  background-size: 200% 100%;
+  animation: gradientFlow 6s linear infinite;
+  border-radius: 0 0 20px 20px;
+}
+
+body.dark-mode .page-header::after {
+  background: var(--button-gradient-dark);
+}
+
+/* Reset y estilos base de botones */
 .btn,
 .btn-primary,
 .btn-outline-secondary,
@@ -54,202 +204,278 @@
   box-sizing: border-box;
 }
 
-/* ===== ESTILOS BASE PARA TODOS LOS BOTONES ===== */
+/* Estilos base para todos los botones */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  border-radius: 20px;
-  font-weight: 500;
+  border-radius: 25px;
+  font-weight: 600;
   font-size: 0.9rem;
-  height: 40px;
   cursor: pointer;
   transition: all 0.3s ease;
-  border: 2px solid var(--vinotinto);
   text-align: center;
   vertical-align: middle;
   user-select: none;
-  box-shadow: 0 2px 5px rgba(134, 38, 48, 0.3);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  border: none;
+  z-index: 10;
 }
 
-/* ===== BOTÓN PRIMARIO ===== */
+/* Botón primario - Agregar autor */
 .btn-agregar-autor {
-  /* Selector más específico */
-  background: linear-gradient(135deg, var(--vinotinto-primary), var(--vinotinto-secondary));
-  color: white !important;
-  border: none;
+  background: var(--button-gradient-light);
   padding: 1rem 2rem !important;
   border-radius: 4rem !important;
   font-size: 1rem !important;
-  font-weight: 500 !important;
-  cursor: pointer;
-  transition: all 0.3s ease !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 0.5rem !important;
-  min-width: 140px !important;
-  position: relative !important;
-  overflow: hidden !important;
+  font-weight: bold !important;
+  min-width: 180px !important;
   letter-spacing: 0.5px !important;
-  box-shadow:
-    0 6px 20px rgba(139, 44, 91, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  box-shadow: var(--shadow-light);
+  color: var(--dark-text) !important;
+}
+
+body.dark-mode .btn-agregar-autor {
+  background: var(--button-gradient-dark);
+  box-shadow: var(--shadow-dark);
+  color: var(--dark-text) !important;
+}
+
+.btn-agregar-autor::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-agregar-autor:hover::before {
+  left: 100%;
 }
 
 .btn-agregar-autor:hover {
-  background-color: var(--vinotinto-claro);
-  color: var(--texto-claro) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(134, 38, 48, 0.4);
+  transform: translateY(-2px) scale(1.02);
+  background: var(--button-hover-light);
+  box-shadow: var(--shadow-hover-light);
 }
 
-/* ===== BOTÓN SECUNDARIO ===== */
+body.dark-mode .btn-agregar-autor:hover {
+  background: var(--button-hover-dark);
+  box-shadow: var(--shadow-hover-dark);
+}
+
+/* Botón secundario */
 .btn.btn-outline-secondary {
-  /* Selector más específico */
-  background-color: transparent;
-  border-color: var(--vinotinto);
-  color: var(--fondo-oscuro) !important;
-  display: inline-flex;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 25px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 20px;
-  font-weight: 500;
-  font-size: 0.9rem;
-  height: 40px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  border: none;
+  color: var(--dark-text) !important;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  min-width: 120px;
   text-align: center;
-  vertical-align: middle;
-  user-select: none;
-  box-shadow: 0 2px 5px rgba(134, 38, 48, 0.3);
+  backdrop-filter: blur(10px);
+  font-weight: bold !important;
+  box-shadow: var(--shadow-hover-light);
+  background: var(--button-gradient-light);
+}
+
+body.dark-mode .btn.btn-outline-secondary {
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 25px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  font-size: 0.9rem;
+  border: none;
+  color: var(--dark-text) !important;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  min-width: 120px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  font-weight: bold !important;
 }
 
 .btn.btn-outline-secondary:hover {
-  background-color: var(--vinotinto-claro);
-  color: var(--texto-claro) !important;
+  background: var(--button-gradient-light);
+  color: white !important;
+  border-color: transparent;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(134, 38, 48, 0.4);
+  box-shadow: var(--shadow-hover-light);
 }
 
-/* ===== BOTÓN DE TEMA ===== */
+body.dark-mode .btn.btn-outline-secondary:hover {
+  background: var(--button-gradient-dark);
+  box-shadow: var(--shadow-hover-dark);
+}
+
+/* Botón de tema */
 .theme-toggle {
-  background-color: transparent;
-  border-color: var(--vinotinto);
-  color: var(--fondo-oscuro);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+  background: transparent;
+  border: 2px solid var(--wine-accent);
+  color: var(--wine-accent) !important;
   padding: 0.75rem 1.5rem;
   border-radius: 20px;
-  font-weight: 500;
-  font-size: 0.9rem;
-  height: 40px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: center;
-  vertical-align: middle;
-  user-select: none;
-  box-shadow: 0 2px 5px rgba(134, 38, 48, 0.3);
+  box-shadow: 0 4px 15px rgba(160, 80, 109, 0.2);
+}
+
+body.dark-mode .theme-toggle {
+  border-color: var(--wine-light);
+  box-shadow: 0 4px 15px rgba(160, 80, 109, 0.3);
+}
+
+.theme-toggle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(160, 80, 109, 0.1);
+  transition: left 0.5s;
+}
+
+.theme-toggle:hover::before {
+  left: 100%;
 }
 
 .theme-toggle:hover {
-  background-color: rgba(134, 38, 48, 0.1);
+  background: rgba(160, 80, 109, 0.1);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(160, 80, 109, 0.3);
 }
 
-/* ===== DARK MODE EN BOTONES ===== */
-.dark-mode .btn {
-  color: var(--texto-claro);
+body.dark-mode .theme-toggle:hover {
+  background: rgba(160, 80, 109, 0.15);
 }
 
-.dark-mode .btn.btn.btn-agregar-autor {
-  background: linear-gradient(135deg, var(--vinotinto-primary), var(--vinotinto-secondary));
-  color: white !important;
-  border: none;
-  padding: 1rem 2rem !important;
-  border-radius: 4rem !important;
-  font-size: 1rem !important;
-  font-weight: 500 !important;
-  cursor: pointer;
-  transition: all 0.3s ease !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 0.5rem !important;
-  min-width: 140px !important;
-  position: relative !important;
-  overflow: hidden !important;
-  letter-spacing: 0.5px !important;
-  box-shadow:
-    0 6px 20px rgba(139, 44, 91, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+/* Tarjetas de autor */
+.autor-card {
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(15px);
+  position: relative;
+  z-index: 10;
 }
 
-.dark-mode .btn.btn-agregar-autor:hover {
-  background: linear-gradient(135deg, var(--vinotinto-secondary), var(--vinotinto-light));
-  transform: translateY(-3px);
-  box-shadow:
-    0 8px 25px rgba(139, 44, 91, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+body:not(.dark-mode) .autor-card {
+  background: var(--glass-bg-light);
+  color: var(--light-text);
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--glass-border-light);
 }
 
-.dark-mode .btn.btn-outline-secondary,
-.dark-mode .theme-toggle {
-  color: var(--texto-claro) !important;
-  border-color: var(--vinotinto) !important;
+body.dark-mode .autor-card {
+  background: var(--glass-bg-dark);
+  color: var(--dark-text);
+  box-shadow: var(--shadow-dark);
+  border: 1px solid var(--glass-border-dark);
 }
 
-.dark-mode .btn.btn-outline-secondary:hover {
-  color: var(--vinotinto) !important;
+.autor-card:hover {
+  transform: translateY(-5px) scale(1.02);
 }
 
-
-.dark-mode .theme-toggle:hover {
-  color: var(--vinotinto);
+body:not(.dark-mode) .autor-card:hover {
+  box-shadow: var(--shadow-hover-light);
+  border-color: var(--wine-light);
 }
 
-/* ===== ANIMACIÓN ===== */
+body.dark-mode .autor-card:hover {
+  box-shadow: var(--shadow-hover-dark);
+  border-color: var(--wine-medium);
+}
+
+/* Borde superior animado en tarjetas */
+.autor-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-size: 200% 100%;
+  animation: gradientFlow 4s linear infinite alternate;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+body:not(.dark-mode) .autor-card::before {
+  background: var(--button-gradient-light);
+}
+
+body.dark-mode .autor-card::before {
+  background: var(--button-gradient-dark);
+}
+
+/* Bootstrap overrides */
+.btn-primary {
+  --bs-btn-bg: var(--wine-accent) !important;
+  --bs-btn-border-color: var(--wine-accent) !important;
+  --bs-btn-hover-bg: var(--wine-medium) !important;
+  --bs-btn-hover-border-color: var(--wine-medium) !important;
+  --bs-btn-active-bg: var(--wine-dark) !important;
+  --bs-btn-active-border-color: var(--wine-dark) !important;
+}
+
+/* Animación de pulso para botones */
 @keyframes buttonPulse {
   0% {
-    box-shadow: 0 2px 5px rgba(134, 38, 48, 0.3);
+    box-shadow: 0 4px 15px rgba(160, 80, 109, 0.2);
   }
 
   100% {
-    box-shadow: 0 4px 10px rgba(134, 38, 48, 0.5);
+    box-shadow: 0 6px 20px rgba(160, 80, 109, 0.4);
   }
 }
 
-/* ===== SOBREESCRITURA ESPECÍFICA PARA BOOTSTRAP ===== */
-.btn-primary {
-  --bs-btn-bg: var(--vinotinto) !important;
-  --bs-btn-border-color: var(--vinotinto) !important;
-  --bs-btn-hover-bg: var(--vinotinto-claro) !important;
-  --bs-btn-hover-border-color: var(--vinotinto-claro) !important;
-  --bs-btn-active-bg: var(--vinotinto) !important;
-  --bs-btn-active-border-color: var(--vinotinto) !important;
+/* Responsive Design */
+@media (max-width: 768px) {
+
+  .container,
+  .container-fluid {
+    padding: 1rem;
+  }
+
+  .page-header {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .btn-agregar-autor {
+    width: 100%;
+    max-width: 280px;
+  }
 }
 
-/* ===== HEADER ===== */
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  width: 100%;
-}
-
-/* ===== TARJETAS DE AUTOR ===== */
-.autor-card {
-  border: 1px solid var(--borde-claro);
-  transition: all 0.3s ease;
-}
-
-.dark-mode .autor-card {
-  border-color: var(--borde-oscuro);
-  background-color: #1e1e1e;
+@media (max-width: 480px) {
+  .btn {
+    width: 100%;
+    max-width: 250px;
+  }
 }

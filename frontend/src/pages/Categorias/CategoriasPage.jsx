@@ -14,7 +14,7 @@ export default function CategoriasPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [mostrarFormulario, setMostrarFormulario] = useState(false); // Cambio: usar mostrarFormulario
 
   // Inicializar darkMode igual que en LibrosPage
   const [darkMode, setDarkMode] = useState(() => {
@@ -101,28 +101,31 @@ export default function CategoriasPage() {
     }
   };
 
-  const handleUpdateSuccess = (updatedCategoria) => {
-    setCategorias(prev =>
-      prev.map(cat =>
-        cat.id_categoria === updatedCategoria.id_categoria ? updatedCategoria : cat
-      )
-    );
-    setCategoriaEdit(null);
-    setShowModal(false);
-    setSuccessMessage("Categoría actualizada correctamente");
-    setTimeout(() => setSuccessMessage(null), 3000);
-  };
-
-  const handleCreateSuccess = (newCategoria) => {
-    setCategorias(prev => [...prev, newCategoria]);
-    setShowModal(false);
-    setSuccessMessage("Categoría creada correctamente");
-    setTimeout(() => setSuccessMessage(null), 3000);
-  };
-
-  const handleCancelForm = () => {
-    setShowModal(false);
-    setCategoriaEdit(null);
+  // Función de guardado simplificada como en AutoresPage
+  const handleGuardar = async (formData) => {
+    try {
+      if (categoriaEdit) {
+        // Actualizar categoría existente
+        setCategorias(prev =>
+          prev.map(cat =>
+            cat.id_categoria === categoriaEdit.id_categoria ? { ...cat, ...formData } : cat
+          )
+        );
+        setSuccessMessage("Categoría actualizada correctamente");
+      } else {
+        // Crear nueva categoría
+        const newCategoria = { ...formData, id_categoria: Date.now() }; // ID temporal
+        setCategorias(prev => [...prev, newCategoria]);
+        setSuccessMessage("Categoría creada correctamente");
+      }
+      
+      setMostrarFormulario(false);
+      setCategoriaEdit(null);
+      setTimeout(() => setSuccessMessage(null), 3000);
+    } catch (error) {
+      console.error('Error guardando categoría:', error);
+      setError('Error al guardar la categoría. Por favor intente nuevamente.');
+    }
   };
 
   // Función para toggle del modo oscuro, igual que en LibrosPage
@@ -196,7 +199,7 @@ export default function CategoriasPage() {
             className="btn btn-add"
             onClick={() => {
               setCategoriaEdit(null);
-              setShowModal(true);
+              setMostrarFormulario(true); // Cambio: usar mostrarFormulario
             }}
           >
             <i className="bi bi-plus-lg me-2"></i>Añadir Categoría
@@ -225,6 +228,18 @@ export default function CategoriasPage() {
           ></button>
         </div>
       )}
+
+      {/* Formulario simplificado como en AutoresPage */}
+      <CategoriaForm
+        initialCategoria={categoriaEdit || {}}
+        onSave={handleGuardar}
+        onCancel={() => {
+          setMostrarFormulario(false);
+          setCategoriaEdit(null);
+        }}
+        isVisible={mostrarFormulario} // Controla la visibilidad del formulario
+        darkMode={darkMode}
+      />
 
       {loading ? (
         <div className="text-center my-5">
@@ -259,7 +274,7 @@ export default function CategoriasPage() {
                 libros={librosDeCategoria}
                 onEdit={() => {
                   setCategoriaEdit(categoria);
-                  setShowModal(true);
+                  setMostrarFormulario(true); 
                 }}
                 onDelete={() => handleDelete(categoria.id_categoria)}
                 darkMode={darkMode}
@@ -268,22 +283,6 @@ export default function CategoriasPage() {
           })}
         </div>
       )}
-
-      {(showModal || categoriaEdit) && (
-        <div className="modal-backdrop">
-          <div className="modal-content">
-            <CategoriaForm
-              categoriaEdit={categoriaEdit}
-              onSave={handleCreateSuccess}
-              onCancel={handleCancelForm}
-              onUpdateSuccess={handleUpdateSuccess}
-              darkMode={darkMode}
-              isVisible={showModal}
-            />
-          </div>
-        </div>
-      )}
-
     </div>
   );
 }

@@ -1,208 +1,306 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
+import "./Redbook.css"; 
 
 export default function Redbook() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [isLoginView, setIsLoginView] = useState(true);
+  const [formData, setFormData] = useState({
+    nombre: "",
+    apellido: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  });
   const [error, setError] = useState("");
-  const [darkMode, setDarkMode] = useState(false);
-  const [buttonColor] = useState("#862630"); // 🔵 Color botón por defecto
+  const [isLoading, setIsLoading] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem("darkMode");
+    return savedMode ? JSON.parse(savedMode) : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
 
-  
-  const { Redbook } = useAuth();
+  const { login, register } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  useEffect(() => {
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
+  }, [darkMode]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const validateLoginForm = () => {
+    if (!formData.email.trim()) {
+      setError("El email es requerido");
+      return false;
+    }
+    
+    if (!formData.password.trim()) {
+      setError("La contraseña es requerida");
+      return false;
+    }
+    
+    return true;
+  };
+
+  const validateRegisterForm = () => {
+    if (!formData.nombre.trim()) {
+      setError("El nombre es requerido");
+      return false;
+    }
+    
+    if (!formData.apellido.trim()) {
+      setError("El apellido es requerido");
+      return false;
+    }
+    
+    if (!formData.email.trim()) {
+      setError("El email es requerido");
+      return false;
+    }
+    
+    if (formData.password.length < 6) {
+      setError("La contraseña debe tener al menos 6 caracteres");
+      return false;
+    }
+    
+    if (formData.password !== formData.confirmPassword) {
+      setError("Las contraseñas no coinciden");
+      return false;
+    }
+    
+    return true;
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
+    
+    if (!validateLoginForm()) return;
+    
+    setIsLoading(true);
+    setError("");
+    
     try {
-      await Redbook(email, password);
-      navigate("/dashboard");
+      localStorage.setItem("darkMode", JSON.stringify(darkMode));
+      
+      const result = await login(formData.email, formData.password);
+      
+      if (result.success) {
+        navigate("/dashboard");
+      } else {
+        setError(result.error || "Error al iniciar sesión");
+      }
     } catch (err) {
-      setError("Credenciales incorrectas");
+      setError(err.message || "Error al iniciar sesión");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const colors = {
-    light: {
-      background: "#f5f7fa",
-      cardBg: "#ffffff",
-      text: "#2c3e50",
-      inputBg: "#fff",
-      inputBorder: "#2c3e50",
-      buttonText: "#fff",
-      linkColor: "#0d6efd",
-      errorBg: "#f8d7da",
-      errorText: "#842029",
-    },
-    dark: {
-      background: "#1a1a2e",
-      cardBg: "#1e1e1e",
-      text: "#e6e6e6",
-      inputBg: "#2c2c2c",
-      inputBorder: "#555",
-      buttonText: "#fff",
-      linkColor: "#0d6efd",
-      errorBg: "#661919",
-      errorText: "#f8d7da",
-    },
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    
+    if (!validateRegisterForm()) return;
+    
+    setIsLoading(true);
+    setError("");
+    
+    try {
+      localStorage.setItem("darkMode", JSON.stringify(darkMode));
+      
+      const result = await register({
+        nombre: formData.nombre,
+        apellido: formData.apellido,
+        email: formData.email,
+        password: formData.password
+      });
+      
+      if (result.success) {
+        navigate("/dashboard");
+      } else {
+        setError(result.error || "Error al registrar usuario");
+      }
+    } catch (err) {
+      setError(err.message || "Error al registrar usuario");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const currentColors = darkMode ? colors.dark : colors.light;
+  const handleThemeToggle = () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    localStorage.setItem("darkMode", JSON.stringify(newDarkMode));
+  };
+
+  const toggleView = () => {
+    setIsLoginView(!isLoginView);
+    setError("");
+    setFormData(prev => ({
+      ...prev,
+      password: "",
+      confirmPassword: ""
+    }));
+  };
+
+  const themeClass = darkMode ? "dark" : "light";
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        backgroundColor: currentColors.background,
-        transition: "background-color 0.3s ease",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "1rem",
-      }}
-    >
+    <div className={`redbook-container ${themeClass}`}>
       <motion.div
-        className="card p-4"
-        style={{
-          width: "400px",
-          backgroundColor: currentColors.cardBg,
-          boxShadow: darkMode
-            ? "0 0 15px rgba(255, 255, 255, 0.1)"
-            : "0 0 15px rgba(0, 0, 0, 0.1)",
-          borderRadius: "8px",
-          transition: "background-color 0.3s ease, box-shadow 0.3s ease",
-          color: currentColors.text,
-          position: "relative",
-        }}
+        className={`redbook-card ${themeClass}`}
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
+        style={{ width: isLoginView ? "400px" : "450px" }}
       >
-        {/* Botón de Dark/Light mode */}
         <button
-          onClick={() => setDarkMode((prev) => !prev)}
-          style={{
-            position: "absolute",
-            top: "12px",
-            right: "12px",
-            backgroundColor: buttonColor,
-            color: currentColors.buttonText,
-            border: "none",
-            borderRadius: "20px",
-            padding: "6px 14px",
-            cursor: "pointer",
-            fontWeight: "bold",
-            fontSize: "0.9rem",
-            userSelect: "none",
-            transition: "background-color 0.3s ease, color 0.3s ease",
-          }}
+          onClick={handleThemeToggle}
+          className={`mode-toggle-btn ${themeClass}`}
         >
           {darkMode ? "Modo Claro" : "Modo Oscuro"}
         </button>
 
-        <h2 className="text-center mb-4" style={{ color: currentColors.text }}>
-          Redbook
+        <h2 className={`redbook-title ${themeClass}`}>
+          {isLoginView ? "Iniciar Sesión" : "Registro"}
         </h2>
+
         {error && (
-          <div
-            style={{
-              backgroundColor: currentColors.errorBg,
-              color: currentColors.errorText,
-              borderRadius: "4px",
-              padding: "0.75rem 1rem",
-              marginBottom: "1rem",
-            }}
+          <motion.div
+            className={`error-message ${themeClass}`}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
           >
             {error}
-          </div>
+          </motion.div>
         )}
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label
-              htmlFor="email"
-              style={{ color: "#2c3e50" }}
-              className="form-label"
-            >
-              Email
+        <form onSubmit={isLoginView ? handleLogin : handleRegister} className="redbook-form">
+          {!isLoginView && (
+            <>
+              <div className="form-group">
+                <label htmlFor="nombre" className={`form-label ${themeClass}`}>
+                  Nombre
+                </label>
+                <input
+                  type="text"
+                  id="nombre"
+                  name="nombre"
+                  value={formData.nombre}
+                  onChange={handleChange}
+                  required
+                  className={`form-input ${themeClass}`}
+                  placeholder="Ingresa tu nombre"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="apellido" className={`form-label ${themeClass}`}>
+                  Apellido
+                </label>
+                <input
+                  type="text"
+                  id="apellido"
+                  name="apellido"
+                  value={formData.apellido}
+                  onChange={handleChange}
+                  required
+                  className={`form-input ${themeClass}`}
+                  placeholder="Ingresa tu apellido"
+                />
+              </div>
+            </>
+          )}
+
+          <div className="form-group">
+            <label htmlFor="email" className={`form-label ${themeClass}`}>
+              Correo Electrónico
             </label>
             <input
               type="email"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               required
-              className="form-control"
-              style={{
-                backgroundColor: currentColors.inputBg,
-                color:"#2c3e50",
-                borderColor: currentColors.inputBorder,
-              }}
+              className={`form-input ${themeClass}`}
+              placeholder="tu-email@ejemplo.com"
+              autoComplete="email"
             />
           </div>
 
-          <div className="mb-3">
-            <label
-              htmlFor="password"
-              style={{ color: currentColors.text }}
-              className="form-label"
-            >
-              Password
+          <div className="form-group">
+            <label htmlFor="password" className={`form-label ${themeClass}`}>
+              Contraseña
             </label>
             <input
               type="password"
               id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               required
-              className="form-control"
-              style={{
-                backgroundColor: currentColors.inputBg,
-                color: currentColors.text,
-                borderColor: currentColors.inputBorder,
-              }}
+              className={`form-input ${themeClass}`}
+              placeholder={isLoginView ? "Ingresa tu contraseña" : "Mínimo 6 caracteres"}
+              autoComplete={isLoginView ? "current-password" : "new-password"}
             />
           </div>
 
-          <button
+          {!isLoginView && (
+            <div className="form-group">
+              <label htmlFor="confirmPassword" className={`form-label ${themeClass}`}>
+                Confirmar Contraseña
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+                className={`form-input ${themeClass}`}
+                placeholder="Repite tu contraseña"
+              />
+            </div>
+          )}
+
+          <motion.button
             type="submit"
-            className="btn w-100"
-            style={{
-              backgroundColor: buttonColor,
-              color: currentColors.buttonText,
-              fontWeight: "600",
-              border: "none",
-              transition: "background-color 0.3s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = darkMode
-                ? "#084298"
-                : "#0747a6";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = buttonColor;
-            }}
+            className={`submit-btn ${themeClass}`}
+            disabled={isLoading}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            Redbook
-          </button>
+            {isLoading 
+              ? (isLoginView ? "Iniciando..." : "Registrando...") 
+              : (isLoginView ? "Iniciar Sesión" : "Crear Cuenta")}
+          </motion.button>
         </form>
 
-        <div className="text-center mt-3">
-          <p style={{ color: currentColors.text }}>
-            ¿No tienes una cuenta?{" "}
-            <a
-              href="/register"
-              style={{
-                color: currentColors.linkColor,
-                textDecoration: "underline",
-              }}
+        <div className={`auth-switch ${themeClass}`}>
+          <p>
+            {isLoginView 
+              ? "¿No tienes una cuenta? " 
+              : "¿Ya tienes una cuenta? "}
+            <span 
+              onClick={toggleView}
+              className={`auth-link ${themeClass}`}
+              role="button"
+              tabIndex="0"
+              onKeyPress={(e) => e.key === 'Enter' && toggleView()}
             >
-              Regístrate aquí
-            </a>
+              {isLoginView ? <strong>Regístrate</strong> : <strong>Iniciar Sesión</strong>}
+            </span>
           </p>
         </div>
+
       </motion.div>
     </div>
   );
